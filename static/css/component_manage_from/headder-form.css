@@ -1,0 +1,132 @@
+.headder-form{
+    align-items: center;
+    flex-direction: column;
+}
+.page-body{
+    box-sizing:border-box;
+    color: #222;
+    display: block;
+    line-height:24px;
+    min-height: 729.6px;
+    unicode-bidi:isolate;
+    -webkit-font-smoothing:antialiased;
+}
+.headder-form{
+    align-items:center;
+    box-sizing: border-box;
+    color: rgb(34, 34, 34);
+    column-gap: 16px;
+    display: flex;
+    flex-direction: column;
+    line-height: 24px;
+    row-gap: 16px;
+    unicode-bidi: isolate;
+    -webkit-font-smoothing:antialiased;
+}
+.form-data1{
+    box-sizing: border-box;
+    color: rgb(34, 34, 34);
+    column-gap: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    line-height: 24px;
+    margin-top: 0px;
+    min-height: 462.4px;
+    row-gap: 32px;
+    unicode-bidi: isolate;
+    width: 412.8px;
+    -webkit-box-pack: justify;
+    -webkit-font-smoothing:antialiased;
+}
+.body-form{
+    align-items:center;
+    box-sizing: border-box;
+    color: rgb(34, 34, 34);
+    column-gap: 24px;
+    display: flex;
+    flex-direction: column;
+    line-height: 24px;
+    row-gap: 24px;
+    unicode-bidi: isolate;
+    -webkit-box-pack: center;
+    -webkit-font-smoothing:antialiased;
+}
+.headder-text{
+    align-items:center;
+    box-sizing: border-box;
+    color: rgb(34, 34, 34);
+    column-gap: 4px;
+    display: flex;
+    flex-direction: column;
+    line-height: 24px;
+    row-gap: 4px;
+    unicode-bidi: isolate;
+    -webkit-box-pack: center;
+    -webkit-font-smoothing:antialiased;
+}
+.group-input{
+
+}
+.body-back{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgb(255, 255, 255);
+    background-image: none;
+    background-origin: border-box;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-size: auto;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: rgba(16, 24,40, 0.06) 0px 0px 4px -2px, rgba(16, 24, 40, 0.1) 0px 2px 8px -2px;
+    box-sizing: border-box;
+    color: rgb(34,34,34);
+    column-gap: 16px;
+    display: flex;
+    flex-direction: column;
+    line-height: 24px;
+    padding-bottom: 24px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 25px;
+    row-gap: 16px;
+    unicode-bidi: isolate;
+    width: 600px;
+    -webkit-font-smoothing:antialiased;
+}
+.select-day-form-dateofbirth{
+    align-items:center;
+    appearance: none;
+    background-color: aliceblue;
+    background-position-x: calc(100% - 12px);
+    background-position-y: 50%;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-width: 0.8px;
+    display: block;
+    font-size: 16px;
+    width: 178.63px;
+    height: 35px;
+    text-align: start;
+    font-optical-sizing:auto;
+    text-rendering:auto;
+    text-transform:none;
+    -webkit-font-smoothing:antialiased;
+    padding-inline-start:10px;
+}
+.input-bd{
+    box-sizing: border-box;
+    color: rgb(34, 34, 34);
+    column-gap:16px;
+    display: flex;
+    line-height: 24px;
+    row-gap: 16px;
+    unicode-bidi: isolate;
+    -webkit-font-smoothing:antialiased;
+}

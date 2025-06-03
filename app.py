@@ -52,6 +52,21 @@ def wallpaper():
         return send_file(img_buffer, mimetype='image/png')
     return render_template("/manage_wallpaper/wallpaper_manage.html")
 
+
+@app.route("/form-wallpaper-brith-date", methods=['GET', 'POST'])
+def pform_wallpaper_brith_date():
+
+    #check method
+    if request.method == 'POST':
+        if request.form == None:
+            print("EER")
+        else:
+            #accept requset from form to text
+            text = request.form['select-day-form-dateofbirth']
+            print("Text is ",text)
+    return render_template("manage_wallpaper/wallpaper_manage_brithdate.html")
+
+
 if __name__ =="__main__":
-    app.run(debug=False)
+    app.run(debug=True)
 
