@@ -1,0 +1,22 @@
+h1 {
+  color: rgb(227, 14, 14);
+}
+body {
+  overflow-x: auto;
+  margin: 0;
+}
+p {
+  color: yellow;
+}
+.headder_bar {
+  position:static;
+  width: 1500px;
+  height: 80px;
+  margin: -20px auto 0;
+  background-color: #EDFAFF;
+}
+.headder_bar_text {
+  text-align: center;
+  margin-top: 30px;
+  font-family: 'Courier New', Courier, monospace;
+}

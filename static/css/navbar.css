@@ -1,0 +1,44 @@
+.nav_bar{
+    top: 85px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 55px;
+    gap: 200px;
+    width: 1390px;
+    height: 40px;
+    margin: auto auto 0;
+    background: #bcd6fb;
+    /* Inside auto layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+    border: 1ch;
+}
+.menu_item{
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 48px;
+    margin: auto auto;
+    width: 1500px;
+    height: 20px;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    text-decoration:dashed;
+}
+
+.menu{
+    background-color: #bcd6fb;
+    text-decoration: none;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+}
+.menu:hover{
+    color: #8db9f7;
+}
