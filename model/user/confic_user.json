@@ -1,0 +1,10 @@
+{
+    "postgres":{
+        "host":"localhost",
+        "port":5432,
+        "database":"testdata",
+        "user":"postgres",
+        "password":"phak#150845"
+    }
+
+}

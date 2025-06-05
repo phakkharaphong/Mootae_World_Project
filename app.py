@@ -1,8 +1,9 @@
 from datetime import datetime
-from flask import Flask,render_template,request,send_file
+import json
+from flask import Flask, jsonify,render_template,request,send_file
 from PIL import Image, ImageDraw, ImageFont # type: ignore
 import io
-
+from model.user import db_user
 #note
 #int is i, string is g, decimal falot is d  
 
@@ -10,6 +11,10 @@ import io
 app = Flask(__name__)
 
 
+#read config sql file by json
+with open('model/user/confic_user.json','r') as file:
+    confic = json.load(file)
+db_table = confic['postgres'].get("db_table")
 
 UPLOAD_FOLDER = 'D:\Mootae_World_Project\static\img'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
@@ -75,6 +80,17 @@ def pform_wallpaper_brith_date():
 
     return render_template("manage_wallpaper/wallpaper_manage_brithdate.html")
 
+
+#Test Connect api sql in posgress 
+@app.route("/read",methods = ['GET'])
+def read():
+
+    query = f'SELECT * FROM public.user;'
+    try:
+        result = db_user.read_from_db(query)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error':str(e)}),500
 
 #------------------ Funtion Method -------------------
 def g_case_of_day(_day):
