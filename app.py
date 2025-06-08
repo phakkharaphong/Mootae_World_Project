@@ -91,6 +91,10 @@ def read():
         return jsonify(result)
     except Exception as e:
         return jsonify({'error':str(e)}),500
+    
+@app.route("/menu_layout")
+def layout_menu():
+    return render_template("/component_menu/layout_menu.html")
 
 #------------------ Funtion Method -------------------
 def g_case_of_day(_day):

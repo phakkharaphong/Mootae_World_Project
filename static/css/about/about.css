@@ -1,0 +1,91 @@
+.box_header{
+    align-self: start;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: none;
+    background-origin: padding-box;
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-size: auto;
+    border-bottom-color: rgb(0, 0, 0);
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(0, 0, 0);
+    border-left-style: none;
+    border-left-width: 0px;
+    border-right-color: rgb(0, 0, 0);
+    border-right-style: none;
+    border-right-width: 0px;
+    border-top-color: rgb(0, 0, 0);
+    border-top-style: none;
+    border-top-width: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    grid-column-end: 2;
+    grid-column-start: 1;
+    grid-row-end: 3;
+    grid-row-start: 2;
+    height: 411px;
+    justify-self: start;
+    left: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    min-width: 100%;
+    width: 100%;
+    outline-color: rgb(0, 0, 0);
+    outline-style: none;
+    outline-width: 0px;
+    overflow-x: visible;
+    overflow-y: visible;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    pointer-events: auto;
+    position: relative;
+    text-size-adjust: 100%;
+    unicode-bidi: isolate;
+    vertical-align: baseline;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.img_bk{
+    width: 100%;
+}
+.head_title{
+    align-self: Start;
+    background-attachment:scroll;
+    background-clip: border-box;
+    display:flex;
+    flex-wrap: wrap;
+    justify-self:start;
+    height: 100%;
+    width: 70%;
+    position: absolute;
+    unicode-bidi: isolate;
+    vertical-align: baseline;
+    -webkit-mask-position-y: 50%;
+    top: 0px;
+}
+.sub_header_title{
+    position: static;
+    width: 61rem;
+    height: 25.688rem;
+    align-items: center;
+    text-align: center;
+    background-clip: border-box;
+    unicode-bidi: isolate;
+    max-width: 100%;
+    margin: 0 auto;
+}

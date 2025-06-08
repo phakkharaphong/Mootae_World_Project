@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/about/about.css') }}" >
+    <link rel="icon" type="image/x-icon" href="/static/img/logo/Icon.webp">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> About me </title>
 </head>
 <body>
-    <h1> This is my site information and contact page </h1>
+    <header>
+       {% extends "/component_menu/layout_menu.html"%}
+    </header>
+    {% block content %}
+    <h1 class="font-1" style="font-size: 50px; text-align: center;">
+        <span>สำหรับลูกค้าองค์กร</span> 
+    </h1>
+    <section class="box_header">
+        <div class="img_bk">
+            <img src="/static/img/logo/bk.avif" alt="" style="width: 100%; height: 20rem; object-fit: cover;">
+        </div>
+        <div class="head_title">
+            <div class="sub_header_title">
+                <h1 class="head_1" style="margin: 0 a;"><span>มูเตเวิร์ล Mootae World</span></h1>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
 </body>
 </html>
