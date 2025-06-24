@@ -1,5 +1,9 @@
 import psycopg2
 import json
+from fastapi import APIRouter
+from pydantic import BaseModel
+
+
 
 with open('./model/user/confic_user.json','r') as file:
     config = json.load(file)

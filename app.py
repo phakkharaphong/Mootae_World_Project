@@ -1,16 +1,16 @@
-from datetime import datetime
 import json
 from flask import Flask, jsonify,render_template,request,send_file
 from PIL import Image, ImageDraw, ImageFont # type: ignore
 import io
 from model.user import db_user
+from flasgger import Swagger
 #note
 #int is i, string is g, decimal falot is d  
 
 
 app = Flask(__name__)
 
-
+Swagger(app)
 #read config sql file by json
 with open('model/user/confic_user.json','r') as file:
     confic = json.load(file)
@@ -84,7 +84,6 @@ def pform_wallpaper_brith_date():
 #Test Connect api sql in posgress 
 @app.route("/read",methods = ['GET'])
 def read():
-
     query = f'SELECT * FROM public.user;'
     try:
         result = db_user.read_from_db(query)

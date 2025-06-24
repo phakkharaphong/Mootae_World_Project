@@ -19,29 +19,59 @@
                 <img src="/static/img/logo/mootaeworld-logo.svg" alt="Mootaeworld Logo" style="display: block;margin-left: auto; margin-right: auto; width: 5rem;  margin-top: 0.625rem;  padding-bottom: 60px; max-width: 5rem;">
             </div>
         </section>
+        <!--Menu Web window-->
         <section id="section-menu" class="section-menu">  
            <nav>
                 <ul class="menu">
                     <li><a href="/" class="menu-bar" style="margin-left: 50px; position: relative ; margin: 0 auto; align-items: center;">หน้าแรก</a></li>
                     <li><a href="/about" class="menu-bar" style="padding-left: 30px;">สำหรับองค์กร</a></li>
-                    <li><a href="" class="menu-bar" style="padding-left: 30px;">วอลเปเปอร์เสริมดวง</a></li>
+                    <li class="dropdown-menu-wallpaper"><a href="" class="menu-bar" style="padding-left: 30px;">วอลเปเปอร์เสริมดวง</a>
+                        <div class="dropdown-content">
+                            <a href="#">1st Collection</a>
+                            <a href="#">Star Tarot</a>
+                            <a href="#">Devas Tarot</a>
+                            <a href="#">Arcana Tarot</a>
+                            <a href="#">เทพเซียน Collection</a>
+                            <a href="#">เทพเซียน Collection 2</a>
+                            <a href="#">Futunate Cat lucky</a>
+                            <a href="#">Divine Gods</a>
+                            <a href="#">Murathi Devas Tarot</a>
+                            <a href="#">Energetic Embracing Collection</a>
+                            <a href="#">เทพเซียน Collection 2</a>
+                        </div>
+                    </li>
                     <li><a href="" class="menu-bar" style="padding-left: 30px;">มั่งมู</a></li>
                     <li><a href="" class="menu-bar" style="padding-left: 30px;">บทความ</a></li>
                     <li><a href="" class="menu-bar" style="padding-left: 30px;">ตรวจสอบการสั่งซื้อ</a></li>
                     <li><a href="" class="menu-bar" style="padding-left: 30px;">สั่งซื้อสิ้นค้า</a></li>
                     <li><a href="/wallpaper" class="menu-bar" style="padding-left: 30px;">สร้าง wallpaper</a></li>
                     <li><a href="/form-wallpaper-brith-date" class="menu-bar" style="padding-left: 30px;">สร้าง wallpaper วันเดือนปีเกิด</a></li>
-                    <li class="menu-respon"><a href="#" ><img src="/static/img/logo/menu_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="" onclick="showMenuResponsive()"></a></li>
+                    <li class="menu-respon" style="display: none;"><a href="#" ><img src="/static/img/logo/menu_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt="" onclick="showMenuResponsive()"></a></li>
                 </ul>
             </nav>
         </section>
+          <!--Menu Web mobile 1 -->
         <section id="section-menu-responsive" class="section-menu-responsive">  
            <nav>
                 <ul class="menu">
                     <li onclick="closeMenuResponsive()"><a href="#" class="menu-responsive" ><img src="/static/img/logo/close_25dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg" alt=""></a></li>
                     <li><a href="/" class="menu-responsive" >หน้าแรก</a></li>
                     <li><a href="/about" class="menu-responsive" >สำหรับองค์กร</a></li>
-                    <li><a href="" class="menu-responsive" >วอลเปเปอร์เสริมดวง</a></li>
+                    <li class="dropdown-menu-wallpaper">วอลเปเปอร์เสริมดวง
+                        <div class="dropdown-content">
+                            <a>1st Collection</a>
+                            <a>Star Tarot</a>
+                            <a>Devas Tarot</a>
+                            <a>Arcana Tarot</a>
+                            <a>เทพเซียน Collection</a>
+                            <a>เทพเซียน Collection 2</a>
+                            <a>Futunate Cat lucky</a>
+                            <a>Divine Gods</a>
+                            <a>Murathi Devas Tarot</a>
+                            <a>Energetic Embracing Collection</a>
+                            <a>เทพเซียน Collection 2</a>
+                        </div>
+                    </li>
                     <li><a href="" class="menu-responsive" >มั่งมู</a></li>
                     <li><a href="" class="menu-responsive" >บทความ</a></li>
                     <li><a href="" class="menu-responsive" >ตรวจสอบการสั่งซื้อ</a></li>
@@ -55,16 +85,150 @@
     <main>
         {% block content %}
         <h1>ทดสอบ การสืบทอดของ html</h1>
+         <section class="product"> 
+            <h2 class="product-category">best selling</h2>
+            <button class="pre-btn"><img src="images/arrow.png" alt=""></button>
+            <button class="nxt-btn"><img src="images/arrow.png" alt=""></button>
+            <div class="product-container">
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card1.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card2.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card3.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card4.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card5.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card6.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card7.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card8.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card9.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <span class="discount-tag">50% off</span>
+                        <img src="images/card10.jpg" class="product-thumb" alt="">
+                        <button class="card-btn">add to wishlist</button>
+                    </div>
+                    <div class="product-info">
+                        <h2 class="product-brand">brand</h2>
+                        <p class="product-short-description">a short line about the cloth..</p>
+                        <span class="price">$20</span><span class="actual-price">$40</span>
+                    </div>
+                </div>
+            </div>
+        </section>
         {% endblock %}
     </main>
-        <div class="navbar-menu-responsive">
-            <div class="body-menu">
-                <li><a href="/" class="menu-responsive" > <img src="/static/img/logo/home_icon.svg" alt=""></a> <span style="display: flex; font-size: 15px;">หน้าแรก</span></li>
-                <li><a href="/about" class="menu-responsive" ><img src="/static/img/logo/diversity_3.svg" alt=""></a><span style="display: flex; font-size: 15px;">สำหรับองค์กร</span></li>
-                <li><a href="/form-wallpaper-brith-date" class="menu-responsive" ><img src="/static/img/logo/wallpaper.svg" alt=""></a><span style="display: flex; font-size: 15px;">วอลเปเปอร์เสริมดวง</span></li>
-                <li><img src="/static/img/logo/summarize.svg" alt=""><span style="display: flex; font-size: 15px;">บทความ</span></li>
-            </div>
+    <!--Menu Web mobile 2 -->
+    <div class="navbar-menu-responsive">
+        <div class="body-menu">
+            <li><a href="/" class="menu-responsive" > <img src="/static/img/logo/home_icon.svg" alt=""></a> <span style="display: flex; "></span></li>
+            <li><a href="/about" class="menu-responsive" ><img src="/static/img/logo/diversity_3.svg" alt=""></a><span style="display: flex; "></span></li>
+            <li><a href="/form-wallpaper-brith-date" class="menu-responsive" ><img src="/static/img/logo/wallpaper.svg" alt=""></a><span style="display: flex; "></span></li>
+            <li><img src="/static/img/logo/summarize.svg" alt=""><span style="display: flex; font-size: 15px;"></span></li>
         </div>
+    </div>
+    <footer class="footer_tab" style="padding: 1rem;">
+        <div >
+
+        </div>
+    </footer> 
+    <script src="/static/js/slide_img.js"></script>
 </body>
 </html>
 <script>
