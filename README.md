@@ -23,5 +23,8 @@ Installs **pip install "fastapi[standard]"**
 Step 4: 
 Installs **flasgger Document**
 ติดตั้ง flasswagger โดยใช้คำสั่ง
-#### `pip install flasgger`
+#### `$ pip install flasgger`
 
+###Run Project 
+### `Python
+    Python app.py`
