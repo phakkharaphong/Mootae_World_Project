@@ -1,6 +1,11 @@
 # Mootae_World_Project
 project wallpaper and website mootae world
 
+**Git_command**
+#### `bash
+    $ git clone https://github.com/phakkharaphong/Mootae_World_Project.git `
+
+
 Set up project for RUN Flask
 
 ###Install library
@@ -23,8 +28,14 @@ Installs **pip install "fastapi[standard]"**
 Step 4: 
 Installs **flasgger Document**
 ติดตั้ง flasswagger โดยใช้คำสั่ง
-#### `$ pip install flasgger`
+####   `$ pip install flasgger`
 
 ###Run Project 
 ### `Python
     Python app.py`
+
+Ref: 
+Python Flask:.[เรียนรู้ Flask เบื้องต้น] (https://devhub.in.th/blog/flask-python)
+psycopg2:.[เรียนรู้ Flask Connect psycopg2 เบื้องต้น] (https://wiki.postgresql.org/wiki/Psycopg2_Tutorial)
+fastapi:.[เรียนรู้ fastapi เบื้องต้น] (https://fastapi.tiangolo.com/)
+flasgger:.[เรียนรู้ fastapi + Swagger เบื้องต้น] (https://github.com/flasgger/flasgger)
