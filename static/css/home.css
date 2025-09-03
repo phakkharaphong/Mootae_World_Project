@@ -1,10 +1,49 @@
+/* Line Seed Sans Font Configuration - Local Files */
+
+/* Global font family for home page */
+* {
+    font-family: 'Line Seed Sans', sans-serif !important;
+}
+
+html, body {
+    font-family: 'Line Seed Sans', sans-serif !important;
+}
+
 html{
  font-size:calc(80 +00.8vmin) ;
 }
 .headder_bar_text {
   text-align: center;
   margin-top: 30px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Line Seed Sans', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* Specific font weights for different elements */
+h1, h2, h3, .product-category, .product-brand {
+    font-weight: 500 !important;
+}
+
+p, .product-short-description {
+    font-weight: 400 !important;
+}
+
+.price, .actual-price {
+    font-weight: 700 !important;
+}
+
+/* Bootstrap components override */
+.btn, .btn *,
+.form-control, .form-control *,
+.alert, .alert *,
+.card, .card *,
+.nav, .nav *,
+.navbar, .navbar *,
+.pagination, .pagination *,
+.modal, .modal *,
+.tooltip, .tooltip *,
+.popover, .popover * {
+    font-family: 'Line Seed Sans', sans-serif !important;
 }
 
 /*img slide*/

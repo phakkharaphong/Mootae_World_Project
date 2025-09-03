@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/about/about.css') }}" >
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/fonts.css') }}" >
     <link rel="icon" type="image/x-icon" href="/static/img/logo/Icon.webp">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> About me </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title> corporate </title>
 </head>
 <body>
     <header>
@@ -13,40 +16,1052 @@
     </header>
     {% block content %}
     <main>
-        <h1 class="font-1" style="font-size: 50px; text-align: center; padding: 30px;">
-            <span>สำหรับลูกค้าองค์กร</span> 
-        </h1>
-        <section class="box_header">
-            <div class="img_bk">
-                <img src="/static/img/logo/bk.avif" alt="" style="width: 100%; height: 100%; object-fit: cover;"> 
-                <div class="text-header">
-                    <span><h1 style="padding: 20px;">มูเตเวิร์ล Mootae World</h1></span>
-                    <span><h3 style="padding: 20px;">ที่พึ่งทางดวงที่ไว้ใจได้เสมอ</h3></span>
-                    <span><h3 style="padding: 20px;">SINCERE | PASSIONATE | INFORMATIVE</h3></span>
+        <div class="container text-center my-5">
+            <h1 class="display-4 fw-bold">สำหรับลูกค้าองค์กร</h1>
+        </div>
+
+        <section class="container-fluid p-0">
+            <div class="position-relative">
+                <img src="/static/img/logo/bk.avif" class="img-fluid w-100" style="height: 400px; object-fit: cover;" alt="">
+
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-overlay">
+                <h1 class="fw-bold mb-3">มูเตเวิร์ล Mootae World</h1>
+                <div class="hero-banner-divider"></div>
+                <h3 class="mb-2">ที่พึ่งทางดวงที่ไว้ใจได้เสมอ</h3>
+                <h3>SINCERE | PASSIONATE | INFORMATIVE</h3>
                 </div>
             </div>
         </section>
-        <section class="body-box-2">
-            <div class="body-frame">
-                <div class="body-type-grid">
-                    <div class="header-text-body-box-2">
-                        <h1>มูเต SAY HI</h1>
+
+        <section class="container my-5">
+            <div class="row">
+                <div class="col-md-10 mx-auto">
+                    <div class="row">
+                        <div class="col-md-6 order-md-1 order-2">
+                            <h1 class="mute-main-title">มูเต SAY HI</h1>
+                            <h3 class="mute-subtitle">ทำไมต้องมูเตเวิร์ล</h3><br>
+                            <div class="mute-text">
+                                <p>ศูนย์รวมจักรวาลความมู ผู้คิดค้นศาสตร์มูด้วยวอลเปเปอร์มือถือเสริมดวงเจ้าแรกในประเทศไทย ที่สร้างปรากฎการณ์ความปังยอดซื้อซ้ำกว่าหลายหมื่นออเดอร์</p>
+                                <p>มูเตเวิร์ล เป็นพื้นที่สำหรับคนรุ่นใหม่ที่สนใจในเรื่องมูเตลู ไม่ว่าคุณจะเป็นมูมือใหม่ หรือมูตัวแม่ ผู้ประกอบการ พ่อค้าแม่ค้า ที่อยากเสริมดวงเฮงๆปังๆ มาพร้อมสินค้าและบริการต่างๆมากมายที่คัดสรรมาแล้ว</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 order-md-2 order-1">
+                            <img src="/static/img/logo/เสริมดวง.avif" class="img-fluid" alt="">
+                        </div>
                     </div>
-                    <div class="body1-text-body-box-2">
-                        <h3>ทำไมต้องมูเตเวิร์ล</h3>
-                    </div>
-                    <div class="body2-text-body-box-2">
-                        <h3>ศูนย์รวมจักรวาลความมู ผู้คิดค้นศาสตร์มูด้วยวอลเปเปอร์มือถือเสริมดวงเจ้าแรกในประเทศไทย ที่สร้างปรากฎการณ์ความปังยอดซื้อซ้ำกว่าหลายหมื่นออเดอร์</h3>
-                    </div>
-                    <div class="body3-text-body-box-2">
-                        <h3>มูเตเวิร์ล เป็นพื้นที่สำหรับคนรุ่นใหม่ที่สนใจในเรื่องมูเตลู ไม่ว่าคุณจะเป็นมูมือใหม่ หรือมูตัวแม่ ผู้ประกอบการ พ่อค้าแม่ค้า ที่อยากเสริมดวงเฮงๆปังๆ มาพร้อมสินค้าและบริการต่างๆมากมายที่คัดสรรมาแล้ว</h3>
-                    </div>
-                    <div class="body3-img-body-box-2">
-                        <img src="/static/img/logo/noimg.jpeg" alt="">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6 order-md-1 order-2">
+                            <img src="/static/img/logo/เสริมดวง2.avif" class="img-fluid" alt="">
+                        </div>
+
+                        <div class="col-md-6 order-md-2 order-1">
+                            <img src="/static/img/logo/เสริมดวง3.avif" class="img-fluid" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <section class="container-fluid p-0">
+            <div class="position-relative">
+                <img src="/static/img/logo/bg.avif" class="img-fluid w-100" style="height: 400px; object-fit: cover;" alt="">
+            </div>
+        </section>
+
+        <section class="container my-5">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="row">
+                        <div class="col-12 mb-5 text-center">
+                            <h4 class="services-title">บริการของเรา</h4>
+                        </div>
+                    </div>
+
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <div class="service-card h-100">
+                                <h3 class="service-card-title">Media Content</h3>
+                                <ul class="service-list">
+                                    <li>คอนเทนท์ในสื่อทั้ง ออนไลน์ และ ออฟไลน์</li>
+                                    <li>วิดีโอสั้น / วิดีโอยาว</li>
+                                    <li>ได้ทั้งศาสตร์ไพ่ยิปซี โหราศาสตร์ ลายมือ ตัวเลข ต่างๆ</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="service-card h-100">
+                                <h3 class="service-card-title">Pray for you & Moo-Tour</h3>
+                                <ul class="service-list">
+                                    <li>บริการฝากไหว้ ฝากมู</li>
+                                    <li>บริการทัวร์พรีเมี่ยมสำหรับลูกค้าคนพิเศษพร้อมเซสชั่นดวงจัดเต็ม</li>
+                                    <li class="highlight-text">
+                                        ได้ทั้งในและนอกประเทศ โดยในทัวร์สามารถเลือกบริการเสริมได้ เช่น ดูดวง พิธีนะหน้าทอง สักสมผุส
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="service-card h-100">
+                                <h3 class="service-card-title">Wallpaper</h3>
+                                <ul class="service-list">
+                                    <li>ออกแบบ และจัดทำวอลเปเปอร์เสริมดวง สำหรับแบรนด์</li>
+                                    <li>ออกแบบรายบุคคล</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="service-card h-100">
+                                <h3 class="service-card-title">Event</h3>
+                                <ul class="service-list">
+                                    <li>ออกงาน หรือร่วมจัดอีเวนท์สายมู</li>
+                                    <li>ดูดวง จัดวอลเปเปอร์ หรือ กิจกรรมสายมูนอกสถานที่</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-center my-5">
+                            <a href="#contact" class="contact-box">สนใจงาน ติดต่อเรา</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            <!-- Image Gallery Section -->
+        <section class="image-gallery-section">
+            <!-- Navigation Arrows -->
+            <button class="gallery-control-prev" type="button">
+                <span class="gallery-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="gallery-control-next" type="button">
+                <span class="gallery-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-1.jpg" alt="มูเตเวิร์ล ภาพ 1" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-1.jpg">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-2.jpg" alt="มูเตเวิร์ล ภาพ 2" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-2.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-3.jpg" alt="มูเตเวิร์ล ภาพ 3" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-3.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-4.jpg" alt="มูเตเวิร์ล ภาพ 4" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-4.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-5.jpg" alt="มูเตเวิร์ล ภาพ 5" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-5.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-6.jpg" alt="มูเตเวิร์ล ภาพ 6" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-6.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-7.jpg" alt="มูเตเวิร์ล ภาพ 7" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-7.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-8.jpg" alt="มูเตเวิร์ล ภาพ 8" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-8.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-9.jpg" alt="มูเตเวิร์ล ภาพ 9" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-9.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-10.jpg" alt="มูเตเวิร์ล ภาพ 10" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-10.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-11.jpg" alt="มูเตเวิร์ล ภาพ 11" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-11.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-12.jpg" alt="มูเตเวิร์ล ภาพ 12" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-12.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-13.jpg" alt="มูเตเวิร์ล ภาพ 13" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-13.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-14.jpg" alt="มูเตเวิร์ล ภาพ 14" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-14.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="/static/img/logo/slider-15.jpg" alt="มูเตเวิร์ล ภาพ 15" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <button class="heart-btn" data-image-src="images/slider-15.jpg">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Single Image Section -->
+        <section class="single-gallery-section my-5 text-center">
+
+            <div class="single-gallery-card mb-5">
+                <img src="/static/img/logo/single-1.jpg"
+                    alt="มูเตเวิร์ล ภาพ 1" 
+                    class="single-gallery-image"
+                    data-link="https://www.facebook.com/Mootaeworld/posts/pfbid0j8n5kJCy7heCV96JsmH3qFDtqwxz2KpBsNjbv9b7ikJLf1bRXUGXzScUMDw48dsWl?_rdc=2&_rdr">
+                <h5 class="mt-2">Today's At Apple</h5>
+                <p class="text-muted">วิทยากร Today's At Apple ณ CTW</p>
+            </div>
+
+            <div class="single-gallery-card mb-5">
+                <img src="/static/img/logo/single-2.jpg" 
+                    alt="มูเตเวิร์ล ภาพ 3" 
+                    class="single-gallery-image"
+                    data-link="https://www.facebook.com/SamsungThailand/posts/pfbid02gN25MWhTHe33WbbNPzM8UCoDGQhfcrPAxNkTU7km4Mbqwwiiw24hgJpS7Bm4tuKXl?_rdc=2&_rdr">
+                <h5 class="mt-2">Samsung Galaxy x มูเตเวิร์ล</h5>
+                <p class="text-muted">วอลเปเปอร์สายมูเสริมดวง การเงิน การงาน ความรัก ออกแบบโดย มูเตเวิร์ล Mootae World เพื่อชาว #GalaxyZFlip5 และ #GalaxyZFold5</p>
+            </div>
+
+            <div class="single-gallery-card mb-5">
+                <img src="/static/img/logo/single-3.jpg" 
+                    alt="มูเตเวิร์ล ภาพ 2" 
+                    class="single-gallery-image"
+                    data-link="https://mbk-center.co.th/event/1470/?utm_campaign=mbk_lucklyland&utm_source=facebook&utm_medium=link&fbclid=IwAR2vMB8M4tngFl0PxuqIn5JbVB_Khx3gl_Fy4o3ExxNMZvmSTMq1DWxGE1A">
+                <h5 class="mt-2">MBK CENTER "LUCKY LAND"</h5>
+                <p class="text-muted">MBK Center ชวนทุกคนมาสนุกสนานกับกิจกรรม "Lucky Land" ฉลองวันตรุษจีน 2567</p>
+            </div>
+        </section>
+
+        <section class="articles-section my-5">
+            <div class="container">
+                <h1 class="text-center mb-5">บทความ</h1>
+                
+                <div class="row">
+                    <!-- Column ซ้าย 4 columns -->
+                    <div class="col-md-4">
+                        <div class="featured-article-card">
+                            <div class="article-image-container">
+                                <img src="/static/img/articles/featured-article-main.jpg" alt="บทความแนะนำ" class="article-main-image">
+                            </div>
+                            <div class="article-content">
+                                <div class="author-info">
+                                    <img src="/static/img/articles/author-profile.jpg" alt="โปรไฟล์ผู้เขียน" class="author-avatar">
+                                    <span class="author-name">มูเตเวิร์ล</span>
+                                </div>
+                                <div class="article-category">บทความแนะนำ</div>
+                                <h3 class="article-title">ศาสตร์มูเตลูกับการเสริมดวงในยุคดิจิทัล</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column ขวา 6 columns -->
+                    <div class="col-md-8">
+                        <div class="articles-grid">
+                            <!-- Row 1 - All 4 cards in one row -->
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="1">
+                                        <img src="/static/img/articles/article-1.jpg" alt="บทความ 1" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">วอลเปเปอร์เสริมดวงตามราศี</h4>
+                                            <p class="article-card-excerpt">เรียนรู้วิธีการเลือกวอลเปเปอร์เสริมดวงตามราศีของคุณ เพื่อเสริมความโชคดีในด้านต่างๆ ไม่ว่าจะเป็นการเงิน การงาน หรือความรัก...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="1">
+                                        <img src="/static/img/articles/article-2.jpg" alt="บทความ 2" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">เคล็ดลับเสริมดวงด้วยสี</h4>
+                                            <p class="article-card-excerpt">สีแต่ละสีมีความหมายและพลังในการเสริมดวงที่แตกต่างกัน มาดูกันว่าสีไหนเหมาะกับคุณและจะช่วยเสริมดวงในด้านใดได้บ้าง...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="1">
+                                        <img src="/static/img/articles/article-3.jpg" alt="บทความ 3" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์มูเตลูโบราณ</h4>
+                                            <p class="article-card-excerpt">ศาสตร์มูเตลูเป็นศาสตร์โบราณที่สืบทอดกันมาหลายชั่วอายุคน มาทำความรู้จักกับประวัติศาสตร์และความสำคัญของศาสตร์นี้กัน...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="1">
+                                        <img src="/static/img/articles/article-4.jpg" alt="บทความ 4" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การดูดวงออนไลน์ยุคใหม่</h4>
+                                            <p class="article-card-excerpt">เทคโนโลยีได้เปลี่ยนแปลงวิธีการดูดวงและเสริมดวงให้ทันสมัยขึ้น มาดูกันว่าการดูดวงออนไลน์มีข้อดีอย่างไร...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Page 2 Cards (Hidden by default) -->
+                            <div class="row mb-4 page-2-cards" style="display: none;">
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="2">
+                                        <img src="/static/img/articles/article-5.jpg" alt="บทความ 5" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเลือกวันดีสำหรับกิจกรรมสำคัญ</h4>
+                                            <p class="article-card-excerpt">การเลือกวันดีเป็นศาสตร์ที่สำคัญในการเสริมดวง มาดูกันว่าวันไหนเหมาะกับการเริ่มต้นสิ่งใหม่หรือทำกิจกรรมสำคัญ...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="2">
+                                        <img src="/static/img/articles/article-6.jpg" alt="บทความ 6" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การจัดบ้านเสริมดวง</h4>
+                                            <p class="article-card-excerpt">การจัดบ้านตามหลักศาสตร์มูเตลูสามารถช่วยเสริมดวงและสร้างพลังงานดีให้กับผู้อยู่อาศัยได้อย่างมีประสิทธิภาพ...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="2">
+                                        <img src="/static/img/articles/article-7.jpg" alt="บทความ 7" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเสริมดวงด้วยเครื่องราง</h4>
+                                            <p class="article-card-excerpt">เครื่องรางเป็นเครื่องมือสำคัญในการเสริมดวง มาดูกันว่าเครื่องรางแต่ละชนิดมีพลังและวิธีการใช้งานอย่างไร...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="2">
+                                        <img src="/static/img/articles/article-8.jpg" alt="บทความ 8" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การนับเลขเสริมดวง</h4>
+                                            <p class="article-card-excerpt">เลขแต่ละตัวมีความหมายและพลังที่แตกต่างกัน มาดูกันว่าเลขไหนเหมาะกับคุณและจะช่วยเสริมดวงได้อย่างไร...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Page 3 Cards (Hidden by default) -->
+                            <div class="row mb-4 page-3-cards" style="display: none;">
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="3">
+                                        <img src="/static/img/articles/article-9.jpg" alt="บทความ 9" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเสริมดวงด้วยอาหาร</h4>
+                                            <p class="article-card-excerpt">อาหารแต่ละชนิดมีพลังและคุณสมบัติที่แตกต่างกัน มาดูกันว่าอาหารไหนช่วยเสริมดวงในด้านต่างๆ ได้บ้าง...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="3">
+                                        <img src="/static/img/articles/article-10.jpg" alt="บทความ 10" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การแต่งกายเสริมดวง</h4>
+                                            <p class="article-card-excerpt">การแต่งกายตามหลักศาสตร์มูเตลูสามารถช่วยเสริมดวงและสร้างความมั่นใจให้กับผู้สวมใส่ได้อย่างมีประสิทธิภาพ...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="3">
+                                        <img src="/static/img/articles/article-11.jpg" alt="บทความ 11" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเสริมดวงด้วยการออกกำลังกาย</h4>
+                                            <p class="article-card-excerpt">การออกกำลังกายไม่เพียงแต่ดีต่อสุขภาพกาย แต่ยังช่วยเสริมดวงและสร้างพลังงานดีให้กับร่างกายและจิตใจ...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="3">
+                                        <img src="/static/img/articles/article-12.jpg" alt="บทความ 12" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การนอนหลับเสริมดวง</h4>
+                                            <p class="article-card-excerpt">การนอนหลับที่ดีเป็นพื้นฐานสำคัญในการเสริมดวง มาดูกันว่าวิธีการนอนหลับแบบไหนช่วยเสริมดวงได้มากที่สุด...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Page 4 Cards (Hidden by default) -->
+                            <div class="row mb-4 page-4-cards" style="display: none;">
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="4">
+                                        <img src="/static/img/articles/article-13.jpg" alt="บทความ 13" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเสริมดวงด้วยการทำสมาธิ</h4>
+                                            <p class="article-card-excerpt">การทำสมาธิเป็นวิธีที่ทรงพลังในการเสริมดวงและสร้างความสมดุลให้กับร่างกาย จิตใจ และจิตวิญญาณ...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="4">
+                                        <img src="/static/img/articles/article-14.jpg" alt="บทความ 14" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การจัดโต๊ะทำงานเสริมดวง</h4>
+                                            <p class="article-card-excerpt">การจัดโต๊ะทำงานตามหลักศาสตร์มูเตลูสามารถช่วยเสริมดวงในการงานและสร้างความสำเร็จในอาชีพได้...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="4">
+                                        <img src="/static/img/articles/article-15.jpg" alt="บทความ 15" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเสริมดวงด้วยการเดินทาง</h4>
+                                            <p class="article-card-excerpt">การเดินทางไม่เพียงแต่เป็นการเปิดโลกทัศน์ แต่ยังช่วยเสริมดวงและสร้างประสบการณ์ใหม่ที่ทรงคุณค่า...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="4">
+                                        <img src="/static/img/articles/article-16.jpg" alt="บทความ 16" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การจัดสวนเสริมดวง</h4>
+                                            <p class="article-card-excerpt">การจัดสวนตามหลักศาสตร์มูเตลูสามารถช่วยเสริมดวงและสร้างความสงบสุขให้กับบ้านและผู้อยู่อาศัยได้...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Page 5 Cards (Hidden by default) -->
+                            <div class="row mb-4 page-5-cards" style="display: none;">
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="5">
+                                        <img src="/static/img/articles/article-17.jpg" alt="บทความ 17" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเสริมดวงด้วยการอ่านหนังสือ</h4>
+                                            <p class="article-card-excerpt">การอ่านหนังสือเป็นวิธีที่ทรงพลังในการเสริมดวงและพัฒนาตัวเอง มาดูกันว่าหนังสือประเภทไหนช่วยเสริมดวงได้บ้าง...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="5">
+                                        <img src="/static/img/articles/article-18.jpg" alt="บทความ 18" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การจัดห้องนอนเสริมดวง</h4>
+                                            <p class="article-card-excerpt">ห้องนอนเป็นสถานที่สำคัญในการเสริมดวง มาดูกันว่าการจัดห้องนอนแบบไหนช่วยเสริมดวงและสร้างความสุขได้มากที่สุด...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="5">
+                                        <img src="/static/img/articles/article-19.jpg" alt="บทความ 19" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">การเสริมดวงด้วยการฟังเพลง</h4>
+                                            <p class="article-card-excerpt">เพลงแต่ละเพลงมีพลังและความถี่ที่แตกต่างกัน มาดูกันว่าเพลงประเภทไหนช่วยเสริมดวงและสร้างความรู้สึกดีได้บ้าง...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="article-card" data-page="5">
+                                        <img src="/static/img/articles/article-20.jpg" alt="บทความ 20" class="article-thumbnail">
+                                        <div class="article-card-content">
+                                            <h4 class="article-card-title">ศาสตร์การจัดห้องน้ำเสริมดวง</h4>
+                                            <p class="article-card-excerpt">ห้องน้ำเป็นสถานที่สำคัญในการเสริมดวง มาดูกันว่าการจัดห้องน้ำแบบไหนช่วยเสริมดวงและสร้างความสะอาดได้มากที่สุด...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <div class="pagination-container">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous" id="prev-page">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active"><a class="page-link" href="#" data-page="1">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#" data-page="2">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#" data-page="3">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#" data-page="4">4</a></li>
+                                        <li class="page-item"><a class="page-link" href="#" data-page="5">5</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next" id="next-page">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+       <section class="contact-section my-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mx-auto">
+                        <h1 class="text-center mb-1">ลูกค้าของเรา</h1>
+                        <h2 class="text-center mb-5">60+ แบรนด์ที่ไว้วางใจ</h2>
+                        <div class="text-center">
+                            <img src="/static/img/logo/ลูกค้าของเรา.avif" alt="ลูกค้าของเรา" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section my-5">
+            <div class="container">
+                <h1 class="text-center mb-5">ติดต่อเรา</h1>
+                
+                <!-- Google Maps -->
+                <div class="row mb-5">
+                    <div class="col-md-8 mx-auto">
+                        <div class="maps-container">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.8!2d100.6!3d13.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ4JzAwLjAiTiAxMDDCsDM2JzAwLjAiRQ!5e0!3m2!1sth!2sth!4v1234567890"
+                                width="100%" 
+                                height="400" 
+                                style="border:0; border-radius: 16px;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Information Cards -->
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <div class="contact-card">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3 class="company-title">บริษัท มูเตเวิลด์ จำกัด</h3>
+                                    <div class="spacer"></div>
+                                    <h4 class="section-title">ที่อยู่</h4>
+                                    <p class="address-text">51/6 ถนน รามอินทรา แขวง คันนายาว เขต คันนายาว กรุงเทพ ฯ 10230</p>
+                                    <p class="bts-info">(สถานีรถไฟฟ้า กม.6)</p>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h3 class="contact-title">สนใจติดต่องาน</h3>
+                                    <div class="spacer"></div>
+                                    <div class="contact-item">
+                                        <span class="contact-label">E-mail</span>
+                                        <span class="contact-value">sales@mootaeworld.com</span>
+                                    </div>
+                                    <div class="contact-item">
+                                        <span class="contact-label">Tel</span>
+                                        <span class="contact-value">095-415-5451</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heartButtons = document.querySelectorAll('.heart-btn');
+            const galleryImages = document.querySelectorAll('.gallery-image');
+            const galleryGrid = document.querySelector('.gallery-grid');
+            const prevBtn = document.querySelector('.gallery-control-prev');
+            const nextBtn = document.querySelector('.gallery-control-next');
+            const singleCards = document.querySelectorAll('.single-gallery-card');
+
+            const imageData = Array.from(singleCards).map(card => {
+                const img = card.querySelector('.single-gallery-image');
+                const title = card.querySelector('h5')?.innerText || '';
+                const description = card.querySelector('p')?.innerText || '';
+                const link = img.dataset.link || 'https://www.google.com';
+                return {
+                    src: img.src,
+                    title,
+                    description,
+                    link: link
+                };
+            });
+
+            singleCards.forEach((card, index) => {
+                card.querySelector('.single-gallery-image').addEventListener('click', function() {
+                    showSingleImageModal(imageData, index);
+                });
+            });
+            
+            heartButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('liked');
+                    const heartIcon = this.querySelector('i');
+                    
+                    if (this.classList.contains('liked')) {
+                        heartIcon.className = 'fas fa-heart';
+                        heartIcon.style.animation = 'heartBeat 0.6s ease-in-out';
+                    } else {
+                        heartIcon.className = 'far fa-heart';
+                    }
+                    
+                    const modalHeartBtn = document.querySelector('.modal-heart-btn');
+                    if (modalHeartBtn && modalHeartBtn.dataset.imageSrc === this.dataset.imageSrc) {
+                        if (this.classList.contains('liked')) {
+                            modalHeartBtn.classList.add('liked');
+                            const modalHeartIcon = modalHeartBtn.querySelector('i');
+                            modalHeartIcon.className = 'fas fa-heart';
+                        } else {
+                            modalHeartBtn.classList.remove('liked');
+                            const modalHeartIcon = modalHeartBtn.querySelector('i');
+                            modalHeartIcon.className = 'far fa-heart';
+                        }
+                    }
+                });
+            });
+            
+            galleryImages.forEach(image => {
+                image.addEventListener('click', function(e) {
+                    showImageModal(this.src, this.alt);
+                });
+            });
+            
+            const galleryCards = document.querySelectorAll('.gallery-card');
+            galleryCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.heart-btn')) {
+                        const image = this.querySelector('.gallery-image');
+                        if (image) {
+                            showImageModal(image.src, image.alt);
+                        }
+                    }
+                });
+            });
+            
+            if (prevBtn && nextBtn && galleryGrid) {
+                const scrollAmount = 300;
+                
+                prevBtn.addEventListener('click', function() {
+                    galleryGrid.scrollBy({
+                        left: -scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+                
+                nextBtn.addEventListener('click', function() {
+                    galleryGrid.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            function showImageModal(imageSrc, imageAlt) {
+                
+                const existingModal = document.getElementById('imageModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                const allImages = Array.from(document.querySelectorAll('.gallery-image'));
+                const currentIndex = allImages.findIndex(img => img.src === imageSrc);
+                
+                const modal = document.createElement('div');
+                modal.id = 'imageModal';
+                modal.className = 'image-modal';
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <button class="modal-fullscreen-btn">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <button class="modal-heart-btn" data-image-src="${imageSrc}">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <span class="close-modal">&times;</span>
+                        <img src="${imageSrc}" alt="${imageAlt}" class="modal-image" data-current-index="${currentIndex}">
+                        <button class="modal-nav-prev" ${currentIndex === 0 ? 'disabled' : ''}>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="modal-nav-next" ${currentIndex === allImages.length - 1 ? 'disabled' : ''}>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+            const modalHeartBtn = modal.querySelector('.modal-heart-btn');
+            const currentImageSrc = modalHeartBtn.dataset.imageSrc;
+            const galleryHeartBtn = document.querySelector(`.heart-btn[data-image-src="${currentImageSrc}"]`);
+            
+            if (galleryHeartBtn && galleryHeartBtn.classList.contains('liked')) {
+                modalHeartBtn.classList.add('liked');
+                const heartIcon = modalHeartBtn.querySelector('i');
+                heartIcon.className = 'fas fa-heart';
+            }
+            
+            modalHeartBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('liked');
+                const heartIcon = this.querySelector('i');
+                
+                if (this.classList.contains('liked')) {
+                    heartIcon.className = 'fas fa-heart';
+                    heartIcon.style.animation = 'heartBeat 0.6s ease-in-out';
+                    
+                    if (galleryHeartBtn) {
+                        galleryHeartBtn.classList.add('liked');
+                        const galleryHeartIcon = galleryHeartBtn.querySelector('i');
+                        galleryHeartIcon.className = 'fas fa-heart';
+                    }
+                } else {
+                    heartIcon.className = 'far fa-heart';
+                    
+                    if (galleryHeartBtn) {
+                        galleryHeartBtn.classList.remove('liked');
+                        const galleryHeartIcon = galleryHeartBtn.querySelector('i');
+                        galleryHeartIcon.className = 'far fa-heart';
+                    }
+                }
+            });
+                
+                const modalFullscreenBtn = modal.querySelector('.modal-fullscreen-btn');
+                modalFullscreenBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (!document.fullscreenElement) {
+                        modal.requestFullscreen();
+                        this.innerHTML = '<i class="fas fa-compress"></i>';
+                    } else {
+                        document.exitFullscreen();
+                        this.innerHTML = '<i class="fas fa-expand"></i>';
+                    }
+                });
+                
+                const modalNavPrev = modal.querySelector('.modal-nav-prev');
+                const modalNavNext = modal.querySelector('.modal-nav-next');
+                const modalImage = modal.querySelector('.modal-image');
+                
+                modalNavPrev.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const currentIndex = parseInt(modalImage.dataset.currentIndex);
+                    if (currentIndex > 0) {
+                        const prevImage = allImages[currentIndex - 1];
+                        modalImage.src = prevImage.src;
+                        modalImage.alt = prevImage.alt;
+                        modalImage.dataset.currentIndex = currentIndex - 1;
+                        modalHeartBtn.dataset.imageSrc = prevImage.src;
+                        
+                        const prevGalleryHeartBtn = document.querySelector(`.heart-btn[data-image-src="${prevImage.src}"]`);
+                        if (prevGalleryHeartBtn && prevGalleryHeartBtn.classList.contains('liked')) {
+                            modalHeartBtn.classList.add('liked');
+                            const heartIcon = modalHeartBtn.querySelector('i');
+                            heartIcon.className = 'fas fa-heart';
+                        } else {
+                            modalHeartBtn.classList.remove('liked');
+                            const heartIcon = modalHeartBtn.querySelector('i');
+                            heartIcon.className = 'far fa-heart';
+                        }
+                        
+                        modalNavPrev.disabled = currentIndex - 1 === 0;
+                        modalNavNext.disabled = false;
+                    }
+                });
+                
+                modalNavNext.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const currentIndex = parseInt(modalImage.dataset.currentIndex);
+                    if (currentIndex < allImages.length - 1) {
+                        const nextImage = allImages[currentIndex + 1];
+                        modalImage.src = nextImage.src;
+                        modalImage.alt = nextImage.alt;
+                        modalImage.dataset.currentIndex = currentIndex + 1;
+                        modalHeartBtn.dataset.imageSrc = nextImage.src;
+                        
+                        const nextGalleryHeartBtn = document.querySelector(`.heart-btn[data-image-src="${nextImage.src}"]`);
+                        if (nextGalleryHeartBtn && nextGalleryHeartBtn.classList.contains('liked')) {
+                            modalHeartBtn.classList.add('liked');
+                            const heartIcon = modalHeartBtn.querySelector('i');
+                            heartIcon.className = 'fas fa-heart';
+                        } else {
+                            modalHeartBtn.classList.remove('liked');
+                            const heartIcon = modalHeartBtn.querySelector('i');
+                            heartIcon.className = 'far fa-heart';
+                        }
+                        
+                        modalNavNext.disabled = currentIndex + 1 === allImages.length - 1;
+                        modalNavPrev.disabled = false;
+                    }
+                });
+                
+                const keyHandler = function(e) {
+                    if (e.key === 'ArrowLeft' && !modalNavPrev.disabled) {
+                        modalNavPrev.click();
+                    } else if (e.key === 'ArrowRight' && !modalNavNext.disabled) {
+                        modalNavNext.click();
+                    } else if (e.key === 'Escape') {
+                        modal.remove();
+                        document.removeEventListener('keydown', keyHandler);
+                    }
+                };
+                document.addEventListener('keydown', keyHandler);
+                
+                const closeBtn = modal.querySelector('.close-modal');
+                closeBtn.addEventListener('click', function() {
+                    modal.remove();
+                    document.removeEventListener('keydown', keyHandler);
+                });
+                
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.remove();
+                        document.removeEventListener('keydown', keyHandler);
+                    }
+                });
+            }
+        });
+
+        function showSingleImageModal(images, startIndex) {
+            let currentIndex = startIndex;
+
+            const existingModal = document.getElementById('singleImageModal');
+            if (existingModal) existingModal.remove();
+            const modal = document.createElement('div');
+            modal.id = 'singleImageModal';
+            modal.className = 'image-modal';
+
+            function renderModalContent() {
+                const { src, title, description, link } = images[currentIndex];
+                modal.innerHTML = `
+                    <div class="modal-content single-modal-layout">
+                        <span class="close-modal">&times;</span>
+                        <div class="row">
+                            <div class="modal-left">
+                                <img src="${src}" alt="${title}" class="modal-image">
+                                <button class="modal-nav-prev" ${currentIndex === 0 ? "disabled" : ""}>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="modal-nav-next" ${currentIndex === images.length - 1 ? "disabled" : ""}>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                            <div class="modal-right text-start">
+                                <h2 class="fw-bold">${title}</h2>
+                                <p class="text-muted">${description}</p>
+                                <a href="${link}" target="_blank" class="btn btn-link">${link}</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                modal.querySelector('.close-modal').addEventListener('click', () => modal.remove());
+
+                const prevBtn = modal.querySelector('.modal-nav-prev');
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (currentIndex > 0) {
+                            currentIndex--;
+                            renderModalContent();
+                        }
+                    });
+                }
+
+                const nextBtn = modal.querySelector('.modal-nav-next');
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (currentIndex < images.length - 1) {
+                            currentIndex++;
+                            renderModalContent();
+                        }
+                    });
+                }
+            }
+
+            renderModalContent();
+            document.body.appendChild(modal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+        }
+
+    </script>
+
+    <script>
+        // Articles Pagination System
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            const totalPages = 5;
+            
+            // Function to show specific page
+            function showPage(pageNumber) {
+                // Hide all page cards first
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageCards = document.querySelectorAll(`.page-${i}-cards`);
+                    pageCards.forEach(card => {
+                        card.style.display = 'none';
+                    });
+                }
+                
+                // Hide the first row (page 1) as well
+                const firstRow = document.querySelector('.row.mb-4:first-of-type');
+                if (firstRow) firstRow.style.display = 'none';
+                
+                // Show current page cards
+                if (pageNumber === 1) {
+                    // Show first row with all 4 cards
+                    if (firstRow) firstRow.style.display = 'flex';
+                } else {
+                    // Show specific page cards
+                    const pageCards = document.querySelectorAll(`.page-${pageNumber}-cards`);
+                    pageCards.forEach(card => {
+                        card.style.display = 'flex';
+                    });
+                }
+                
+                // Update pagination active state
+                updatePaginationActive(pageNumber);
+                
+                // Update prev/next button states
+                updateNavigationButtons(pageNumber);
+            }
+            
+            // Function to update pagination active state
+            function updatePaginationActive(pageNumber) {
+                // Remove active class from all page numbers
+                document.querySelectorAll('.pagination .page-link[data-page]').forEach(link => {
+                    link.parentElement.classList.remove('active');
+                });
+                
+                // Add active class to current page
+                const currentPageLink = document.querySelector(`.pagination .page-link[data-page="${pageNumber}"]`);
+                if (currentPageLink) {
+                    currentPageLink.parentElement.classList.add('active');
+                }
+            }
+            
+            // Function to update navigation buttons
+            function updateNavigationButtons(pageNumber) {
+                const prevButton = document.getElementById('prev-page');
+                const nextButton = document.getElementById('next-page');
+                
+                // Update prev button
+                if (pageNumber === 1) {
+                    prevButton.style.opacity = '0.5';
+                    prevButton.style.pointerEvents = 'none';
+                } else {
+                    prevButton.style.opacity = '1';
+                    prevButton.style.pointerEvents = 'auto';
+                }
+                
+                // Update next button
+                if (pageNumber === totalPages) {
+                    nextButton.style.opacity = '0.5';
+                    nextButton.style.pointerEvents = 'none';
+                } else {
+                    nextButton.style.opacity = '1';
+                    nextButton.style.pointerEvents = 'auto';
+                }
+            }
+            
+            // Event listeners for page numbers
+            document.querySelectorAll('.pagination .page-link[data-page]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageNumber = parseInt(this.getAttribute('data-page'));
+                    if (pageNumber !== currentPage) {
+                        currentPage = pageNumber;
+                        showPage(currentPage);
+                    }
+                });
+            });
+            
+            // Event listener for previous button
+            document.getElementById('prev-page').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    showPage(currentPage);
+                }
+            });
+            
+            // Event listener for next button
+            document.getElementById('next-page').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    showPage(currentPage);
+                }
+            });
+            
+            // Initialize first page
+            showPage(1);
+        });
+    </script>
+
     </main>
     {% endblock %}
 </body>
