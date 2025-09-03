@@ -1,3 +1,9 @@
+/* Line Seed Sans Font Configuration - Local Files */
+
+/* Global font family for buttons */
+* {
+    font-family: 'Line Seed Sans', sans-serif !important;
+}
 
 button{
     display: flex;
@@ -9,7 +15,15 @@ button{
     /* 0FA7DD */
     background: #0FA7DD;
     border-radius: 4px;
+    font-family: 'Line Seed Sans', sans-serif !important;
+    font-weight: 500 !important;
 }
 button:hover{
     background: #a4b4ba;
+}
+
+/* Contact box styling */
+.contact-box {
+    font-family: 'Line Seed Sans', sans-serif !important;
+    font-weight: 500 !important;
 }

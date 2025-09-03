@@ -1,0 +1,104 @@
+/* Line Seed Sans Font Configuration - Local Files */
+
+/* Font Face Declarations */
+@font-face {
+    font-family: 'Line Seed Sans';
+    font-style: normal;
+    font-weight: 100;
+    src: url('../font/WOFF2/LINESeedSansTH_W_Th.woff2') format('woff2'),
+         url('../font/WOFF/LINESeedSansTH_W_Th.woff') format('woff');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Line Seed Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../font/WOFF2/LINESeedSansTH_W_Rg.woff2') format('woff2'),
+         url('../font/WOFF/LINESeedSansTH_W_Rg.woff') format('woff');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Line Seed Sans';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../font/WOFF2/LINESeedSansTH_W_He.woff2') format('woff2'),
+         url('../font/WOFF/LINESeedSansTH_W_He.woff') format('woff');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Line Seed Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../font/WOFF2/LINESeedSansTH_W_Bd.woff2') format('woff2'),
+         url('../font/WOFF/LINESeedSansTH_W_Bd.woff') format('woff');
+    font-display: swap;
+}
+
+/* Global font family for entire website */
+* {
+    font-family: 'Line Seed Sans', sans-serif !important;
+}
+
+html, body {
+    font-family: 'Line Seed Sans', sans-serif !important;
+}
+
+/* Specific font weights for different elements */
+h1, h2, h3, .mute-main-title, .company-title, .contact-title, .price, .actual-price, .display-4, .fw-bold {
+    font-weight: 700 !important; /* Bold */
+}
+
+h4, h5, h6, .mute-subtitle, .services-title, .service-card-title, .product-category, .product-brand {
+    font-weight: 600 !important; /* Semibold */
+}
+
+.menu-bar, .menu-responsive, .section-title, .headder_bar_text, .contact-box {
+    font-weight: 400 !important; /* Regular */
+}
+
+p, .mute-text, .service-list, .address-text, .contact-value, .product-short-description {
+    font-weight: 400 !important; /* Regular */
+}
+
+.dropdown-content a, .contact-label {
+    font-weight: 400 !important; /* Regular */
+}
+
+.bts-info {
+    font-weight: 100 !important; /* Thin */
+}
+
+/* Bootstrap components override */
+.btn, .btn *,
+.form-control, .form-control *,
+.alert, .alert *,
+.card, .card *,
+.nav, .nav *,
+.navbar, .navbar *,
+.pagination, .pagination *,
+.modal, .modal *,
+.tooltip, .tooltip *,
+.popover, .popover *,
+.container, .container *,
+.row, .row *,
+.col, .col *, .col-md-*, .col-md-* * {
+    font-family: 'Line Seed Sans', sans-serif !important;
+}
+
+/* Debug: Add visible indicator that fonts.css is loaded */
+body::before {
+    content: 'Line Seed Sans Font Loaded (Local)';
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: #791B21;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    z-index: 9999;
+    opacity: 0.8;
+} 
