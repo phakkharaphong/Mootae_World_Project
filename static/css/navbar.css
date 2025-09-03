@@ -137,6 +137,7 @@
     transition: 20s;
 }
 
+/*========== Footer bar =========*/
 .footer_tab{
     display:flex;
     position:static;
@@ -146,6 +147,18 @@
     bottom: 0;
     margin: 0 auto;
 }
+
+.footer-fram-logo-medie{
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+.footer-fram-logo-medie img{
+  margin-right: 16px;
+  width: 3.375rem;
+}
+
+
 
 .dropdown-content {
   display: none;
@@ -365,3 +378,5 @@
   grid-column: span 2;
   margin-bottom: 10px;
 }
+
+

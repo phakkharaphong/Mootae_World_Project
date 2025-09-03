@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .container {
+  display: flex;
+  justify-content: space-between;
+  /* ไม่ให้ขึ้นบรรทัดใหม่ */
+  flex-wrap: nowrap;
+
+  /* ซ่อนส่วนที่เกิน และให้เลื่อนแนวนอน */
+  overflow-x: auto; 
+  overflow-y: hidden; 
+
+  /* กัน scrollbar ทับเนื้อหา */
+  -webkit-overflow-scrolling: touch; /* smooth scroll บนมือถือ */
+  scrollbar-width: thin; /* ปรับ scrollbar Firefox */
+}
+
+</style>
+<body>
+    <div class="container" style="border: 1px solid black; padding: 10px; max-width: 400px;">
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        <div style="background: lightblue; width: 150px; height: 50px; margin: 5px;">Box 1</div>
+        <div style="background: lightgreen; width: 150px; height: 50px; margin: 5px;">Box 2</div>
+        <div style="background: lightcoral; width: 150px; height: 50px; margin: 5px;">Box 3</div>
+        <div style="background: lightpink; width: 150px; height: 50px; margin: 5px;">Box 4</div>
+        <div style="background: lightyellow; width: 150px; height: 50px; margin: 5px;">Box 5</div>
+        
+    </div>
+</body>
+</html>

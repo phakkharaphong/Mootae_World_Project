@@ -363,6 +363,200 @@ html{
   margin-top: 50px;
 
 }
+
+/*article-block*/
+/*.frame-article-block{
+  display: flex;           
+  align-items: flex-start; 
+  gap: 0;               
+  width: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  padding: 6px 16px;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.frame-article-block-conten{
+  display: flex;
+  text-align: center;
+  padding: 6px 16px;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width:30%;
+  margin: 0 auto;
+}
+
+.article-block-1{
+  display: block;
+  flex: 1;
+  height: 100%;
+  width: auto;
+}
+.article-block-1 img{
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+}
+.article-block-2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;   
+  padding-left: 20px;
+  height: 50%;
+  align-items: flex-start;  
+  margin-top: 20px;
+}
+
+.article-block-2 a{
+  text-decoration: none;
+  color: rgb(85, 85, 85);
+  font-size: clamp(12px, 2vw, 16px);
+}
+.profile {
+  display: flex;
+  align-items: center;     
+}
+
+.user-img-profile img {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
+
+.user-name-profile {
+  padding-left: 10px;
+}
+
+.article-category {
+  margin-top: 8px;          
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.article-title{
+  margin-top: 8px;    
+  text-align: start;
+  align-items: center;
+}
+.article-conten{
+  text-align: start;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.user-name-profile:hover a{
+  color: #b8b2b2;
+}
+.article-category:hover a{
+  color: #b8b2b2;
+}
+.article-title:hover a{
+  color: #b8b2b2;
+}
+.article-conten:hover a{
+  color: #b8b2b2;
+}*/
+
+.section-article-block{
+  display: flex;
+  justify-content: space-between;
+  /* ไม่ให้ขึ้นบรรทัดใหม่ */
+  flex-wrap: nowrap;
+
+  /* ซ่อนส่วนที่เกิน และให้เลื่อนแนวนอน */
+  overflow-x: auto; 
+  overflow-y: hidden; 
+
+  /* กัน scrollbar ทับเนื้อหา */
+  -webkit-overflow-scrolling: touch; /* smooth scroll บนมือถือ */
+  scrollbar-width: thin; /* ปรับ scrollbar Firefox */
+  margin-left: 100px;
+  margin-right: 100px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.frame-article-block{
+  display: flex;
+  margin-left: 20px;
+  width: 184px;
+  height: 403px;
+}
+/*frame-article-slde"*/
+.frame-article-slde{
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+  
+  
+}
+.article-img-slide{
+  background-color: #ffffff;
+  margin-left: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 11.625rem;
+  max-height: 403px;
+}
+.article-img-slide img{
+  max-width: 11.625rem;
+  max-height: 11.625rem;
+
+}
+.article-conten-title{
+  display: flex;
+  flex: 2;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 16px;
+}
+.text-detail-article{
+  display: flex;
+  text-align: start;
+  padding-left: 16px;
+  padding-right: 16px;
+  justify-content: space-between;
+  padding-bottom: 25px;
+  color: rgb(48, 49, 49);
+  
+}
+.text-detail-article:hover{
+  color: rgb(139, 66, 54);
+}
+.article-img-slide h2:hover{
+  color: rgb(139, 66, 54);
+}
+.article-img-slide h2{
+  color: #000000;
+  text-align: start;
+  font-size: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 20px;
+  white-space: nowrap;     
+  overflow: hidden;        
+  text-overflow: ellipsis;
+  font-family:'mitr', 'sans-serif';
+}
+.article-img-slide span{
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 14px;
+}
+
+.title-aricle{
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;     /* จำนวนบรรทัดที่ต้องการ */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @media (max-width: 768px) {
   .lucky-wallpaper-section {
     flex-direction: column;
