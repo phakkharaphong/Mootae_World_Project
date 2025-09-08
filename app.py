@@ -23,6 +23,10 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 def homepage():
     return render_template("homepage.html")
 
+@app.route("/1st-collection")
+def onest_collectionpage():
+    return render_template("/purchase_list/st_collection_from.html")
+
 @app.route("/about")
 def aboutpage():
     return render_template("about.html")
@@ -93,8 +97,16 @@ def read():
     
 @app.route("/menu_layout")
 def layout_menu():
-    return render_template("/component_menu/layout_menu.html")
+    return render_template("component/component_menu/layout_menu.html")
 
+
+@app.route("/test_purchase")
+def layout_from_purchase():
+    return render_template("test_html/test_purchase.html")
+
+@app.route("/test_userform")
+def layout_user_form():
+    return render_template("test_html/test_userform.html")
 #------------------ Funtion Method -------------------
 def g_case_of_day(_day):
     switch={

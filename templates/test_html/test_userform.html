@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="{{ url_for ('static', filename='css/fonts.css') }}" >
+  <link rel="stylesheet" href="{{ url_for ('static', filename='css/user_form.css') }}" >
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สั่งซื้อ Customize Wallpaper</title>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="/static/img/logo/mootaeworld-logo.svg" alt="Logo">
+      <h2>สั่งซื้อ Customize Wallpaper</h2>
+      <p style="font-size:13px;color:#666;">เพื่อการซื้อที่ตรงใจมากขึ้น กรุณากรอกข้อมูลเพิ่มเติม</p>
+    </div>
+
+    <form class="form_user">
+        <span style="margin-top: 20px;">ข้อมูลส่วนตัว</spn>
+      <div class="form-group">
+        <label>ชื่อ*</label>
+        <input type="text" placeholder="กรุณากรอกชื่อ" required>
+      </div>
+
+      <div class="form-group">
+        <label>นามสกุล*</label>
+        <input type="text" placeholder="กรุณากรอกนามสกุล" required>
+      </div>
+
+      <div class="form-inline">
+        <div class="form-group">
+          <input type="date" name="carenda" id="carenda">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>เวลาเกิด*</label>
+        <select required>
+          <option value="">-- เลือกเวลาเกิด --</option>
+          <option>เช้า</option>
+          <option>บ่าย</option>
+          <option>กลางคืน</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>เพศ*</label>
+        <input type="text" placeholder="กรุณาเลือกเพศ" required>
+      </div>
+
+      <div class="form-group">
+        <label>คุณสมบัติที่ต้องการเพิ่มเติม*</label>
+        <input type="text" placeholder="กรุณาอธิบายสิ่งที่ต้องการ" required>
+      </div>
+
+      <div class="form-group">
+        <label>เบอร์โทรศัพท์*</label>
+        <input type="tel" placeholder="กรุณากรอกเบอร์โทรศัพท์" required>
+      </div>
+
+      <div class="form-group">
+        <label>อีเมล*</label>
+        <input type="email" placeholder="กรุณากรอกอีเมล" required>
+      </div>
+
+      <div class="form-group">
+        <label>หมายเหตุ (ถ้ามี)</label>
+        <textarea placeholder="โปรดระบุ..."></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <label><input type="checkbox"> ฉันยินยอมรับข้อมูลข่าวสาร (Newsletter)</label>
+        <label><input type="checkbox" required> ฉันยินยอมรับ ข้อกำหนดและเงื่อนไขการใช้งาน</label>
+      </div>
+
+      <button type="submit" class="submit-btn">บันทึกข้อมูล</button>
+    </form>
+  </div>
+</body>
+</html>
