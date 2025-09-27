@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Footer Icon Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-2xl p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">ข้อมูล Footer Icon</h2>
+
+    <!-- Controls -->
+    <div class="flex flex-wrap items-center gap-4 mb-6">
+      <label class="flex items-center gap-2">
+        <span class="font-medium text-gray-700">Page:</span>
+        <input type="number" id="pageInput" value="1" min="1" 
+          class="w-24 px-3 py-2 border rounded-lg focus:ring focus:ring-blue-300">
+      </label>
+      <label class="flex items-center gap-2">
+        <span class="font-medium text-gray-700">Limit:</span>
+        <input type="number" id="limitInput" value="10" min="1"
+          class="w-24 px-3 py-2 border rounded-lg focus:ring focus:ring-blue-300">
+      </label>
+      <button onclick="loadData()"
+        class="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+        โหลดข้อมูล
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-left">
+        <thead>
+          <tr class="bg-gray-200 text-gray-700">
+            <th class="p-3">ID</th>
+            <th class="p-3">Title</th>
+            <th class="p-3">Icon</th>
+            <th class="p-3">Link</th>
+            <th class="p-3">Active</th>
+            <th class="p-3">Created By</th>
+            <th class="p-3">Updated By</th>
+          </tr>
+        </thead>
+        <tbody id="footerTable" class="divide-y divide-gray-200"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    async function loadData() {
+      const page = document.getElementById("pageInput").value || 1;
+      const limit = document.getElementById("limitInput").value || 10;
+
+      try {
+        const res = await fetch(`http://127.0.0.1:8000/footericonpage/?page=${page}&limit=${limit}`);
+        const json = await res.json();
+
+        const tbody = document.getElementById("footerTable");
+        tbody.innerHTML = "";
+
+        json.data.forEach(item => {
+          const tr = document.createElement("tr");
+          tr.className = "hover:bg-gray-50 transition";
+          tr.innerHTML = `
+            <td class="p-3 text-sm text-gray-600">${item.id}</td>
+            <td class="p-3 font-medium text-gray-800">${item.title}</td>
+            <td class="p-3"><img src="${item.icon_img}" class="w-10 h-10 object-contain rounded-md border"></td>
+            <td class="p-3 text-blue-600 underline"><a href="https://${item.link_ref}" target="_blank">${item.link_ref}</a></td>
+            <td class="p-3 text-center">${item.is_active ? "✅" : "❌"}</td>
+            <td class="p-3">${item.created_by}</td>
+            <td class="p-3">${item.updated_by}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Fetch error:", err);
+      }
+    }
+
+    // โหลดข้อมูลครั้งแรก
+    loadData();
+  </script>
+</body>
+</html>

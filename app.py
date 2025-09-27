@@ -107,6 +107,10 @@ def layout_from_purchase():
 @app.route("/test_userform")
 def layout_user_form():
     return render_template("test_html/test_userform.html")
+
+@app.route("/test_api")
+def layout_api():
+    return render_template("test_html/testtest_api.html")
 #------------------ Funtion Method -------------------
 def g_case_of_day(_day):
     switch={
