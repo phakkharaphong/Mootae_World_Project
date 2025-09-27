@@ -99,6 +99,13 @@ def read():
 def layout_menu():
     return render_template("component/component_menu/layout_menu.html")
 
+@app.route("/blog/categorise")
+def page_blog():
+    return render_template("blog/blog_all.html")
+
+
+#============== Test File ===========================
+
 
 @app.route("/test_purchase")
 def layout_from_purchase():

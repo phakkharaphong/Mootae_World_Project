@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for ('static', filename='css/blog/blogmain.css') }}" >
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body>
+     <header>
+         {% extends "component/component_menu/layout_menu.html"%}
+    </header>
+    <main>
+        {% block content %}
+        <div class="container">
+            <div class="frame-menu">
+                <div class="flex flex-wrap  gap-4">
+                    <a href="#" style="margin-left: 0.625rem; text-decoration: none;" class="list-categories">ทั้งหมด</a>
+                    <a href="#" style="margin-left: 0.625rem; text-decoration: none;" class="list-categories">ดูดวง</a>
+                    <a href="#" style="margin-left: 0.625rem; text-decoration: none;" class="list-categories">การเสริมดวง</a>
+                    <a href="#" style="margin-left: 0.625rem; text-decoration: none;" class="list-categories">รวมวันไหว้ / ฤกษ์ดี</a>
+                    <a href="#" style="margin-left: 0.625rem; text-decoration: none;" class="list-categories">บทสวด/คาถา</a>
+                    <a href="#" style="margin-left: 0.625rem; text-decoration: none;" class="list-categories">ข่าวสาร/กิจกรรม</a>
+                </div>
+            </div>
+
+             <!-- Content -->
+            <div class="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-6">
+
+                <!-- Card 1 -->
+                <div class="bg-white shadow rounded-lg overflow-hidden">
+                <img src="/static/img/logo/new1.jpg" alt="image" class="w-full h-52 object-cover">
+                <div class="p-4">
+                    <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+                    <span>26 ส.ค.</span>
+                    <span class="cursor-pointer">⋮</span>
+                    </div>
+                    <p class="text-red-500 text-xs mb-1">ดูดวง</p>
+                    <h2 class="font-bold text-lg leading-snug">ดาวเสาร์ถอยหลัง 23 สิงหาคม 68 12 ราศีต้องเจออะไรบ้าง</h2>
+                    <p class="text-sm text-gray-600 mt-2">ดาวเสาร์ถอยหลัง 23 สิงหาคม 68 จนมาอยู่ที่ราศีกุมภ์อีกครั้ง ต้องระวังกันหลายเรื่องหน่อย เพราะดาวเสาร์..</p>
+                    <div class="flex items-center space-x-4 mt-3 text-gray-500 text-sm">
+                    <div class="flex items-center space-x-1"><i data-feather="eye"></i><span>33</span></div>
+                    <div class="flex items-center space-x-1"><i data-feather="message-circle"></i><span>0</span></div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white shadow rounded-lg overflow-hidden">
+                <img src="/static/img/logo/new2.jpg" alt="image" class="w-full h-52 object-cover">
+                <div class="p-4">
+                    <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+                    <span>17 มิ.ย. 2567</span>
+                    <span class="cursor-pointer">⋮</span>
+                    </div>
+                    <p class="text-red-500 text-xs mb-1">ดูดวง</p>
+                    <h2 class="font-bold text-lg leading-snug">หน้าไพ่ไม่ดี ไม่ได้แปลว่าความหมายจะไม่ดีเสมอไป</h2>
+                    <p class="text-sm text-gray-600 mt-2">วันนี้มึเดอะแฮงแมน ไพ่ 4 ใบนี้ ที่ต่างคนถามนักถามมหาว่าใบนี้แปลว่าไม่ดีแล้วใช้ทำไม หรือก้าวออกมาเป็นไพ่พวกนี้ต้องกลัว..</p>
+                    <div class="flex items-center space-x-4 mt-3 text-gray-500 text-sm">
+                    <div class="flex items-center space-x-1"><i data-feather="eye"></i><span>79</span></div>
+                    <div class="flex items-center space-x-1"><i data-feather="message-circle"></i><span>0</span></div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white shadow rounded-lg overflow-hidden">
+                    <img src="/static/img/logo/new3.jpg" alt="image" class="w-full h-52 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+                        <span>5 มิ.ย. 2567</span>
+                        <span class="cursor-pointer">⋮</span>
+                        </div>
+                        <p class="text-red-500 text-xs mb-1">ดูดวง</p>
+                        <h2 class="font-bold text-lg leading-snug">ทายทักดวงกลางปี 2567 แต่ละราศีจะเป็นอย่างไร</h2>
+                        <p class="text-sm text-gray-600 mt-2">ทายทักดวงกลางปี แต่ละราศีจะมีชีวิตต่อไปเป็นยังไงกัน ใครจะคิดว่าตอนนี้เราเดินทางมากึ่งครึ่งปีแล้วเวลาก็มา..</p>
+                        <div class="flex items-center space-x-4 mt-3 text-gray-500 text-sm">
+                        <div class="flex items-center space-x-1"><i data-feather="eye"></i><span>11</span></div>
+                        <div class="flex items-center space-x-1"><i data-feather="message-circle"></i><span>0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white shadow rounded-lg overflow-hidden">
+                    <img src="/static/img/logo/new3.jpg" alt="image" class="w-full h-52 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+                            <span>5 มิ.ย. 2567</span>
+                            <span class="cursor-pointer">⋮</span>
+                        </div>
+                        <p class="text-red-500 text-xs mb-1">ดูดวง</p>
+                        <h2 class="font-bold text-lg leading-snug">ทายทักดวงกลางปี 2567 แต่ละราศีจะเป็นอย่างไร</h2>
+                        <p class="text-sm text-gray-600 mt-2">ทายทักดวงกลางปี แต่ละราศีจะมีชีวิตต่อไปเป็นยังไงกัน ใครจะคิดว่าตอนนี้เราเดินทางมากึ่งครึ่งปีแล้วเวลาก็มา..</p>
+                        <div class="flex items-center space-x-4 mt-3 text-gray-500 text-sm">
+                            <div class="flex items-center space-x-1">
+                                <i data-feather="eye"></i><span>11</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i data-feather="message-circle"></i><span>0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+
+            </div>
+            <div class="flex justify-center py-10">
+                <button id="nextPageBtn" 
+                class="px-6 py-1 bg-red-500 text-white font-medium rounded-lg shadow hover:bg-red-600 transition">
+                หน้าถัดไป
+                </button>
+            </div>  
+        </div>
+        {% endblock %}
+    </main>
+    
+</body>
+</html>

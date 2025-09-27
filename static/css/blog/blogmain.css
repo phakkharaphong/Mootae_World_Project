@@ -1,0 +1,44 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 70%;
+    height: 100%;
+    padding-top: 50px;
+    margin-left: 10% auto;
+    background-color: rgb(255, 255, 255);
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.frame-menu{
+    display: flex;              /* เรียงแนวนอน */
+    flex-wrap: wrap;            /* ถ้าจอเล็กตัดบรรทัด */
+    gap: 12px;                  /* เว้นระยะห่าง */
+    margin-left: 24px;
+    list-style: none;           /* ตัด bullet */
+    padding: 0;
+}
+
+.list-categories{
+  display: flex;
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  border-radius: 6px;
+  font-size: clamp(7px, 2vw, 16px);
+}
+
+/*.list-categories a:hover {
+  color: white;
+  background: rgb(191, 189, 189);
+}
+.list-categories{
+    color: black;
+    font-size: 16px;
+}*/
+
+.flex a:hover {
+    color: rgb(147, 23, 32);
+}
+
