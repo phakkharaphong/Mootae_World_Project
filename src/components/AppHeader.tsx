@@ -30,7 +30,7 @@ export function NavigationMenuDemo() {
             <NavigationMenuLink href="/Home">หน้าแรก</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/about">สำหรับองค์กร</NavigationMenuLink>
+            <NavigationMenuLink href="/About">สำหรับองค์กร</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuLink href="/article">บทความ</NavigationMenuLink>
