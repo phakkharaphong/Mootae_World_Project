@@ -1,6 +1,7 @@
 'use client';
 import { NavigationMenuDemo } from '@/components/AppHeader';
 import { FooterBar } from '@/components/Footer';
+import SliderSection from '@/components/SliderSection';
 import Image from 'next/image';
 
 export default function About() {
@@ -32,6 +33,9 @@ export default function About() {
         </div>
       </div>
       <div className="flex h-96 w-full justify-center bg-[url(/images/bannerAb.avif)] bg-cover bg-center"></div>
+      <SliderSection>
+        
+      </SliderSection>
       <FooterBar></FooterBar>
     </>
   );

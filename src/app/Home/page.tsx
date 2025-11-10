@@ -24,7 +24,10 @@ export default function Home() {
     <div>
       <NavigationMenuDemo></NavigationMenuDemo>
       <div className="flex w-full items-center justify-center">
-        <SliderSection></SliderSection>
+        <SliderSection
+          bgColor="bg-green-100"
+          items={["/images/No_Image_Available.jpg", "/images/tarot-banner.jpg"]}
+        ></SliderSection>
       </div>
 
       <div className="flex justify-center p-8">

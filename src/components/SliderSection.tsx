@@ -9,13 +9,20 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from './ui/carousel';
+import Image from 'next/image';
 
-export default function SliderSection() {
+export default function SliderSection({
+  bgColor = 'bg-amber-50',
+  items = [],
+}: {
+  bgColor?: string;
+  items?: string[];
+}) {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true }),
   );
   return (
-    <section className="w-screen overflow-hidden bg-amber-50 py-8">
+    <section className={`w-450 overflow-hidden ${bgColor}`}>
       {/* w-screen = เต็มจอแนวนอน, overflow-hidden ป้องกัน scrollbar */}
       <Carousel
         plugins={[plugin.current]}
@@ -24,7 +31,23 @@ export default function SliderSection() {
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
-          {Array.from({ length: 10 }).map((_, index) => (
+          {items.map((item, index) => (
+            <CarouselItem key={index}>
+              <div className="p-2">
+                <Card className="h-100 p-0">
+                  <CardContent className="relative h-100 items-center justify-center">
+                    <Image
+                      src={item}
+                      alt="test"
+                      fill
+                      className="rounded-t-lg"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))}
+          {/* {Array.from({ length: 10 }).map((_, index) => (
             <CarouselItem
               key={index}
               className="xl:basis-1/1"
@@ -37,7 +60,7 @@ export default function SliderSection() {
                 </Card>
               </div>
             </CarouselItem>
-          ))}
+          ))} */}
         </CarouselContent>
         <CarouselPrevious className="hidden md:flex" />
         <CarouselNext className="hidden md:flex" />
