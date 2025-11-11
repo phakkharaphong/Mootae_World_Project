@@ -2,6 +2,7 @@
 import { NavigationMenuDemo } from '@/components/AppHeader';
 import { FooterBar } from '@/components/Footer';
 import SliderSection from '@/components/SliderSection';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 export default function About() {
@@ -33,9 +34,43 @@ export default function About() {
         </div>
       </div>
       <div className="flex h-96 w-full justify-center bg-[url(/images/bannerAb.avif)] bg-cover bg-center"></div>
-      <SliderSection>
-        
-      </SliderSection>
+      <SliderSection></SliderSection>
+
+      <div className="flex items-center justify-center p-3">
+        <div className="grid gap-4 xl:grid-cols-1">
+          {Array.from({ length: 1 }).map((_, index) => (
+            <div
+              className="flex w-5/5 items-center overflow-hidden rounded-lg bg-white shadow-md"
+              key={index}
+            >
+              {/* ข้อความด้านขวา */}
+              <div className="flex flex-col p-10">
+                <h5 className="text-primary mb-1 text-xl font-bold">
+                  บริษัท มูเตเวิลด์ จำกัด
+                </h5>
+                <h6 className="mb-1 text-lg text-gray-600">Subtitle</h6>
+                <p className="line-clamp-3 text-gray-700">
+                  ที่อยู่ 51/6 ถนน รามอินทรา แขวง คันนายาว เขต คันนายาว กรุงเทพ
+                  ฯ 10230 (สถานีรถไฟฟ้า กม.6)
+                </p>
+              </div>
+              <div className="flex flex-col items-center p-15">
+                <h5 className="text-primary mb-5 text-xl font-bold">
+                  สนใจติดต่องาน
+                </h5>
+                <h6 className="text-primary mb-5 text-xl font-bold">E-mail</h6>
+                <h6 className="mb-1 text-lg text-gray-600">
+                  phakkharaphong.c@kkumail.com
+                </h6>
+                 <h6 className="text-primary mb-5 text-xl font-bold">Tel</h6>
+                <h6 className="mb-1 text-lg text-gray-600">
+                  0994701286
+                </h6>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
       <FooterBar></FooterBar>
     </>
   );

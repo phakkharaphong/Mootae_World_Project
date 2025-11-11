@@ -1,15 +1,12 @@
-"use client"
+'use client';
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+} from '@/components/ui/navigation-menu';
 import Image from 'next/image';
-import Link from 'next/link';
-import * as React from "react"
+import * as React from 'react';
 
 export function NavigationMenuDemo() {
   return (
@@ -36,11 +33,23 @@ export function NavigationMenuDemo() {
             <NavigationMenuLink href="/article">บทความ</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/order">
+            <NavigationMenuLink href="/Ordertracking">
               ตรวจสอบการสั่งซื้อ
             </NavigationMenuLink>
           </NavigationMenuItem>
-          <NavigationMenuItem className="hidden md:block">
+
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/Wallpaper">
+              รายการวอลเปเปอร์
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/Wallpaper/form">
+              แบบฟอร์มสั่งซื้อ
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
+          {/* <NavigationMenuItem className="hidden md:block">
             <NavigationMenuTrigger>List</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[300px] gap-4">
@@ -72,7 +81,7 @@ export function NavigationMenuDemo() {
                 </li>
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
         </NavigationMenuList>
       </NavigationMenu>
     </div>
