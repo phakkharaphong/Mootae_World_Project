@@ -30,7 +30,7 @@ export default function FormCreateWallpaper() {
               <h2 className="p-1">คอลเลคชันวอลเปเปอร์ที่คุณลูกค้าสั่งซื้อ</h2>
             </div>
             <FieldGroup>
-              <Field>
+              {/* <Field>
                 <FieldLabel htmlFor="checkout-7j9-card-name-43j">
                   ชื่อจริงของท่าน
                 </FieldLabel>
@@ -49,9 +49,25 @@ export default function FormCreateWallpaper() {
                   placeholder="นามสกุล"
                   required
                 />
-              </Field>
+              </Field> */}
 
               <Field>
+                <FieldLabel htmlFor="checkout-7j9-card-name-43j">
+                  ชื่อจริงของท่าน
+                </FieldLabel>
+                <Input
+                  id="checkout-7j9-card-name-43j"
+                  placeholder="ชื่อจริง"
+                  required
+                />
+                <FieldLabel htmlFor="checkout-7j9-card-name-43j">
+                  นามสกุลของท่าน
+                </FieldLabel>
+                <Input
+                  id="checkout-7j9-card-name-43j"
+                  placeholder="นามสกุล"
+                  required
+                />
                 <FieldLabel htmlFor="checkout-7j9-card-name-43j">
                   อีเมล
                 </FieldLabel>
@@ -76,16 +92,14 @@ export default function FormCreateWallpaper() {
                 <Textarea
                   id="checkout-7j9-card-name-43j"
                   placeholder="กรอกรายละเอียด..."
-             
                   required
                 />
-                  <FieldLabel htmlFor="checkout-7j9-card-name-43j">
+                <FieldLabel htmlFor="checkout-7j9-card-name-43j">
                   หมายเหตุ
                 </FieldLabel>
                 <Textarea
                   id="checkout-7j9-card-name-43j"
                   placeholder="กรอกรายละเอียด..."
-             
                   required
                 />
               </Field>

@@ -31,9 +31,9 @@ export function Cardarticle({ response = [] }: { response?: Articleblog[] }) {
                   {item.title}
                 </h5>
 
-                <p className="mb-4 line-clamp-3 text-gray-700 dark:text-gray-300">
+                {/* <p className="mb-4 line-clamp-3 text-gray-700 dark:text-gray-300">
                   {item.conten}
-                </p>
+                </p> */}
 
                 {/* Date */}
                 <div className="mb-4 flex items-center space-x-2 text-sm text-gray-500">
