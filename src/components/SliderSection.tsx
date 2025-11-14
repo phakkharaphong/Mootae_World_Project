@@ -12,7 +12,7 @@ import {
 import Image from 'next/image';
 
 export default function SliderSection({
-  bgColor = 'bg-amber-50',
+  bgColor = 'bg-white',
   items = [],
 }: {
   bgColor?: string;

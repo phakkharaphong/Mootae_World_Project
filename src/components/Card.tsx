@@ -4,15 +4,17 @@ import { Calendar, View } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
+import PaginationControls from './PaginationControls';
 export function Cardarticle({ response = [] }: { response?: Articleblog[] }) {
   const router = useRouter();
+  
   return (
     <>
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {response?.map((item) => (
             <div
-              className="flex flex-col overflow-hidden rounded-xl bg-white shadow-md transition hover:shadow-lg dark:bg-slate-800"
+              className="rounded-lg bg-white p-4 shadow-md transition-transform duration-300 ease-out hover:scale-105 hover:shadow-xl"
               key={item.id}
             >
               {/* Image */}
@@ -50,7 +52,7 @@ export function Cardarticle({ response = [] }: { response?: Articleblog[] }) {
 
                 {/* Button */}
                 <Button
-                  className="mt-auto w-full"
+                  className="mt-auto w-full bg-blue-950 hover:bg-blue-600"
                   onClick={() => router.push(`/article/${item.id}`)}
                 >
                   ดูรายละเอียด
@@ -58,6 +60,7 @@ export function Cardarticle({ response = [] }: { response?: Articleblog[] }) {
               </div>
             </div>
           ))}
+         
         </div>
       </div>
     </>
