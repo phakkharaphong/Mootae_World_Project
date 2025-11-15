@@ -1,5 +1,7 @@
 'use client';
 
+import { NavigationMenuDemo } from '@/components/AppHeader';
+import { FooterBar } from '@/components/Footer';
 import { Form } from '@/components/Form';
 import { DynamicForm } from '@/components/Formtest';
 import {
@@ -21,7 +23,8 @@ import { Textarea } from '@/components/ui/textarea';
 export default function FormCreateWallpaper() {
   return (
     <>
-      <div className="flex w-full items-center justify-center bg-white">
+    <NavigationMenuDemo></NavigationMenuDemo>
+      <div className="flex w-full items-center justify-center bg-white p-5">
         <div className="mt-5 w-150">
           {/* <Form></Form> */}
           <DynamicForm>
@@ -171,6 +174,7 @@ export default function FormCreateWallpaper() {
           </DynamicForm>
         </div>
       </div>
+      <FooterBar />
     </>
   );
 }

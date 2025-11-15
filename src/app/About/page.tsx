@@ -22,7 +22,7 @@ export default function About() {
       <div className="relative flex h-[300px] w-full items-center justify-center bg-[url(/images/bannerhome.avif)] bg-cover bg-center sm:h-[420px]">
         <div className="flex flex-col items-center justify-center text-center bg-black/20 p-4 sm:bg-black/0">
           <h1 className="p-2 text-2xl font-bold text-blue-950  sm:text-4xl">
-            มูเตเวิร์ล Mootae World
+            มูเตเวิส Muteverse
           </h1>
           <span className="p-1 text-lg sm:text-2xl">
             ที่พึ่งทางดวงที่ไว้ใจได้เสมอ
@@ -49,7 +49,7 @@ export default function About() {
             
             <div className="w-full p-6 sm:w-1/2 sm:p-10">
               <h5 className="mb-2 text-xl font-bold text-primary">
-                บริษัท มูเตเวิลด์ จำกัด
+                บริษัท Muteverse
               </h5>
               <h6 className="mb-3 text-lg text-gray-600">Subtitle</h6>
               <p className="text-gray-700">

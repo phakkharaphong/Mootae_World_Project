@@ -32,11 +32,11 @@ export function NavigationMenuDemo() {
       {/* Logo */}
       <div className="flex w-full items-center justify-center bg-blue-950 py-2">
         <Image
-          src="/images/logoMootae world (NO CIRCLE).png"
+          src="/images/logo.png"
           width={84}
           height={83}
-          className="w-14 lg:w-20"
-          alt="mootae world logo"
+          className="w-40 lg:w-33 rounded-full"
+          alt="muteverse logo"
         />
       </div>
 
