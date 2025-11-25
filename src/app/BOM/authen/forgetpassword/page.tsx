@@ -45,7 +45,7 @@ export default function ForgetPassword() {
         </form>
       </div>
 
-      <FooterBar />
+      <FooterBar/>
     </>
   );
 }

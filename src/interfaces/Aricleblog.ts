@@ -16,3 +16,13 @@ export interface Articleblog{
     updated_by: string;
 
 }
+export interface createArticleblog{
+    title: string;
+    cover_img: string;
+    conten: string;
+    view: number;
+    like:number
+    article_categories_id: string;
+    is_active: boolean;
+
+}

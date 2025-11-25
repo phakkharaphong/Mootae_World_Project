@@ -23,7 +23,6 @@ import { Textarea } from '@/components/ui/textarea';
 export default function FormCreateWallpaper() {
   return (
     <>
-    <NavigationMenuDemo></NavigationMenuDemo>
       <div className="flex w-full items-center justify-center bg-white p-5">
         <div className="mt-5 w-150">
           {/* <Form></Form> */}
@@ -174,7 +173,7 @@ export default function FormCreateWallpaper() {
           </DynamicForm>
         </div>
       </div>
-      <FooterBar />
+      
     </>
   );
 }

@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ApiPaginatedResponse } from '@/interfaces/ResponseList';
@@ -16,7 +17,7 @@ export function FooterBar() {
   return (
     <>
       {/* Footer */}
-      <div className="flex h-20 w-full items-center justify-center bg-blue-950">
+      <div className="flex h-20 w-full items-center justify-center bg-primary">
         {response?.data.map((item) => (
           <div className="flex overflow-hidden rounded-lg p-5" key={item.id}>
             <div className="relative aspect-square h-[60px] w-[60px]">

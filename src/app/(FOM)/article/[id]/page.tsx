@@ -33,18 +33,18 @@ export default function ArticleblogDetail() {
   if (!item) {
     return (
       <>
-        <NavigationMenuDemo />
+        
         <div className="flex justify-center p-10 text-gray-500">
           ไม่พบบทความที่คุณต้องการ
         </div>
-        <FooterBar />
+        
       </>
     );
   }
 
   return (
     <>
-      <NavigationMenuDemo />
+      
 
       <div className="flex justify-center px-4 py-6 sm:px-6 lg:px-8">
         <Card className="w-full max-w-5xl rounded-xl shadow-md">
@@ -101,7 +101,7 @@ export default function ArticleblogDetail() {
         </Card>
       </div>
 
-      <FooterBar />
+      
     </>
   );
 }

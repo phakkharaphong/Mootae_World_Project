@@ -30,11 +30,11 @@ export function NavigationMenuDemo() {
   return (
     <div className={`w-full bg-amber-100 ${isSticky ? 'fixed top-0 left-0 z-50 shadow-md' : 'relative'} transition-all duration-200`}>
       {/* Logo */}
-      <div className="flex w-full items-center justify-center bg-blue-950 py-2">
+      <div className="flex w-full items-center justify-center bg-primary py-2">
         <Image
           src="/images/logo.png"
-          width={84}
-          height={83}
+          width={897}
+          height={812}
           className="w-40 lg:w-33 rounded-full"
           alt="muteverse logo"
         />

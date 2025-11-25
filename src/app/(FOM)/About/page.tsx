@@ -9,7 +9,6 @@ import Image from 'next/image';
 export default function About() {
   return (
     <>
-      <NavigationMenuDemo />
 
      
       <div className="flex h-28 w-full items-center bg-gray-50">
@@ -77,7 +76,6 @@ export default function About() {
         </div>
       </div>
 
-      <FooterBar />
     </>
   );
 }

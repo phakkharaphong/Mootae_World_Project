@@ -15,7 +15,7 @@ dayjs.locale('th');
 
 export function formatDateToBuddhistEra(
   dateString: string,
-  format: string,
+  format: string = 'DD MMMM BBBB',
 ): string {
   const date = dayjs(dateString);
   if (!date.isValid()) {

@@ -54,7 +54,6 @@ export default function Article() {
 
   return (
     <>
-      <NavigationMenuDemo></NavigationMenuDemo>
       <div className="p-5">
         <BreadcrumbWithCustomSeparator
           response={response?.data || []}
@@ -77,7 +76,7 @@ export default function Article() {
         />
       </div>
 
-      <FooterBar></FooterBar>
+      
     </>
   );
 }

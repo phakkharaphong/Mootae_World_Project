@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Prompt } from 'next/font/google';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'มูเตเวิร์ล Mootae World ที่พึ่งทางดวงที่ไว้ใจได้เสมอ',
@@ -22,7 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${prompt.className}`}>{children}</body>
+      <body className={`${prompt.className}`}>
+        {children}
+        <Toaster position='top-center' />
+      </body>
     </html>
   );
 }

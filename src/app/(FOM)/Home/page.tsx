@@ -8,7 +8,6 @@ import Image from 'next/image';
 export default function Home() {
   return (
     <div>
-      <NavigationMenuDemo></NavigationMenuDemo>
       <div className="flex w-full items-center justify-center">
         <SliderSection
           bgColor="bg-white"
@@ -132,7 +131,6 @@ export default function Home() {
         </div>
       </section>
 
-      <FooterBar />
     </div>
   );
 }

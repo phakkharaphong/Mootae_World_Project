@@ -28,11 +28,7 @@ export default function Tracking() {
   const [submittedEmail, setSubmittedEmail] = useState(''); // เก็บ email ที่ submit แล้ว
   const [error, setError] = useState('');
 
-  const {
-    pageIndex,
-    setPageIndex,
-    pageSize,
-  } = usePagination({
+  const { pageIndex, setPageIndex, pageSize } = usePagination({
     totalItems: 0,
     pageSize: 10,
     initialPage: 0,
@@ -45,14 +41,14 @@ export default function Tracking() {
       email: submittedEmail,
       page: pageIndex,
       limit: pageSize,
-    }
+    },
   );
 
   // เรียก fetchData ทุกครั้งที่ email submit หรือ pageIndex/pageSize เปลี่ยน
   useEffect(() => {
     if (!submittedEmail) return;
     fetchData().catch((error) => setError('เกิดข้อผิดพลาดในการดึงข้อมูล'));
-  }, [submittedEmail, pageIndex, pageSize]);
+  }, [submittedEmail, pageIndex, pageSize, fetchData]);
 
   const onSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -67,7 +63,8 @@ export default function Tracking() {
     {
       key: 'frist_name_customer',
       title: 'ชื่อ',
-      render: (item) => `${item.frist_name_customer} ${item.last_name_customer}`,
+      render: (item) =>
+        `${item.frist_name_customer} ${item.last_name_customer}`,
     },
     { key: 'email', title: 'Email' },
     { key: 'total_price', title: 'ยอดรวม' },
@@ -76,7 +73,7 @@ export default function Tracking() {
 
   return (
     <>
-      <NavigationMenuDemo />
+      
       <div className="mx-auto mt-8 mb-5 max-w-5xl rounded-xl bg-white p-6 shadow-md dark:bg-slate-800">
         <h2 className="mb-4 text-xl font-semibold text-black dark:text-white">
           ติดตามคำสั่งซื้อ
@@ -102,7 +99,7 @@ export default function Tracking() {
 
           <button
             type="submit"
-            className="mt-6 w-full rounded-lg bg-blue-950  py-2 font-medium text-white transition hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600"
+            className="mt-6 w-full rounded-lg bg-blue-950 py-2 font-medium text-white transition hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600"
           >
             {loading ? 'กำลังโหลด...' : 'ตรวจสอบการสั่งซื้อ'}
           </button>
@@ -119,7 +116,7 @@ export default function Tracking() {
           onPageChange={setPageIndex}
         />
       </div>
-      <FooterBar />
+      
     </>
   );
 }
