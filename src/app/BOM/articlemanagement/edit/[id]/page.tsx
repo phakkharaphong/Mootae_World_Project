@@ -30,30 +30,35 @@ export default function EditArticleBlog() {
       label: 'หัวข้อ',
       type: 'text',
       placeholder: 'กรุณากรอก หัวข้อ',
+      apiUrl: ''
     },
     {
       name: 'cover_img',
       label: 'ภาพหน้าปก 720 x 360',
       type: 'text',
       placeholder: '',
+      apiUrl: ''
     },
-    {
+  {
       name: 'article_categories_id',
       label: 'หมวดหมู่',
-      type: 'text',
+      type: 'Select',
       placeholder: 'กรุณาเลือกหมวดหมู่',
+      apiUrl: `http://127.0.0.1:8000/articlecategories/?page=${1}&limit=${10}`,
     },
     {
       name: 'is_active',
       label: 'สถานะการใช้งาน',
       type: 'Switch',
       placeholder: '',
+      apiUrl: ''
     },
     {
       name: 'conten',
       label: 'รายละเอียด',
       type: 'TextEditor',
       placeholder: 'เนื้อความ...',
+      apiUrl: ''
     },
   ];
 
@@ -69,7 +74,7 @@ export default function EditArticleBlog() {
     };
 
     try {
-      const result = await articleService.patch(payload);
+      const result = await articleService.patch(payload,id);
       toast.success('บันทึกข้อมูลสำเร็จ');
       router.push('/BOM/articlemanagement');
     } catch {

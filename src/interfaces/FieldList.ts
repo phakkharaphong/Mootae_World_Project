@@ -3,4 +3,5 @@ export interface FieldList {
   label: string;
   type: string;
   placeholder?: string;
+  apiUrl: string
 }

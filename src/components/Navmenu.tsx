@@ -50,7 +50,7 @@ export function NavigationMenu() {
           </Link>
 
           <Link
-            href="/BOM/articlemanagement"
+            href="/BOM/wallpaper"
             className="block rounded px-4 py-2 hover:bg-gray-700"
           >
             จัดการวอลเปเปอร์

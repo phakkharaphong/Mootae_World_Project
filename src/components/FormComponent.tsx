@@ -1,4 +1,5 @@
 'use client';
+
 import { FieldList } from '@/interfaces/FieldList';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -6,6 +7,15 @@ import { Label } from './ui/label';
 import { useEffect, useState } from 'react';
 import TextEditor from './TextEditor';
 import { Switch } from './ui/switch';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import { Articlecategories } from '@/interfaces/Articlecategories';
+import { ApiPaginatedResponse } from '@/interfaces/ResponseList';
 
 export function FormComponent<T>({
   fields,
@@ -17,23 +27,39 @@ export function FormComponent<T>({
   initialValues: T;
 }) {
   const [formData, setFormData] = useState<T>(initialValues);
+
+  const [selectOptions, setSelectOptions] =
+    useState<ApiPaginatedResponse<Articlecategories | null>>();
+
   useEffect(() => {
     setFormData(initialValues);
-    console.log('init 1', initialValues);
+    console.log('init', initialValues);
   }, [initialValues]);
- useEffect(() =>{
-  console.log('init',initialValues)
- }, [initialValues])
-  
+
+  // Generic handler for form field changes
   const handleChange = <K extends keyof T>(name: K, value: T[K]) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const renderField = (fields: FieldList) => {
-    const name = fields.name as keyof T;
-    console.log(name)
+  useEffect(() => {
+    fields.forEach((field) => {
+      if (field.type === 'Select' && field.apiUrl) {
+        const fetchData = async () => {
+          const res = await fetch(field.apiUrl);
+          const data = await res.json();
+          setSelectOptions(data);
+        };
+        fetchData();
+      }
+    });
+  }, [fields]);
+  useEffect(() => {
+    console.log(selectOptions);
+  }, [selectOptions]);
+  const renderField = (field: FieldList) => {
+    const name = field.name as keyof T;
 
-    switch (fields.type) {
+    switch (field.type) {
       case 'TextEditor':
         return (
           <TextEditor
@@ -41,23 +67,46 @@ export function FormComponent<T>({
             onChange={(value) => handleChange(name, value as T[keyof T])}
           />
         );
+
       case 'Switch':
         return (
           <Switch
-            id={fields.name}
+            id={field.name}
             checked={formData[name] === true}
             onCheckedChange={(checked) =>
               handleChange(name, checked as T[keyof T])
             }
           />
         );
+
+      case 'Select':
+        return (
+          <div className="grid grid-cols-3 gap-4">
+            <Select
+              value={formData[name] as string}
+              onValueChange={(value) => handleChange(name, value as T[keyof T])}
+            >
+              <SelectTrigger id={field.name}>
+                <SelectValue placeholder={field.placeholder || 'กรุณาเลือก'} />
+              </SelectTrigger>
+              <SelectContent>
+                {selectOptions?.data.map((item) => (
+                  <SelectItem value={String(item?.id)} key={item?.id}>
+                    {item?.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        );
+
       default:
         return (
           <Input
-            id={fields.name}
-            type={fields.type}
-            placeholder={fields.placeholder}
-            value={formData[name] as string || ''}
+            id={field.name}
+            type={field.type}
+            placeholder={field.placeholder}
+            value={(formData[name] as string) || ''}
             onChange={(e) => handleChange(name, e.target.value as T[keyof T])}
           />
         );
@@ -77,6 +126,7 @@ export function FormComponent<T>({
           {renderField(field)}
         </div>
       ))}
+
       <Button type="submit">Submit</Button>
     </form>
   );

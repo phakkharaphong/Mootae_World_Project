@@ -10,8 +10,8 @@ export const articleService = {
         const data = await res.json();
         return data;
     },
-    patch: async (dataform: createArticleblog) => {
-        const res = await api.patch<createArticleblog>('articleblog', {
+    patch: async (dataform: createArticleblog,id: string) => {
+        const res = await api.patch<createArticleblog>(`articleblog/${id}`, {
             json: dataform
         });
         const data = await res.json();
