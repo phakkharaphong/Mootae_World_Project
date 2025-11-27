@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { NavigationMenu } from '@/components/Navmenu';
+import { Images } from 'lucide-react';
 
 export default function DraggableLayerBox() {
   const [image, setImage] = useState<File[]>([]);
@@ -103,7 +104,7 @@ export default function DraggableLayerBox() {
         </div>
         <div className="mx-auto mt-10 max-w-2xl rounded-2xl border bg-white p-6 shadow-xl">
           <h1 className="mb-6 text-center text-2xl font-bold">
-            🖼️ สร้างรูปพร้อมข้อความ
+            <Images /> สร้างรูปพร้อมข้อความ
           </h1>
 
           <div className="space-y-4">

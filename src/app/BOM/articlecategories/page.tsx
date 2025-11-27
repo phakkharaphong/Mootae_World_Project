@@ -4,16 +4,16 @@ import { NavigationMenu } from '@/components/Navmenu';
 import { Column, TablePagination } from '@/components/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useGetAPI } from '@/hooks/use-api';
-import { Articleblog } from '@/interfaces/Aricleblog';
-import { ApiPaginatedResponse } from '@/interfaces/ResponseList';
+import { articleCatService } from '@/hooks/use-api-catearticleservice';
+import { Articlecategories } from '@/interfaces/Articlecategories';
 import { formatDateToBuddhistEra } from '@/utils/date-format';
 import { usePagination } from '@/utils/use-pagination';
+
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Articlelist() {
+export default function ArticleCategories() {
   const router = useRouter();
   const { pageIndex, setPageIndex, pageSize } = usePagination({
     totalItems: 0,
@@ -22,25 +22,32 @@ export default function Articlelist() {
     maxButtons: 5,
   });
 
-  const [articleblog, loading, fetchData] = useGetAPI<
-    ApiPaginatedResponse<Articleblog>
-  >('articleblog/', {
-    page: pageIndex,
-    limit: pageSize,
-  });
+  const [aricleCategories, setArticleCategories] = useState<
+    Articlecategories[] | null
+  >(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const data = await articleCatService.getAll(pageIndex, pageSize);
+      setArticleCategories(data);
+    };
     fetchData();
-  }, [fetchData, pageIndex, pageSize]);
+  }, [pageIndex, pageSize]);
 
-  const columns: Column<Articleblog>[] = [
-    // {
-    //   key: 'id',
-    //   title: 'รหัสคำสั่งซื้อ',
-    // },
+  const columns: Column<Articlecategories>[] = [
     {
-      key: 'title',
-      title: 'หัวข้อ',
+      key: 'name',
+      title: 'ชื่อหมวดหมู่',
+    },
+    {
+      key: 'is_active',
+      title: 'สถานะการใช้งาน',
+
+      render: ({ is_active }) => (
+        <Badge className={is_active ? 'bg-green-600' : 'bg-red-600'}>
+          {is_active ? 'ใช้งาน' : 'ปิดการใช้งาน'}
+        </Badge>
+      ),
     },
     {
       key: 'created_at',
@@ -50,13 +57,8 @@ export default function Articlelist() {
       },
     },
     {
-      key: 'is_active',
-      title: 'สถานะ',
-      render: ({ is_active }) => (
-        <Badge className={is_active ? 'bg-green-600' : 'bg-red-600'}>
-          {is_active ? 'ใช้งาน' : 'ปิดการใช้งาน'}
-        </Badge>
-      ),
+      key: 'created_by',
+      title: 'สร้างโดย',
     },
     {
       key: 'id',
@@ -82,7 +84,6 @@ export default function Articlelist() {
       },
     },
   ];
-
   return (
     <>
       <div className="flex min-h-screen">
@@ -95,13 +96,13 @@ export default function Articlelist() {
         <div className="w-6 flex-1 bg-white p-6">
           <div className="flex justify-end">
             <Button className="m-5 p-3">
-              <Link href={'/BOM/articlemanagement/create'}>เพิ่มบทความ</Link>
+              <Link href={'/BOM/articlemanagement/create'}>เพิ่มหมวดหมู่</Link>
             </Button>
           </div>
           <TablePagination
-            data={articleblog?.data || []}
+            data={aricleCategories || []}
             columns={columns}
-            totalItems={articleblog?.pagination.total ?? 0}
+            totalItems={pageSize}
             page={pageIndex}
             limit={pageSize}
             onPageChange={setPageIndex}

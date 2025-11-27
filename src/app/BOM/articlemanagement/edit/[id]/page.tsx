@@ -30,16 +30,16 @@ export default function EditArticleBlog() {
       label: 'หัวข้อ',
       type: 'text',
       placeholder: 'กรุณากรอก หัวข้อ',
-      apiUrl: ''
+      apiUrl: '',
     },
     {
       name: 'cover_img',
       label: 'ภาพหน้าปก 720 x 360',
       type: 'text',
       placeholder: '',
-      apiUrl: ''
+      apiUrl: '',
     },
-  {
+    {
       name: 'article_categories_id',
       label: 'หมวดหมู่',
       type: 'Select',
@@ -51,14 +51,14 @@ export default function EditArticleBlog() {
       label: 'สถานะการใช้งาน',
       type: 'Switch',
       placeholder: '',
-      apiUrl: ''
+      apiUrl: '',
     },
     {
       name: 'conten',
       label: 'รายละเอียด',
       type: 'TextEditor',
       placeholder: 'เนื้อความ...',
-      apiUrl: ''
+      apiUrl: '',
     },
   ];
 
@@ -74,7 +74,7 @@ export default function EditArticleBlog() {
     };
 
     try {
-      const result = await articleService.patch(payload,id);
+      const result = await articleService.patch(payload, id);
       toast.success('บันทึกข้อมูลสำเร็จ');
       router.push('/BOM/articlemanagement');
     } catch {
@@ -83,23 +83,25 @@ export default function EditArticleBlog() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="w-64 bg-gray-900 text-white">
-        <NavigationMenu />
+    <>
+      <div className="flex min-h-screen">
+        <div className="w-64 bg-gray-900 text-white">
+          <NavigationMenu />
+        </div>
+        <div className="flex-1 bg-white p-6">
+          <FormComponent
+            fields={fields}
+            onSubmit={handleSubmit}
+            initialValues={{
+              title: articleblog?.title || '',
+              cover_img: articleblog?.cover_img || '',
+              conten: articleblog?.conten || '',
+              article_categories_id: articleblog?.article_categories_id || '',
+              is_active: articleblog?.is_active || true,
+            }}
+          />
+        </div>
       </div>
-      <div className="flex-1 bg-white p-6">
-        <FormComponent
-          fields={fields}
-          onSubmit={handleSubmit}
-          initialValues={{
-            title: articleblog?.title || '',
-            cover_img: articleblog?.cover_img || '',
-            conten: articleblog?.conten || '',
-            article_categories_id: articleblog?.article_categories_id || '',
-            is_active: articleblog?.is_active || true,
-          }}
-        />
-      </div>
-    </div>
+    </>
   );
 }

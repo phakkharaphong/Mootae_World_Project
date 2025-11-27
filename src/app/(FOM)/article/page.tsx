@@ -48,7 +48,7 @@ export default function Article() {
 
   useEffect(() => {
     fetchDataarticle();
-  }, [fetchDataarticle,selectedCategory,pageSize]);
+  }, [fetchDataarticle, selectedCategory, pageSize]);
 
   if (loading) return <div>Loading...</div>;
 
@@ -75,8 +75,6 @@ export default function Article() {
           loading={loading}
         />
       </div>
-
-      
     </>
   );
 }

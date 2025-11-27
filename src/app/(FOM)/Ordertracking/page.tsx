@@ -73,7 +73,6 @@ export default function Tracking() {
 
   return (
     <>
-      
       <div className="mx-auto mt-8 mb-5 max-w-5xl rounded-xl bg-white p-6 shadow-md dark:bg-slate-800">
         <h2 className="mb-4 text-xl font-semibold text-black dark:text-white">
           ติดตามคำสั่งซื้อ
@@ -116,7 +115,6 @@ export default function Tracking() {
           onPageChange={setPageIndex}
         />
       </div>
-      
     </>
   );
 }

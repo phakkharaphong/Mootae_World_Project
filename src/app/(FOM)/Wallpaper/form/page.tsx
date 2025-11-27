@@ -173,7 +173,6 @@ export default function FormCreateWallpaper() {
           </DynamicForm>
         </div>
       </div>
-      
     </>
   );
 }

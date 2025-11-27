@@ -1,15 +1,14 @@
-export interface ResponseList<T>{
-    message: string;
-    data: T;
+export interface ResponseList<T> {
+  message: string;
+  data: T;
 }
 
 export interface ApiPaginatedResponse<T> {
-  message: string; 
-  data: T[];       
+  message: string;
+  data: T[];
   pagination: {
-    page: number; 
+    page: number;
     limit: number;
-    total: number; 
+    total: number;
   };
 }
-

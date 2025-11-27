@@ -1,19 +1,18 @@
 'use client';
-
 import { NavigationMenu } from '@/components/Navmenu';
 import { Column, TablePagination } from '@/components/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useGetAPI } from '@/hooks/use-api';
-import { Articleblog } from '@/interfaces/Aricleblog';
-import { ApiPaginatedResponse } from '@/interfaces/ResponseList';
+
+import { orderService } from '@/hooks/use-api-orderService';
+import { Order } from '@/interfaces/Order';
 import { formatDateToBuddhistEra } from '@/utils/date-format';
 import { usePagination } from '@/utils/use-pagination';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Articlelist() {
+export default function OrderTracking() {
   const router = useRouter();
   const { pageIndex, setPageIndex, pageSize } = usePagination({
     totalItems: 0,
@@ -21,26 +20,23 @@ export default function Articlelist() {
     initialPage: 1,
     maxButtons: 5,
   });
-
-  const [articleblog, loading, fetchData] = useGetAPI<
-    ApiPaginatedResponse<Articleblog>
-  >('articleblog/', {
-    page: pageIndex,
-    limit: pageSize,
-  });
-
+  const [orders, setOrders] = useState<Order[] | null>(null);
   useEffect(() => {
+    const fetchData = async () => {
+      const data = await orderService.getall(pageIndex, pageSize);
+      setOrders(data);
+    };
     fetchData();
-  }, [fetchData, pageIndex, pageSize]);
+  }, [pageIndex, pageSize]);
 
-  const columns: Column<Articleblog>[] = [
+  const columns: Column<Order>[] = [
     // {
     //   key: 'id',
     //   title: 'รหัสคำสั่งซื้อ',
     // },
     {
-      key: 'title',
-      title: 'หัวข้อ',
+      key: 'id',
+      title: 'หมายเลขคำสั่งซื้อ',
     },
     {
       key: 'created_at',
@@ -50,11 +46,19 @@ export default function Articlelist() {
       },
     },
     {
-      key: 'is_active',
+      key: 'payment_status',
       title: 'สถานะ',
-      render: ({ is_active }) => (
-        <Badge className={is_active ? 'bg-green-600' : 'bg-red-600'}>
-          {is_active ? 'ใช้งาน' : 'ปิดการใช้งาน'}
+      render: ({ payment_status }) => (
+        <Badge
+          className={
+            payment_status === 'รอการชำระ'
+              ? 'bg-yellow-500 text-white'
+              : payment_status === 'ชำระเงินแล้ว'
+                ? 'bg-green-600 text-white'
+                : 'bg-red-600 text-white'
+          }
+        >
+          {payment_status}
         </Badge>
       ),
     },
@@ -68,7 +72,7 @@ export default function Articlelist() {
               <Button
                 className="bg-primary hover:bg-blue-300"
                 onClick={() =>
-                  router.push(`/BOM/articlemanagement/edit/${row.id}`)
+                  router.push(`/BOM/orders-tracking/edit/${row.id}`)
                 }
               >
                 แก้ไข
@@ -99,9 +103,9 @@ export default function Articlelist() {
             </Button>
           </div>
           <TablePagination
-            data={articleblog?.data || []}
-            columns={columns}
-            totalItems={articleblog?.pagination.total ?? 0}
+            data={orders || []}
+            columns={columns || []}
+            totalItems={pageSize}
             page={pageIndex}
             limit={pageSize}
             onPageChange={setPageIndex}

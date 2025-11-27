@@ -17,7 +17,7 @@ export function FooterBar() {
   return (
     <>
       {/* Footer */}
-      <div className="flex h-20 w-full items-center justify-center bg-primary">
+      <div className="bg-primary flex h-20 w-full items-center justify-center">
         {response?.data.map((item) => (
           <div className="flex overflow-hidden rounded-lg p-5" key={item.id}>
             <div className="relative aspect-square h-[60px] w-[60px]">
@@ -28,7 +28,7 @@ export function FooterBar() {
               >
                 <Image
                   src={item.icon_img || '/images/facebook.avif'}
-                  alt={item.title|| 'No Resopones'}
+                  alt={item.title || 'No Resopones'}
                   fill
                   className="object-cover"
                 />

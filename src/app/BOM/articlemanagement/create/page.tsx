@@ -85,17 +85,19 @@ export default function CreateArticleBlog() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="w-64 bg-gray-900 text-white">
-        <NavigationMenu />
+    <>
+      <div className="flex min-h-screen">
+        <div className="w-64 bg-gray-900 text-white">
+          <NavigationMenu />
+        </div>
+        <div className="flex-1 bg-white p-6">
+          <FormComponent
+            fields={fields}
+            onSubmit={handleSubmit}
+            initialValues={{}}
+          />
+        </div>
       </div>
-      <div className="flex-1 bg-white p-6">
-        <FormComponent
-          fields={fields}
-          onSubmit={handleSubmit}
-          initialValues={{}}
-        />
-      </div>
-    </div>
+    </>
   );
 }

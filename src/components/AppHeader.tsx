@@ -28,14 +28,16 @@ export function NavigationMenuDemo() {
   }, []);
 
   return (
-    <div className={`w-full bg-amber-100 ${isSticky ? 'fixed top-0 left-0 z-50 shadow-md' : 'relative'} transition-all duration-200`}>
+    <div
+      className={`w-full bg-amber-100 ${isSticky ? 'fixed top-0 left-0 z-50 shadow-md' : 'relative'} transition-all duration-200`}
+    >
       {/* Logo */}
-      <div className="flex w-full items-center justify-center bg-primary py-2">
+      <div className="bg-primary flex w-full items-center justify-center py-2">
         <Image
           src="/images/logo.png"
           width={897}
           height={812}
-          className="w-40 lg:w-33 rounded-full"
+          className="w-40 rounded-full lg:w-33"
           alt="muteverse logo"
         />
       </div>
@@ -58,10 +60,14 @@ export function NavigationMenuDemo() {
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/Wallpaper">รายการวอลเปเปอร์</NavigationMenuLink>
+            <NavigationMenuLink href="/Wallpaper">
+              รายการวอลเปเปอร์
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/Wallpaper/form">แบบฟอร์มสั่งซื้อ</NavigationMenuLink>
+            <NavigationMenuLink href="/Wallpaper/form">
+              แบบฟอร์มสั่งซื้อ
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
@@ -80,15 +86,27 @@ export function NavigationMenuDemo() {
 
       {/* Mobile Menu Items */}
       {open && (
-        <div className="flex flex-col gap-4 bg-white px-6 pb-6 pt-2 text-base font-medium shadow-md md:hidden">
-          <Link href="/Home" className="hover:text-amber-700">หน้าแรก</Link>
-          <Link href="/About" className="hover:text-amber-700">สำหรับองค์กร</Link>
-          <Link href="/article" className="hover:text-amber-700">บทความ</Link>
-          <Link href="/Ordertracking" className="hover:text-amber-700">ตรวจสอบการสั่งซื้อ</Link>
-          <Link href="/Wallpaper" className="hover:text-amber-700">รายการวอลเปเปอร์</Link>
-          <Link href="/Wallpaper/form" className="hover:text-amber-700">แบบฟอร์มสั่งซื้อ</Link>
+        <div className="flex flex-col gap-4 bg-white px-6 pt-2 pb-6 text-base font-medium shadow-md md:hidden">
+          <Link href="/Home" className="hover:text-amber-700">
+            หน้าแรก
+          </Link>
+          <Link href="/About" className="hover:text-amber-700">
+            สำหรับองค์กร
+          </Link>
+          <Link href="/article" className="hover:text-amber-700">
+            บทความ
+          </Link>
+          <Link href="/Ordertracking" className="hover:text-amber-700">
+            ตรวจสอบการสั่งซื้อ
+          </Link>
+          <Link href="/Wallpaper" className="hover:text-amber-700">
+            รายการวอลเปเปอร์
+          </Link>
+          <Link href="/Wallpaper/form" className="hover:text-amber-700">
+            แบบฟอร์มสั่งซื้อ
+          </Link>
         </div>
       )}
     </div>
   );
-} 
+}

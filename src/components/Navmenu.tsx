@@ -4,11 +4,11 @@ import { UserProfile } from '@/interfaces/Member';
 import { User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function NavigationMenu() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       const data = await userService.getMe();
@@ -18,14 +18,14 @@ export function NavigationMenu() {
     fetchData();
   }, []);
 
-  const handleLogout = ()=>{
-    localStorage.removeItem('accessToken')
-    router.push('/BOM/authen')
-  }
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    router.push('/BOM/authen');
+  };
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="w-64 space-y-4 bg-primary p-6 text-white">
+      <aside className="bg-primary w-64 space-y-4 p-6 text-white">
         {/* <h2 className="mb-6 text-xl font-bold"></h2> */}
         <div className="m-2 flex">
           <User />
@@ -43,6 +43,13 @@ export function NavigationMenu() {
             บทความ
           </a> */}
           <Link
+            href="/BOM/articlecategories"
+            className="block rounded px-4 py-2 hover:bg-gray-700"
+          >
+            หมวดหมู่
+          </Link>
+
+          <Link
             href="/BOM/articlemanagement"
             className="block rounded px-4 py-2 hover:bg-gray-700"
           >
@@ -57,7 +64,7 @@ export function NavigationMenu() {
           </Link>
 
           <Link
-            href="/BOM/articlemanagement"
+            href="/BOM/orders-tracking"
             className="block rounded px-4 py-2 hover:bg-gray-700"
           >
             คำสั่งซื้อ
@@ -70,7 +77,10 @@ export function NavigationMenu() {
             รายชื่อผู้ใช้งาน
           </Link>
 
-          <button onClick={handleLogout} className="block rounded px-4 py-2 hover:bg-gray-700">
+          <button
+            onClick={handleLogout}
+            className="block rounded px-4 py-2 hover:bg-gray-700"
+          >
             <span className="text-red-600">Logout</span>
           </button>
         </nav>

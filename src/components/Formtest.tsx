@@ -3,7 +3,7 @@ import { Link } from 'lucide-react';
 import { Button } from './ui/button';
 
 export function DynamicForm({ children }: { children: React.ReactNode }) {
-    const router = useRouter();
+  const router = useRouter();
 
   return (
     <form className="w-full rounded-xl bg-white p-5 shadow-md dark:bg-slate-900">
@@ -11,10 +11,12 @@ export function DynamicForm({ children }: { children: React.ReactNode }) {
 
       <div className="mt-5 flex gap-3">
         <Button type="submit">Submit</Button>{' '}
-        <Button variant="outline" type="button" onClick={() => router.push('/Home')}>
-
-        
-            Cancel{' '}
+        <Button
+          variant="outline"
+          type="button"
+          onClick={() => router.push('/Home')}
+        >
+          Cancel{' '}
         </Button>
       </div>
     </form>

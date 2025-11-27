@@ -1,8 +1,7 @@
 'use client';
-
 import { NavigationMenu } from '@/components/Navmenu';
 
-export default function Dashboardpage() {
+export default function OrderTrackingAdmin() {
   return (
     <>
       <div className="flex min-h-screen">

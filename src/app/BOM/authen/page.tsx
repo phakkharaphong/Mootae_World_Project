@@ -25,21 +25,19 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const data = await userService.login(username,password) 
+      const data = await userService.login(username, password);
 
       // เก็บ JWT ใน localStorage
       localStorage.setItem('accessToken', data.access_token);
 
       toast.success('เข้าสู่ระบบสำเร็จ!');
       router.push('/BOM/dashboard'); // หรือหน้าอื่นที่ต้องการ
-    }catch{
-      toast.error('Username หรือ Password ไม่ถูกต้อง!')
+    } catch {
+      toast.error('Username หรือ Password ไม่ถูกต้อง!');
     } finally {
       setLoading(false);
     }
   };
-
-
 
   return (
     <>
@@ -50,7 +48,7 @@ export default function Login() {
           เข้าสู่ระบบหลังบ้าน
         </h2>
 
-        <form className="space-y-5"  onSubmit={handleLogin}>
+        <form className="space-y-5" onSubmit={handleLogin}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="username">Username</FieldLabel>

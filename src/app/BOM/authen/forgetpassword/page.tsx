@@ -1,11 +1,7 @@
 'use client';
 import { NavigationMenuDemo } from '@/components/AppHeader';
 import { FooterBar } from '@/components/Footer';
-import {
-  Field,
-  FieldGroup,
-  FieldLabel,
-} from '@/components/ui/field';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 export default function ForgetPassword() {
@@ -14,7 +10,7 @@ export default function ForgetPassword() {
       <NavigationMenuDemo />
 
       <div className="mx-auto mt-10 mb-10 max-w-md rounded-2xl bg-white p-8 shadow-lg dark:bg-slate-800">
-        <h2 className="mb-6 text-2xl font-bold text-black dark:text-white text-center">
+        <h2 className="mb-6 text-center text-2xl font-bold text-black dark:text-white">
           ลืมรหัสผ่าน
         </h2>
 
@@ -45,7 +41,7 @@ export default function ForgetPassword() {
         </form>
       </div>
 
-      <FooterBar/>
+      <FooterBar />
     </>
   );
 }

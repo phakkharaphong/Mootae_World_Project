@@ -1,10 +1,6 @@
 'use client';
-import { NavigationMenuDemo } from "@/components/AppHeader";
+import { NavigationMenuDemo } from '@/components/AppHeader';
 
-export default function Wallpaper(){
-    return(
-        <>
-
-        </>
-    )
+export default function Wallpaper() {
+  return <></>;
 }

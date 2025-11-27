@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import PaginationControls from './PaginationControls';
 export function Cardarticle({ response = [] }: { response?: Articleblog[] }) {
   const router = useRouter();
-  
+
   return (
     <>
       <div className="container mx-auto px-4 py-8">
@@ -60,7 +60,6 @@ export function Cardarticle({ response = [] }: { response?: Articleblog[] }) {
               </div>
             </div>
           ))}
-         
         </div>
       </div>
     </>

@@ -33,19 +33,15 @@ export default function ArticleblogDetail() {
   if (!item) {
     return (
       <>
-        
         <div className="flex justify-center p-10 text-gray-500">
           ไม่พบบทความที่คุณต้องการ
         </div>
-        
       </>
     );
   }
 
   return (
     <>
-      
-
       <div className="flex justify-center px-4 py-6 sm:px-6 lg:px-8">
         <Card className="w-full max-w-5xl rounded-xl shadow-md">
           {/* Cover Image */}
@@ -74,11 +70,12 @@ export default function ArticleblogDetail() {
               </div> */}
               <div className="flex items-center gap-1">
                 <Calendar size={16} />
-                วันที่สร้าง  {formatDateToBuddhistEra(item.created_at, 'DD MMMM BBBB')}
+                วันที่สร้าง{' '}
+                {formatDateToBuddhistEra(item.created_at, 'DD MMMM BBBB')}
               </div>
               <div className="flex items-center gap-1">
                 <User size={16} />
-                 {item.created_by || ' '}
+                {item.created_by || ' '}
               </div>
             </div>
             {/* <DocumentMeta
@@ -100,8 +97,6 @@ export default function ArticleblogDetail() {
           </CardContent>
         </Card>
       </div>
-
-      
     </>
   );
 }
