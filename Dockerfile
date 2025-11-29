@@ -1,10 +1,15 @@
-FROM node:lts-alpine
-ENV NODE_ENV=production
-WORKDIR /usr/src/app
+FROM node:lts-alpine AS builder
+WORKDIR /app
 COPY package*.json ./
-RUN npm install --production --silent 
+RUN npm ci
 COPY . .
 RUN npm run build
+FROM node:lts-alpine AS runner
+ENV NODE_ENV=production
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 EXPOSE 3000
-USER node
 CMD ["npm", "start"]
