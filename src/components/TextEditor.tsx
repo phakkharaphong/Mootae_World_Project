@@ -15,7 +15,7 @@ const uploadImage = async (file: File): Promise<string> => {
     const id: string | undefined =
       res?.data?.data?.id ?? res?.data?.data?.fullPath?.split('/')?.pop();
     if (!id) throw new Error('Invalid upload response');
-    return `${process.env.NEXT_PUBLIC_API_BASE_URL}/Attachments/DownloadFile/${id}`;
+    return `${process.env.NEXT_PUBLIC_API_BASE_URL_Local}/Attachments/DownloadFile/${id}`;
   } catch (err) {
     console.error('Image upload error:', err);
     throw err;

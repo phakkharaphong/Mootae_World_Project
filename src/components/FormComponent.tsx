@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { useEffect, useState } from 'react';
-import TextEditor from './TextEditor';
+import dynamic from "next/dynamic";
 import { Switch } from './ui/switch';
 import {
   Select,
@@ -17,10 +17,14 @@ import {
 import { Articlecategories } from '@/interfaces/Articlecategories';
 import { ApiPaginatedResponse } from '@/interfaces/ResponseList';
 
+const TextEditor = dynamic(() => import('./TextEditor'), {
+  ssr: false,
+});
+
 export function FormComponent<T>({
   fields,
   onSubmit,
-  initialValues, // เพิ่ม props
+  initialValues,
 }: {
   fields: FieldList[];
   onSubmit: (values: T) => void;
@@ -36,7 +40,6 @@ export function FormComponent<T>({
     console.log('init', initialValues);
   }, [initialValues]);
 
-  // Generic handler for form field changes
   const handleChange = <K extends keyof T>(name: K, value: T[K]) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -53,9 +56,7 @@ export function FormComponent<T>({
       }
     });
   }, [fields]);
-  useEffect(() => {
-    console.log(selectOptions);
-  }, [selectOptions]);
+
   const renderField = (field: FieldList) => {
     const name = field.name as keyof T;
 
