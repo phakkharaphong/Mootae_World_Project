@@ -1,3 +1,5 @@
+"use client";
+
 import { Articleblog } from '@/interfaces/Aricleblog';
 import { formatDateToBuddhistEra } from '@/utils/date-format';
 import { Calendar, View } from 'lucide-react';

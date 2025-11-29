@@ -1,3 +1,5 @@
+"use client";
+
 import { formatDateToBuddhistEra } from '@/utils/date-format';
 import { Calendar, Eye, User } from 'lucide-react';
 
