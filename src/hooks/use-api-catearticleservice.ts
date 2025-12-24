@@ -20,14 +20,14 @@ export const articleCatService = {
   // },
   getId: async (id: string) => {
     const res = await api.get<ResponseList<Articlecategories>>(
-      `articlecategories/${id}`,
+      `category/${id}`,
     );
     const data = await res.json();
     return data.data;
   },
   getAll: async (page: number, limit: number) => {
     const res = await api.get<ApiPaginatedResponse<Articlecategories>>(
-      `articlecategories/?page=${page}&limit${limit}`,
+      `category/?page=${page}&limit${limit}`,
     );
     const data = await res.json();
     return data.data;

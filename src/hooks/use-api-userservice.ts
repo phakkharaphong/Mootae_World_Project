@@ -9,7 +9,7 @@ export const userService = {
     return data;
   },
   login: async (username: string, password: string) => {
-    const res = await api.post<Auth>('token', {
+    const res = await api.post<Auth>('user/token', {
       json: {
         username,
         password,

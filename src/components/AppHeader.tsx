@@ -69,6 +69,12 @@ export function NavigationMenuDemo() {
               แบบฟอร์มสั่งซื้อ
             </NavigationMenuLink>
           </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/BOM/authen">
+              เข้าสู่ระบบ
+            </NavigationMenuLink>
+          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
 
