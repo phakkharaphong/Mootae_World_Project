@@ -1,7 +1,5 @@
 'use client';
 
-import { NavigationMenuDemo } from '@/components/AppHeader';
-import { FooterBar } from '@/components/Footer';
 import { Form } from '@/components/Form';
 import { DynamicForm } from '@/components/Formtest';
 import { Button } from '@/components/ui/button';
@@ -22,38 +20,38 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { OrderTypeService } from '@/hooks/use-api-orderTypeService';
 import { OrderType } from '@/interfaces/OrderType';
-import { usePagination } from '@/utils/use-pagination';
+// import { usePagination } from '@/utils/use-pagination';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function FormCreateWallpaper() {
-  const router = useRouter();
-  const [totalItems, setTotalItems] = useState(1);
-  const [selectedOrderType, setSelectedOrderType] = useState<string>("")
-  const {
-    pageIndex,
-    setPageIndex,
-    pageSize,
-    setPageSize,
-    totalPages,
-    startItem,
-    endItem,
-    pageButtons,
-  } = usePagination({
-    totalItems,
-    pageSize: 10,
-    initialPage: 1,
-    maxButtons: 5,
-  });
-  const [orderType, setOrderType] = useState<OrderType[] | null>()
+  // const router = useRouter();
+  // const [totalItems, setTotalItems] = useState(1);
+  // const [selectedOrderType, setSelectedOrderType] = useState<string>("")
+  // const {
+  //   pageIndex,
+  //   setPageIndex,
+  //   pageSize,
+  //   setPageSize,
+  //   totalPages,
+  //   startItem,
+  //   endItem,
+  //   pageButtons,
+  // } = usePagination({
+  //   totalItems,
+  //   pageSize: 10,
+  //   initialPage: 1,
+  //   maxButtons: 5,
+  // });
+  // const [orderType, setOrderType] = useState<OrderType[] | null>()
 
-  useEffect(() => {
-    const fecthdata = async () => {
-      const res = await OrderTypeService.getall(pageIndex, 100)
-      setOrderType(res)
-    }
-    fecthdata();
-  }, [pageIndex])
+  // useEffect(() => {
+  //   const fecthdata = async () => {
+  //     const res = await OrderTypeService.getall(pageIndex, 100)
+  //     setOrderType(res)
+  //   }
+  //   fecthdata();
+  // }, [pageIndex])
   return (
     <>
       <div className="flex w-full items-center justify-center bg-blue-50 p-5">
@@ -71,7 +69,7 @@ export default function FormCreateWallpaper() {
                   <FieldLabel htmlFor="checkout-exp-month-ts6">
                     เลือกคอลเลคชั่นวอเปเปอร์ที่ต้องการสั่งซื้อ
                   </FieldLabel>
-                  <Select defaultValue="" value={selectedOrderType} onValueChange={(value) => setSelectedOrderType(value)}>
+                  {/* <Select defaultValue="" value={selectedOrderType} onValueChange={(value) => setSelectedOrderType(value)}>
                     <SelectTrigger id="checkout-exp-month-ts6">
                       <SelectValue placeholder="เลือกประเภทวอเปเปอร์" />
                     </SelectTrigger>
@@ -83,7 +81,7 @@ export default function FormCreateWallpaper() {
                       }
 
                     </SelectContent>
-                  </Select>
+                  </Select> */}
                 </Field>
 
 
@@ -239,7 +237,7 @@ export default function FormCreateWallpaper() {
                   className='transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 cursor-pointer'
                   variant="outline"
                   type="button"
-                  onClick={() => router.push('/Home')}
+                  // onClick={() => router.push('/Home')}
                 >
                   ยกเลิก{' '}
                 </Button>

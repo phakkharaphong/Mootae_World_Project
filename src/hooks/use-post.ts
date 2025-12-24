@@ -1,7 +1,7 @@
 import ky from 'ky';
 
 const api = ky.create().extend({
-  prefixUrl: process.env.NEXT_PUBLIC_API_BASE_URL_Local,
+  prefixUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
   hooks: {
     beforeRequest: [
       (request, _, { retryCount }) => {

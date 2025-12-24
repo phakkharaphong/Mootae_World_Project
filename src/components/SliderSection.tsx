@@ -1,7 +1,12 @@
 'use client';
 import * as React from 'react';
+
+import Image from 'next/image';
+
 import Autoplay from 'embla-carousel-autoplay';
+
 import { Card, CardContent } from '@/components/ui/card';
+
 import {
   Carousel,
   CarouselContent,
@@ -9,7 +14,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from './ui/carousel';
-import Image from 'next/image';
 
 export default function SliderSection({
   bgColor = 'bg-white',
@@ -19,7 +23,7 @@ export default function SliderSection({
   items?: string[];
 }) {
   const plugin = React.useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: true }),
+    Autoplay({ delay: 2000, stopOnInteraction: true })
   );
   return (
     <section className={`w-450 overflow-hidden ${bgColor}`}>

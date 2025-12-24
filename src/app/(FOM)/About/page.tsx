@@ -1,35 +1,28 @@
 'use client';
 
-import { NavigationMenuDemo } from '@/components/AppHeader';
-import { FooterBar } from '@/components/Footer';
+import PageCard from '@/components/PageCard';
 import SliderSection from '@/components/SliderSection';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 
 export default function About() {
   return (
-    <>
-      <div className="flex h-28 w-full items-center bg-gray-50">
-        <h1 className="mx-auto text-center text-3xl font-bold md:text-4xl">
-          สำหรับองค์กร
-        </h1>
+    <PageCard>
+      <div className="mb-4 border-y py-4">
+        <h1 className="text-center text-2xl font-bold">เกี่ยวกับเรา</h1>
       </div>
-
-      <div className="relative flex h-[300px] w-full items-center justify-center bg-[url(/images/bannerhome.avif)] bg-cover bg-center sm:h-[420px]">
-        <div className="flex flex-col items-center justify-center bg-black/20 p-4 text-center sm:bg-black/0">
-          <h1 className="p-2 text-2xl font-bold text-blue-950 sm:text-4xl">
-            มูเตเวิส Muteverse
-          </h1>
-          <span className="p-1 text-lg sm:text-2xl">
-            ที่พึ่งทางดวงที่ไว้ใจได้เสมอ
-          </span>
-          <span className="p-1 text-lg sm:text-2xl">
-            SINCERE | PASSIONATE | INFORMATIVE
-          </span>
-        </div>
-      </div>
-
-      <div className="h-[250px] w-full bg-[url(/images/bannerAb.avif)] bg-cover bg-center sm:h-[380px]"></div>
+      <section>
+        <h2 className="text-2xl font-bold">มูเต SAY HI</h2>
+        <h3 className="text-xl font-bold">ทำไมต้องมูเตเวิร์ล</h3>
+        <p>
+          ศูนย์รวมจักรวาลความมู
+          ผู้คิดค้นศาสตร์มูด้วยวอลเปเปอร์มือถือเสริมดวงเจ้าแรกในประเทศไทย
+          ที่สร้างปรากฎการณ์ความปังยอดซื้อซ้ำกว่าหลายหมื่นออเดอร์ ​ มูเตเวิร์ล
+          เป็นพื้นที่สำหรับคนรุ่นใหม่ที่สนใจในเรื่องมูเตลู
+          ไม่ว่าคุณจะเป็นมูมือใหม่ หรือมูตัวแม่ ผู้ประกอบการ พ่อค้าแม่ค้า
+          ที่อยากเสริมดวงเฮงๆปังๆ
+          มาพร้อมสินค้าและบริการต่างๆมากมายที่คัดสรรมาแล้ว
+        </p>
+      </section>
+      <div className="h-62.5 w-full bg-[url(/images/bannerAb.avif)] bg-cover bg-center sm:h-95"></div>
 
       <div className="px-4 sm:px-10">
         <SliderSection />
@@ -65,6 +58,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </>
+    </PageCard>
   );
 }

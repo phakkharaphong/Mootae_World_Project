@@ -1,12 +1,12 @@
-import { NavigationMenuDemo } from '@/components/AppHeader';
-import { FooterBar } from '@/components/Footer';
+import FOMHeader from './FOMHeader';
+import FOMFooter from './FOMFooter';
 
 export default function FOMLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <NavigationMenuDemo />
+      <FOMHeader />
       {children}
-      <FooterBar />
+      <FOMFooter />
     </>
   );
 }
