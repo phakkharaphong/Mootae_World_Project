@@ -1,19 +1,20 @@
-"use client";
+'use client';
 
-import React, { useCallback, useEffect, useRef } from 'react';
-import 'react-quill-new/dist/quill.snow.css';
+import api from '@/hooks/use-post';
+import { useCallback, useEffect, useRef } from 'react';
+
 import ReactQuill from 'react-quill-new';
-import api from '@/utils/axios-instance';
+
+import 'react-quill-new/dist/quill.snow.css';
 
 const uploadImage = async (file: File): Promise<string> => {
   const fd = new FormData();
   fd.append('file', file);
   try {
-    const res = await api.post('/Attachments/UploadFile', fd, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    const res = await api.post('/Attachments/UploadFile', {body: fd}).json();
     const id: string | undefined =
-      res?.data?.data?.id ?? res?.data?.data?.fullPath?.split('/')?.pop();
+      // res?.data?.data?.id ?? res?.data?.data?.fullPath?.split('/')?.pop();
+      undefined;
     if (!id) throw new Error('Invalid upload response');
     return `${process.env.NEXT_PUBLIC_API_BASE_URL_Local}/Attachments/DownloadFile/${id}`;
   } catch (err) {
@@ -81,11 +82,11 @@ interface TextEditorProps {
 const convertClassToClassName = (html: string) => {
   html = html.replace(
     /<iframe class="ql-video ql-align-center"/g,
-    '<div class="center"><iframe class="ql-video ql-align-center" ',
+    '<div class="center"><iframe class="ql-video ql-align-center" '
   );
   html = html.replace(
     /<iframe class="ql-video ql-align-right"/g,
-    '<div class="end"><iframe class="ql-video ql-align-right" ',
+    '<div class="end"><iframe class="ql-video ql-align-right" '
   );
   html = html.replace(/<\/iframe>/g, '</iframe></div>');
   return html;
@@ -101,7 +102,7 @@ const autoLinkify = (html: string): string => {
   const walker = document.createTreeWalker(
     doc.body,
     NodeFilter.SHOW_TEXT,
-    null,
+    null
   );
 
   const textNodes: Text[] = [];
@@ -123,7 +124,7 @@ const autoLinkify = (html: string): string => {
         // เพิ่มข้อความก่อนหน้า URL
         if (offset > lastIndex) {
           fragment.appendChild(
-            document.createTextNode(str.slice(lastIndex, offset)),
+            document.createTextNode(str.slice(lastIndex, offset))
           );
         }
 
@@ -173,7 +174,7 @@ const TextEditor = ({
       if (timerRef.current) window.clearTimeout(timerRef.current);
       timerRef.current = window.setTimeout(apply, debounceMs);
     },
-    [onChange, debounceMs],
+    [onChange, debounceMs]
   );
 
   // Paste-to-upload images

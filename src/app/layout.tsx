@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
-import './globals.css';
 import { Prompt } from 'next/font/google';
+
 import { Toaster } from '@/components/ui/sonner';
+
+import './globals.css';
+import QueryProvider from './QueryProvider';
+import UserBootstrap from '@/components/UserBootstrap';
 
 export const metadata: Metadata = {
   title: 'มูเตเวิร์ล Mootae World ที่พึ่งทางดวงที่ไว้ใจได้เสมอ',
@@ -24,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${prompt.className}`}>
-        {children}
+        <QueryProvider>
+          <UserBootstrap>{children}</UserBootstrap>
+        </QueryProvider>
         <Toaster position="top-center" />
       </body>
     </html>
