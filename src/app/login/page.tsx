@@ -1,10 +1,5 @@
 'use client';
 
-import { LoginRequest, loginSchema } from '@/models/login.model';
-import { useUserStore } from '@/stores/user-store';
-import { useForm } from '@tanstack/react-form';
-import { toast } from 'sonner';
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -14,10 +9,14 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-
 import { api } from '@/lib/api';
 import { withBasePath } from '@/lib/base-path-manager';
 import { setAccessToken } from '@/lib/token-manager';
+import { LoginRequest, loginSchema } from '@/models/login.model';
+import { useUserStore } from '@/stores/user-store';
+
+import { useForm } from '@tanstack/react-form';
+import { toast } from 'sonner';
 
 const defaultValues: LoginRequest = {
   username: '',
@@ -31,14 +30,11 @@ export default function LoginPage() {
     defaultValues,
     onSubmit: async ({ value }) => {
       try {
-        const formData = new FormData();
-        formData.append('username', value.username);
-        formData.append('password', value.password);
         const loginResponse = await api.post<{
           access_token: string;
           token_type: string;
         }>('auth/login', {
-          body: formData,
+          json: value,
         });
 
         if (loginResponse.status !== 200) {

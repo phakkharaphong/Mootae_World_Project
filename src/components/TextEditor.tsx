@@ -1,29 +1,27 @@
 'use client';
 
-import { api } from '@/lib/api';
 import { useCallback, useEffect, useRef } from 'react';
 
 import ReactQuill from 'react-quill-new';
 
+import { uploadFile } from '@/lib/upload-file';
+
 import 'react-quill-new/dist/quill.snow.css';
 
+// Upload image and return a URL Quill can embed.
 const uploadImage = async (file: File): Promise<string> => {
-  const fd = new FormData();
-  fd.append('file', file);
   try {
-    const res = await api.post('/Attachments/UploadFile', {body: fd}).json();
-    const id: string | undefined =
-      // res?.data?.data?.id ?? res?.data?.data?.fullPath?.split('/')?.pop();
-      undefined;
-    if (!id) throw new Error('Invalid upload response');
-    return `${process.env.NEXT_PUBLIC_API_BASE_URL_Local}/Attachments/DownloadFile/${id}`;
+    const res = await uploadFile(file);
+    if (!res?.url) throw new Error('Invalid upload response');
+    return res.url;
   } catch (err) {
     console.error('Image upload error:', err);
     throw err;
   }
 };
 
-const modules = {
+// Build Quill toolbar config with an image handler that uploads and inserts.
+const createToolbarModules = (uploadFn: (file: File) => Promise<string>) => ({
   toolbar: {
     container: [
       [{ size: [] }, { font: [] }],
@@ -37,24 +35,25 @@ const modules = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       image: function (this: any) {
         const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
+        input.type = 'file';
+        input.accept = 'image/*';
         input.click();
 
         input.onchange = async () => {
           const file = input.files?.[0];
-          if (file) {
-            const range = this?.quill?.getSelection?.();
-            const imageUrl = await uploadImage(file);
-            if (imageUrl && range) {
-              this.quill.insertEmbed(range.index, 'image', imageUrl);
-            }
+          if (!file) return;
+          const range = this?.quill?.getSelection?.();
+          const imageUrl = await uploadFn(file);
+          if (imageUrl && range) {
+            this.quill.insertEmbed(range.index, 'image', imageUrl);
           }
         };
       },
     },
   },
-};
+});
+
+const modules = createToolbarModules(uploadImage);
 
 const formats = [
   'size',
@@ -79,22 +78,23 @@ interface TextEditorProps {
   debounceMs?: number;
 }
 
-const convertClassToClassName = (html: string) => {
-  html = html.replace(
+// Wrap Quill video iframes with alignment divs for layout control.
+const wrapVideoIframes = (html: string) => {
+  let result = html.replace(
     /<iframe class="ql-video ql-align-center"/g,
     '<div class="center"><iframe class="ql-video ql-align-center" '
   );
-  html = html.replace(
+  result = result.replace(
     /<iframe class="ql-video ql-align-right"/g,
     '<div class="end"><iframe class="ql-video ql-align-right" '
   );
-  html = html.replace(/<\/iframe>/g, '</iframe></div>');
-  return html;
+  result = result.replace(/<\/iframe>/g, '<\/iframe><\/div>');
+  return result;
 };
 
-// ✅ ใช้ DOMParser เพื่อป้องกันการซ้อนแท็กซ้ำ
+// Linkify plain URLs in HTML while avoiding links already inside <a> tags.
 const autoLinkify = (html: string): string => {
-  const urlRegex = /\b((?:https?:\/\/|www\.)[^\s<]+)/gi;
+  const URL_REGEX = /\b((?:https?:\/\/|www\.)[^\s<]+)/gi;
 
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
@@ -108,7 +108,6 @@ const autoLinkify = (html: string): string => {
   const textNodes: Text[] = [];
   let node: Node | null;
   while ((node = walker.nextNode())) {
-    // ✅ ข้าม text node ที่อยู่ภายใน <a>
     if (node.parentElement && node.parentElement.tagName !== 'A') {
       textNodes.push(node as Text);
     }
@@ -116,37 +115,39 @@ const autoLinkify = (html: string): string => {
 
   textNodes.forEach((textNode) => {
     const text = textNode.textContent ?? '';
-    if (urlRegex.test(text)) {
-      const fragment = document.createDocumentFragment();
-      let lastIndex = 0;
+    if (!URL_REGEX.test(text)) return;
 
-      text.replace(urlRegex, (match, _url, _offset, str, offset) => {
-        // เพิ่มข้อความก่อนหน้า URL
-        if (offset > lastIndex) {
-          fragment.appendChild(
-            document.createTextNode(str.slice(lastIndex, offset))
-          );
-        }
+    const fragment = document.createDocumentFragment();
+    let lastIndex = 0;
 
-        const href = match.startsWith('http') ? match : `https://${match}`;
-        const a = document.createElement('a');
-        a.href = href;
-        a.textContent = match;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        fragment.appendChild(a);
+    URL_REGEX.lastIndex = 0; // reset for each node
+    let match: RegExpExecArray | null;
+    while ((match = URL_REGEX.exec(text)) !== null) {
+      const [raw] = match;
+      const start = match.index;
 
-        lastIndex = offset + match.length;
-        return match;
-      });
-
-      // เพิ่มข้อความหลังสุดท้าย
-      if (lastIndex < text.length) {
-        fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+      if (start > lastIndex) {
+        fragment.appendChild(
+          document.createTextNode(text.slice(lastIndex, start))
+        );
       }
 
-      textNode.parentNode?.replaceChild(fragment, textNode);
+      const href = raw.startsWith('http') ? raw : `https://${raw}`;
+      const a = document.createElement('a');
+      a.href = href;
+      a.textContent = raw;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      fragment.appendChild(a);
+
+      lastIndex = start + raw.length;
     }
+
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+
+    textNode.parentNode?.replaceChild(fragment, textNode);
   });
 
   return doc.body.innerHTML;
@@ -159,51 +160,59 @@ const TextEditor = ({
   className,
   debounceMs = 0,
 }: TextEditorProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const quillRef = useRef<any>(null);
+  const quillRef = useRef<ReactQuill | null>(null);
   const timerRef = useRef<number | null>(null);
 
-  const handleBeforeChange = useCallback(
+  const handleContentChange = useCallback(
     (content: string) => {
-      const apply = () => {
-        let transformed = convertClassToClassName(content);
-        transformed = autoLinkify(transformed);
-        onChange(transformed);
+      const applyTransform = () => {
+        const withVideoWrapped = wrapVideoIframes(content);
+        const linkified = autoLinkify(withVideoWrapped);
+        onChange(linkified);
       };
-      if (!debounceMs) return apply();
+
+      if (!debounceMs) {
+        applyTransform();
+        return;
+      }
+
       if (timerRef.current) window.clearTimeout(timerRef.current);
-      timerRef.current = window.setTimeout(apply, debounceMs);
+      timerRef.current = window.setTimeout(applyTransform, debounceMs);
     },
     [onChange, debounceMs]
   );
 
-  // Paste-to-upload images
+  // Paste-to-upload images.
   useEffect(() => {
     const editor = quillRef.current?.getEditor?.();
     if (!editor) return;
     const root: HTMLElement | undefined = editor.root;
     if (!root) return;
+
     const onPaste = async (e: ClipboardEvent) => {
       const items = e.clipboardData?.items;
       if (!items) return;
+
       for (const item of Array.from(items)) {
-        if (item.kind === 'file') {
-          const file = item.getAsFile();
-          if (file && file.type.startsWith('image/')) {
-            e.preventDefault();
-            const url = await uploadImage(file);
-            const range = editor.getSelection(true);
-            const index = range ? range.index : editor.getLength();
-            editor.insertEmbed(index, 'image', url, 'user');
-            editor.setSelection(index + 1, 0, 'user');
-            break;
-          }
-        }
+        if (item.kind !== 'file') continue;
+
+        const file = item.getAsFile();
+        if (!file || !file.type.startsWith('image/')) continue;
+
+        e.preventDefault();
+        const url = await uploadImage(file);
+        const range = editor.getSelection(true);
+        const index = range ? range.index : editor.getLength();
+        editor.insertEmbed(index, 'image', url, 'user');
+        editor.setSelection(index + 1, 0, 'user');
+        break;
       }
     };
+
     root.addEventListener('paste', onPaste as unknown as EventListener);
-    return () =>
+    return () => {
       root.removeEventListener('paste', onPaste as unknown as EventListener);
+    };
   }, [quillRef]);
 
   return (
@@ -211,7 +220,7 @@ const TextEditor = ({
       <ReactQuill
         ref={quillRef}
         value={value}
-        onChange={handleBeforeChange}
+        onChange={handleContentChange}
         modules={modules}
         formats={formats}
         theme="snow"

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { items } from '@/constants/menu';
-import { ArrowRightIcon, MenuIcon } from 'lucide-react';
+import { MenuIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,6 +20,8 @@ import {
 } from '@/components/ui/navigation-menu';
 
 import SliderSection from '@/components/SliderSection';
+
+import FOMFooter from '../(FOM)/FOMFooter';
 import LandingImage from '../../../public/images/landing.png';
 
 export default function Home() {
@@ -204,6 +206,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <FOMFooter />
     </>
   );
 }

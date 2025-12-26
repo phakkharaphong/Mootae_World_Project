@@ -1,14 +1,18 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
-import { toast } from 'sonner';
-import { Article } from '@/models/article.model';
-import { useQuery } from '@tanstack/react-query';
-import { api } from '@/lib/api';
 import { UpdateArticleRequest } from '@/models/article-update';
+import { Article } from '@/models/article.model';
+import { Paginated } from '@/models/common/paginated';
 import { useForm } from '@tanstack/react-form';
-import PageCard from '@/components/PageCard';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+import { Button } from '@/components/ui/button';
 import {
   Field,
   FieldError,
@@ -16,10 +20,6 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
-import { useEffect } from 'react';
-import { Paginated } from '@/models/common/paginated';
 import {
   Select,
   SelectContent,
@@ -27,7 +27,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+
+import PageCard from '@/components/PageCard';
 import TextEditor from '@/components/TextEditor';
+
+import { api } from '@/lib/api';
+import { uploadFile } from '@/lib/upload-file';
 
 const defaultValues: UpdateArticleRequest = {
   title: '',
@@ -40,26 +46,51 @@ const defaultValues: UpdateArticleRequest = {
 export default function UpdateArticleFormPage() {
   const router = useRouter();
   const { id } = useParams<{ id: string }>();
+  const queryClient = useQueryClient();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
-  const { data } = useQuery({
+  const {
+    data,
+    isLoading: isArticleLoading,
+    isError: isArticleError,
+    error: articleError,
+  } = useQuery({
     queryKey: ['article', id],
     queryFn: async () => await api.get(`blog/${id}`).json<Article>(),
     enabled: !!id,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
-  const { data: categoriesData } = useQuery({
+  const {
+    data: categoriesData,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useQuery({
     queryKey: ['article-categories'],
     queryFn: async () =>
       await api.get('category').json<Paginated<{ id: string; name: string }>>(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
       try {
-        await api.patch(`blog/${id}`, {
-          json: value,
-        });
+        const json: UpdateArticleRequest = {
+          ...value,
+          cover_img: value.cover_img || undefined,
+        };
+        await api.patch(`blog/${id}`, { json });
+        // Invalidate queries so list and detail refresh with latest data
+        queryClient.invalidateQueries({ queryKey: ['article', id] });
+        queryClient.invalidateQueries({ queryKey: ['articles'] });
+        if (value.category_id) {
+          queryClient.invalidateQueries({ queryKey: ['article-categories'] });
+        }
         toast.success('อัปเดตบทความสำเร็จ');
         form.reset();
         router.replace('/BOM/articles');
@@ -74,10 +105,38 @@ export default function UpdateArticleFormPage() {
       form.setFieldValue('title', data.title);
       form.setFieldValue('category_id', data.category_id);
       form.setFieldValue('is_active', data.is_active);
-      form.setFieldValue('cover_img', data.cover_img);
-      form.setFieldValue('content', data.content);
+      form.setFieldValue('cover_img', data.cover_img ?? '');
+      form.setFieldValue('content', data.content ?? '');
     }
-  }, [data, form]);
+  }, [data]);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  if (isArticleLoading || isCategoriesLoading) {
+    return (
+      <PageCard title="แก้ไขบทความ">
+        <div className="text-muted-foreground text-sm">กำลังโหลดข้อมูล...</div>
+      </PageCard>
+    );
+  }
+
+  if (isArticleError) {
+    return (
+      <PageCard title="แก้ไขบทความ">
+        <div className="text-destructive text-sm">
+          เกิดข้อผิดพลาดในการโหลดบทความ: {String(articleError)}
+        </div>
+      </PageCard>
+    );
+  }
+
+  if (isCategoriesError) {
+    toast.error('ไม่สามารถโหลดหมวดหมู่ได้');
+  }
 
   return (
     <PageCard title="แก้ไขบทความ">
@@ -136,6 +195,68 @@ export default function UpdateArticleFormPage() {
               </form.Field>
             )}
           </div>
+          <form.Field name="cover_img">
+            {(field) => (
+              <Field>
+                <FieldLabel htmlFor={field.name}>รูปภาพปกบทความ</FieldLabel>
+                <div className="grid gap-2">
+                  <div className="relative aspect-video overflow-hidden rounded-md border">
+                    {previewUrl || field.state.value ? (
+                      <Image
+                        src={previewUrl ?? (field.state.value as string)}
+                        alt="ภาพปกบทความ"
+                        className="h-full w-full object-cover"
+                        width={256}
+                        height={144}
+                      />
+                    ) : (
+                      <div className="text-muted-foreground flex h-full w-full items-center justify-center text-xs">
+                        ไม่มีรูปภาพ
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id={`${field.name}-file`}
+                      name={`${field.name}-file`}
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0] ?? null;
+                        setSelectedFile(file);
+                        if (previewUrl) URL.revokeObjectURL(previewUrl);
+                        const url = file ? URL.createObjectURL(file) : null;
+                        setPreviewUrl(url);
+                        if (file) {
+                          try {
+                            setIsUploading(true);
+                            const res = await uploadFile(file);
+                            const { url } = res;
+                            field.handleChange(url);
+                            toast.success('อัปโหลดรูปภาพสำเร็จ');
+                          } catch {
+                            toast.error('อัปโหลดรูปภาพไม่สำเร็จ กรุณาลองใหม่');
+                          } finally {
+                            setIsUploading(false);
+                          }
+                        } else {
+                          field.handleChange('');
+                        }
+                      }}
+                    />
+                  </div>
+                  {isUploading && (
+                    <span className="text-muted-foreground text-xs">
+                      กำลังอัปโหลดรูปภาพ...
+                    </span>
+                  )}
+                  {field.state.meta.isTouched && !field.state.meta.isValid && (
+                    <FieldError errors={field.state.meta.errors} />
+                  )}
+                </div>
+              </Field>
+            )}
+          </form.Field>
           <form.Field name="is_active">
             {(field) => (
               <Field>
@@ -158,6 +279,7 @@ export default function UpdateArticleFormPage() {
             {(field) => (
               <Field>
                 <TextEditor
+                  key={data?.id ?? 'editor'}
                   value={field.state.value ?? ''}
                   onChange={field.handleChange}
                 />
@@ -168,8 +290,12 @@ export default function UpdateArticleFormPage() {
             selector={(state) => [state.canSubmit, state.isSubmitting] as const}
           >
             {([canSubmit, isSubmitting]) => (
-              <Button type="submit" disabled={!canSubmit}>
-                {isSubmitting ? 'กำลังอัปเดตบทความ...' : 'อัปเดตบทความ'}
+              <Button type="submit" disabled={!canSubmit || isUploading}>
+                {isSubmitting
+                  ? 'กำลังอัปเดตบทความ...'
+                  : isUploading
+                    ? 'กำลังอัปโหลดรูปภาพ...'
+                    : 'อัปเดตบทความ'}
               </Button>
             )}
           </form.Subscribe>

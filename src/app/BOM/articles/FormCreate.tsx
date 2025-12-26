@@ -1,3 +1,16 @@
+import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
+
+import {
+  CreateArticleRequest,
+  createArticleSchema,
+} from '@/models/article-create.model';
+import { Paginated } from '@/models/common/paginated';
+import { useForm } from '@tanstack/react-form';
+import { useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import {
   Field,
@@ -14,15 +27,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+
 import { api } from '@/lib/api';
-import {
-  CreateArticleRequest,
-  createArticleSchema,
-} from '@/models/article-create.model';
-import { Paginated } from '@/models/common/paginated';
-import { useForm } from '@tanstack/react-form';
-import { useQuery } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { uploadFile } from '@/lib/upload-file';
 
 interface CreateArticleFormProps {
   onSuccess?: () => void;
@@ -37,15 +44,29 @@ const defaultValues: CreateArticleRequest = {
 export default function CreateArticleForm({
   onSuccess,
 }: CreateArticleFormProps) {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   const form = useForm({
     defaultValues,
     onSubmit: async ({ value }) => {
       try {
-        await api.post('blog', {
-          json: value,
-        });
+        const json: CreateArticleRequest = {
+          ...value,
+          cover_img: value.cover_img || undefined,
+        };
+        await api.post('blog', { json });
         toast.success('สร้างบทความสำเร็จ');
         form.reset();
+        setSelectedFile(null);
+        setPreviewUrl(null);
         onSuccess?.();
       } catch {
         toast.error('ไม่สามารถสร้างบทความได้ กรุณาลองใหม่อีกครั้ง');
@@ -115,6 +136,68 @@ export default function CreateArticleForm({
             )}
           </form.Field>
         )}
+        <form.Field name="cover_img">
+          {(field) => (
+            <Field>
+              <FieldLabel htmlFor={field.name}>รูปภาพปกบทความ</FieldLabel>
+              <div className="grid gap-2">
+                <div className="relative aspect-video overflow-hidden rounded-md border">
+                  {previewUrl || field.state.value ? (
+                    <Image
+                      src={previewUrl ?? (field.state.value as string)}
+                      alt="ภาพปกบทความ"
+                      className="h-full w-full object-cover"
+                      width={256}
+                      height={144}
+                    />
+                  ) : (
+                    <div className="text-muted-foreground flex h-full w-full items-center justify-center text-xs">
+                      ไม่มีรูปภาพ
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Input
+                    id={`${field.name}-file`}
+                    name={`${field.name}-file`}
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0] ?? null;
+                      setSelectedFile(file);
+                      if (previewUrl) URL.revokeObjectURL(previewUrl);
+                      const url = file ? URL.createObjectURL(file) : null;
+                      setPreviewUrl(url);
+                      if (file) {
+                        try {
+                          setIsUploading(true);
+                          const res = await uploadFile(file);
+                          const { url } = res;
+                          field.handleChange(url);
+                          toast.success('อัปโหลดรูปภาพสำเร็จ');
+                        } catch {
+                          toast.error('อัปโหลดรูปภาพไม่สำเร็จ กรุณาลองใหม่');
+                        } finally {
+                          setIsUploading(false);
+                        }
+                      } else {
+                        field.handleChange('');
+                      }
+                    }}
+                  />
+                </div>
+                {isUploading && (
+                  <span className="text-muted-foreground text-xs">
+                    กำลังอัปโหลดรูปภาพ...
+                  </span>
+                )}
+                {field.state.meta.isTouched && !field.state.meta.isValid && (
+                  <FieldError errors={field.state.meta.errors} />
+                )}
+              </div>
+            </Field>
+          )}
+        </form.Field>
         <form.Field name="is_active">
           {(field) => (
             <Field>
@@ -137,8 +220,12 @@ export default function CreateArticleForm({
           selector={(state) => [state.canSubmit, state.isSubmitting] as const}
         >
           {([canSubmit, isSubmitting]) => (
-            <Button type="submit" disabled={!canSubmit}>
-              {isSubmitting ? 'กำลังสร้างบทความ...' : 'สร้างบทความ'}
+            <Button type="submit" disabled={!canSubmit || isUploading}>
+              {isSubmitting
+                ? 'กำลังสร้างบทความ...'
+                : isUploading
+                  ? 'กำลังอัปโหลดรูปภาพ...'
+                  : 'สร้างบทความ'}
             </Button>
           )}
         </form.Subscribe>
