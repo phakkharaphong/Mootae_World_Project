@@ -20,9 +20,7 @@ import {
 } from '@/components/ui/navigation-menu';
 
 import SliderSection from '@/components/SliderSection';
-
 import LandingImage from '../../../public/images/landing.png';
-import LogoImage from '../../../public/images/logo.png';
 
 export default function Home() {
   return (
@@ -38,8 +36,10 @@ export default function Home() {
       >
         <header className="flex items-start justify-between gap-4">
           <Image
-            src={LogoImage}
+            src="/images/logo.png"
             className="w-24 md:w-36"
+            width={897}
+            height={812}
             alt="Muteverse logo"
           />
           <NavigationMenu className="max-md:hidden">
