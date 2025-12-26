@@ -41,14 +41,12 @@ export default function ArticlesPage() {
         {data?.data.map((article) => (
           <article key={article.id} className="rounded-xl border p-4">
             <Image
-              src={
-                article.cover_img ||
-                withBasePath('/images/post-placeholder.webp')
-              }
+              src={article.cover_img || '/images/post-placeholder.webp'}
               className="mb-2 aspect-video w-full rounded-lg object-cover"
               alt={article.title}
               width={320}
               height={180}
+              unoptimized
             />
             <h3 className="mb-2 text-xl font-semibold">{article.title}</h3>
             <div className="text-end text-xs">
