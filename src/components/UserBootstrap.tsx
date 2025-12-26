@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useUserStore } from '../stores/user-store';
-import { User } from '../models/user.model';
-import { Spinner } from '../components/ui/spinner';
-import { useQuery } from '@tanstack/react-query';
+
 import Image from 'next/image';
 
+import { useQuery } from '@tanstack/react-query';
+
 import LogoImage from '../../public/images/logo.png';
+import { Spinner } from '../components/ui/spinner';
+import { User } from '../models/user.model';
+import { useUserStore } from '../stores/user-store';
 
 export default function UserBootstrap({
   children,
@@ -29,8 +31,6 @@ export default function UserBootstrap({
 
   useEffect(() => {
     initFromToken();
-    console.log('called');
-    
   }, [initFromToken]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function UserBootstrap({
 
   if (isLoading || isLoadingUI) {
     return (
-      <div className="flex h-dvh flex-col bg-primary items-center justify-center gap-8 text-white">
+      <div className="bg-primary flex h-dvh flex-col items-center justify-center gap-8 text-white">
         <Image src={LogoImage} alt="Logo" className="w-40" />
         <Spinner className="size-8" />
       </div>
