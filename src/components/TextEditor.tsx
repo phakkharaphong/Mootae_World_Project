@@ -1,6 +1,6 @@
 'use client';
 
-import api from '@/hooks/use-post';
+import { api } from '@/lib/api';
 import { useCallback, useEffect, useRef } from 'react';
 
 import ReactQuill from 'react-quill-new';

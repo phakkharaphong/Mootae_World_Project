@@ -37,10 +37,6 @@ const items: SidebarItem[] = [
     url: '/orders',
   },
   {
-    title: 'วอลเปเปอร์',
-    url: '/wallpapers',
-  },
-  {
     title: 'ผู้ใช้งาน',
     url: '/users',
   },
