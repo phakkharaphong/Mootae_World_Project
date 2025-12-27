@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postinstall": "node ./scripts/copy-tinymce.mjs",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write ./src"
