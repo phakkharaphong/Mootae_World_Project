@@ -9,6 +9,7 @@ const remoteImageUrls = process.env.NEXT_PUBLIC_REMOTE_IMAGE_URLS
 const nextConfig: NextConfig = {
   reactCompiler: true,
   basePath,
+  assetPrefix: basePath,
   images: {
     remotePatterns: [...remoteImageUrls.map((url) => new URL(url))],
   },
