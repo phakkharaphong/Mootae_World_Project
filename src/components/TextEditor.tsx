@@ -2,11 +2,16 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 
-import ReactQuill from 'react-quill-new';
+import dynamic from 'next/dynamic';
 
 import { uploadFile } from '@/lib/upload-file';
 
 import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), {
+  ssr: false,
+  loading: () => <p>Loading Editor...</p>,
+});
 
 // Upload image and return a URL Quill can embed.
 const uploadImage = async (file: File): Promise<string> => {
