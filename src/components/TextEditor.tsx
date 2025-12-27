@@ -2,13 +2,16 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 
-import ReactQuill from 'react-quill-new';
+import { Editor } from '@tinymce/tinymce-react';
 
+import { withBasePath } from '@/lib/base-path-manager';
 import { uploadFile } from '@/lib/upload-file';
 
-import 'react-quill-new/dist/quill.snow.css';
+type TinyMceBlobInfo = {
+  blob: () => Blob;
+  filename: () => string;
+};
 
-// Upload image and return a URL Quill can embed.
 const uploadImage = async (file: File): Promise<string> => {
   try {
     const res = await uploadFile(file);
@@ -18,78 +21,6 @@ const uploadImage = async (file: File): Promise<string> => {
     console.error('Image upload error:', err);
     throw err;
   }
-};
-
-// Build Quill toolbar config with an image handler that uploads and inserts.
-const createToolbarModules = (uploadFn: (file: File) => Promise<string>) => ({
-  toolbar: {
-    container: [
-      [{ size: [] }, { font: [] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ align: [] }],
-      ['link', 'image', 'video'],
-      ['clean'],
-    ],
-    handlers: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      image: function (this: any) {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.click();
-
-        input.onchange = async () => {
-          const file = input.files?.[0];
-          if (!file) return;
-          const range = this?.quill?.getSelection?.();
-          const imageUrl = await uploadFn(file);
-          if (imageUrl && range) {
-            this.quill.insertEmbed(range.index, 'image', imageUrl);
-          }
-        };
-      },
-    },
-  },
-});
-
-const modules = createToolbarModules(uploadImage);
-
-const formats = [
-  'size',
-  'font',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'align',
-  'link',
-  'image',
-  'video',
-];
-
-interface TextEditorProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  className?: string;
-  debounceMs?: number;
-}
-
-// Wrap Quill video iframes with alignment divs for layout control.
-const wrapVideoIframes = (html: string) => {
-  let result = html.replace(
-    /<iframe class="ql-video ql-align-center"/g,
-    '<div class="center"><iframe class="ql-video ql-align-center" '
-  );
-  result = result.replace(
-    /<iframe class="ql-video ql-align-right"/g,
-    '<div class="end"><iframe class="ql-video ql-align-right" '
-  );
-  result = result.replace(/<\/iframe>/g, '<\/iframe><\/div>');
-  return result;
 };
 
 // Linkify plain URLs in HTML while avoiding links already inside <a> tags.
@@ -153,6 +84,14 @@ const autoLinkify = (html: string): string => {
   return doc.body.innerHTML;
 };
 
+interface TextEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+  debounceMs?: number;
+}
+
 const TextEditor = ({
   value,
   onChange,
@@ -160,14 +99,14 @@ const TextEditor = ({
   className,
   debounceMs = 0,
 }: TextEditorProps) => {
-  const quillRef = useRef<ReactQuill | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const editorRef = useRef<any>(null);
   const timerRef = useRef<number | null>(null);
 
   const handleContentChange = useCallback(
     (content: string) => {
       const applyTransform = () => {
-        const withVideoWrapped = wrapVideoIframes(content);
-        const linkified = autoLinkify(withVideoWrapped);
+        const linkified = autoLinkify(content);
         onChange(linkified);
       };
 
@@ -182,49 +121,73 @@ const TextEditor = ({
     [onChange, debounceMs]
   );
 
-  // Paste-to-upload images.
+  // Keep placeholder updated if it changes.
   useEffect(() => {
-    const editor = quillRef.current?.getEditor?.();
-    if (!editor) return;
-    const root: HTMLElement | undefined = editor.root;
-    if (!root) return;
-
-    const onPaste = async (e: ClipboardEvent) => {
-      const items = e.clipboardData?.items;
-      if (!items) return;
-
-      for (const item of Array.from(items)) {
-        if (item.kind !== 'file') continue;
-
-        const file = item.getAsFile();
-        if (!file || !file.type.startsWith('image/')) continue;
-
-        e.preventDefault();
-        const url = await uploadImage(file);
-        const range = editor.getSelection(true);
-        const index = range ? range.index : editor.getLength();
-        editor.insertEmbed(index, 'image', url, 'user');
-        editor.setSelection(index + 1, 0, 'user');
-        break;
-      }
-    };
-
-    root.addEventListener('paste', onPaste as unknown as EventListener);
-    return () => {
-      root.removeEventListener('paste', onPaste as unknown as EventListener);
-    };
-  }, [quillRef]);
+    const ed = editorRef.current;
+    if (!ed) return;
+    try {
+      ed.settings.placeholder = placeholder ?? '';
+    } catch {
+      // ignore
+    }
+  }, [placeholder]);
 
   return (
     <div className={className ?? 'editorContainer'}>
-      <ReactQuill
-        ref={quillRef}
-        value={value}
-        onChange={handleContentChange}
-        modules={modules}
-        formats={formats}
-        theme="snow"
-        placeholder={placeholder}
+      <Editor
+        licenseKey="gpl"
+        tinymceScriptSrc={withBasePath('/tinymce/tinymce.min.js')}
+        value={value ?? ''}
+        onInit={(_evt, editor) => {
+          editorRef.current = editor;
+        }}
+        onEditorChange={(content) => {
+          handleContentChange(content);
+        }}
+        init={{
+          menubar: false,
+          branding: false,
+          statusbar: false,
+          placeholder: placeholder ?? '',
+
+          plugins: ['autolink', 'link', 'lists', 'image', 'media', 'code'],
+
+          toolbar:
+            'undo redo | blocks | bold italic underline strikethrough blockquote | bullist numlist | alignleft aligncenter alignright | link image media | removeformat | code',
+
+          automatic_uploads: true,
+          images_reuse_filename: true,
+
+          images_upload_handler: async (blobInfo: TinyMceBlobInfo) => {
+            const blob = blobInfo.blob();
+            const file = new File([blob], blobInfo.filename(), {
+              type: blob.type,
+            });
+            return uploadImage(file);
+          },
+
+          file_picker_types: 'image',
+          file_picker_callback: (
+            cb: (url: string, meta?: Record<string, unknown>) => void,
+            _value: string,
+            meta: Record<string, unknown>
+          ) => {
+            const filetype = (meta as { filetype?: string }).filetype;
+            if (filetype !== 'image') return;
+
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.click();
+
+            input.onchange = async () => {
+              const file = input.files?.[0];
+              if (!file) return;
+              const url = await uploadImage(file);
+              cb(url, { title: file.name });
+            };
+          },
+        }}
       />
     </div>
   );

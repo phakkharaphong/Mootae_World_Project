@@ -39,7 +39,13 @@ export default function UserBootstrap({
   if (isLoading || isLoadingUI) {
     return (
       <div className="bg-primary flex h-dvh flex-col items-center justify-center gap-8 text-white">
-        <Image src="/images/logo.png" alt="Logo" className="w-40" />
+        <Image
+          src="/images/logo.png"
+          alt="Logo"
+          className="w-40"
+          width={897}
+          height={812}
+        />
         <Spinner className="size-8" />
       </div>
     );
