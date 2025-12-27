@@ -1,8 +1,9 @@
 'use client';
 
-import { removeAccessToken } from '@/lib/token-manager';
-import { withBasePath } from '@/lib/base-path-manager';
+import Link from 'next/link';
+
 import { useUserStore } from '@/stores/user-store';
+
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +13,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
+
+import { withBasePath } from '@/lib/base-path-manager';
+import { removeAccessToken } from '@/lib/token-manager';
 
 type SidebarItem = {
   title: string;
@@ -35,6 +38,10 @@ const items: SidebarItem[] = [
   {
     title: 'คำสั่งซื้อ',
     url: '/orders',
+  },
+  {
+    title: 'วอลเปเปอร์',
+    url: '/wallpapers',
   },
   {
     title: 'ผู้ใช้งาน',
