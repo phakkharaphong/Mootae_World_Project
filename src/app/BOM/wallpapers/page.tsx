@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Paginated } from '@/models/common/paginated';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { PaginationState } from '@tanstack/react-table';
+import { Trash2Icon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -21,10 +22,18 @@ import { Input } from '@/components/ui/input';
 import PageCard from '@/components/PageCard';
 
 import { api } from '@/lib/api';
-import { uploadFile } from '@/lib/upload-file';
+import { uploadWallpaper } from '@/lib/upload-file';
+
+import DeleteWallpaperForm from './FormDelete';
 
 export default function WallpapersPage() {
   const [isDialogCreateOpen, setIsDialogCreateOpen] = useState(false);
+  const [isDialogDeleteOpen, setIsDialogDeleteOpen] = useState(false);
+
+  const [selectedWallpaper, setSelectedWallpaper] = useState<{
+    id: string;
+    url: string;
+  } | null>(null);
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -44,15 +53,27 @@ export default function WallpapersPage() {
     setUploadedUrl('');
   };
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['wallpapers', pagination.pageIndex, pagination.pageSize],
     queryFn: async () =>
       await api
         .get(
           `wallpaper?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}`
         )
-        .json<Paginated<{ url: string }>>(),
+        .json<Paginated<{ id: string; url: string }>>(),
   });
+
+  const handleClickDelete = (wallpaper: { id: string; url: string }) => {
+    setSelectedWallpaper(wallpaper);
+    setIsDialogDeleteOpen(true);
+  };
+
+  const handleSuccessDelete = () => {
+    setIsDialogDeleteOpen(false);
+    setSelectedWallpaper(null);
+    setPagination({ ...pagination, pageIndex: 0 });
+    refetch();
+  };
 
   return (
     <PageCard title="วอลเปเปอร์">
@@ -108,7 +129,7 @@ export default function WallpapersPage() {
 
                 try {
                   setIsUploading(true);
-                  const res = await uploadFile(file);
+                  const res = await uploadWallpaper(file);
                   if (!res?.url) throw new Error('Invalid upload response');
                   setUploadedUrl(res.url);
                   toast.success('อัปโหลดรูปภาพสำเร็จ');
@@ -155,7 +176,7 @@ export default function WallpapersPage() {
 
       <div className="grid grid-cols-2 place-items-center gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {data?.data.map((wallpaper, index) => (
-          <div key={index} className="mb-4">
+          <div key={index} className="relative mb-4">
             <Image
               src={wallpaper.url}
               alt={`Wallpaper ${index + 1}`}
@@ -164,9 +185,39 @@ export default function WallpapersPage() {
               height={1536}
               unoptimized
             />
+            <Button variant={"ghost"}
+              className="absolute right-2 bottom-2 text-red-500"
+              onClick={() => handleClickDelete(wallpaper)}
+            >
+              <Trash2Icon />
+            </Button>
           </div>
         ))}
       </div>
+
+      <Dialog
+        open={isDialogDeleteOpen}
+        onOpenChange={(open) => {
+          if (!open) setSelectedWallpaper(null);
+          setIsDialogDeleteOpen(open);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-center">ลบวอลเปเปอร์</DialogTitle>
+          </DialogHeader>
+          {selectedWallpaper && (
+            <DeleteWallpaperForm
+              wallpaperId={selectedWallpaper.id}
+              onSuccess={handleSuccessDelete}
+              onCancel={() => {
+                setIsDialogDeleteOpen(false);
+                setSelectedWallpaper(null);
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </PageCard>
   );
 }

@@ -13,3 +13,18 @@ export function uploadFile(file: File) {
       url: string;
     }>();
 }
+
+
+export function uploadWallpaper(file: File) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return api
+    .post('attachment/upload/wallpaper', {
+      body: formData,
+    })
+    .json<{
+      filename: string;
+      url: string;
+    }>();
+}
