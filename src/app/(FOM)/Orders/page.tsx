@@ -1,118 +1,244 @@
 'use client';
-import { useEffect, useState } from 'react';
 
-import { ApiPaginatedResponse } from '@/interfaces/ResponseList';
+import { useEffect, useMemo, useState } from 'react';
 
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from '@/components/ui/field';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+import type { ColumnDef, PaginationState } from '@tanstack/react-table';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+import PageCard from '@/components/PageCard';
+import { DataTable } from '@/components/data-table/DataTable';
 
-interface Order {
+import { api } from '@/lib/api';
+
+type OrderRow = {
   id: string;
-  frist_name_customer: string;
-  last_name_customer: string;
+  first_name_customer?: string;
+  frist_name_customer?: string;
+  last_name_customer?: string;
   email: string;
   total_price: number;
-  payment_status: string;
+  payment_status?: string;
+  created_at?: string;
+};
+
+function normalizePaymentStatus(status?: string) {
+  return (status ?? '').trim().toLowerCase();
 }
 
-export default function Tracking() {
-  // const [email, setEmail] = useState('');
-  // const [submittedEmail, setSubmittedEmail] = useState(''); // เก็บ email ที่ submit แล้ว
-  // const [error, setError] = useState('');
+function PaymentStatusCell({
+  orderId,
+  status,
+}: {
+  orderId: string;
+  status?: string;
+}) {
+  const normalized = normalizePaymentStatus(status);
 
-  // const { pageIndex, setPageIndex, pageSize } = usePagination({
-  //   totalItems: 0,
-  //   pageSize: 10,
-  //   initialPage: 0,
-  //   maxButtons: 5,
-  // });
+  if (!normalized) return <span>-</span>;
 
-  // const [orders, loading, fetchData] = useGetAPI<ApiPaginatedResponse<Order>>(
-  //   'ordersByEmail/',
-  //   {
-  //     email: submittedEmail,
-  //     page: pageIndex,
-  //     limit: pageSize,
-  //   }
-  // );
+  if (normalized === 'payment pending' || normalized === 'pending') {
+    return (
+      <div className="flex items-center gap-2">
+        <Badge variant="outline">Payment Pending</Badge>
+        <Button asChild size="sm" variant="secondary">
+          <Link href={`/Orders/payment/${orderId}`}>Pay</Link>
+        </Button>
+      </div>
+    );
+  }
 
-  // // เรียก fetchData ทุกครั้งที่ email submit หรือ pageIndex/pageSize เปลี่ยน
-  // useEffect(() => {
-  //   if (!submittedEmail) return;
-  //   fetchData().catch((error) => setError('เกิดข้อผิดพลาดในการดึงข้อมูล'));
-  // }, [submittedEmail, pageIndex, pageSize, fetchData]);
+  if (normalized === 'completed') {
+    return <Badge>Completed</Badge>;
+  }
 
-  // const onSubmit = (ev: React.FormEvent) => {
-  //   ev.preventDefault();
-  //   if (!email) return;
-  //   setSubmittedEmail(email);
-  //   setPageIndex(1);
-  //   setError('');
-  // };
+  if (normalized === 'verifying') {
+    return <Badge variant="secondary">Verifying</Badge>;
+  }
 
-  // const columns: Column<Order>[] = [
-  //   { key: 'id', title: 'รหัสคำสั่งซื้อ' },
-  //   {
-  //     key: 'frist_name_customer',
-  //     title: 'ชื่อ',
-  //     render: (item) =>
-  //       `${item.frist_name_customer} ${item.last_name_customer}`,
-  //   },
-  //   { key: 'email', title: 'Email' },
-  //   { key: 'total_price', title: 'ยอดรวม' },
-  //   { key: 'payment_status', title: 'สถานะการชำระเงิน' },
-  // ];
+  return <Badge variant="outline">{status}</Badge>;
+}
+
+function normalizeOrdersResponse(payload: unknown): OrderRow[] {
+  if (!payload) return [];
+
+  if (Array.isArray(payload)) {
+    return payload as OrderRow[];
+  }
+
+  if (typeof payload === 'object') {
+    const obj = payload as { data?: unknown };
+    if (Array.isArray(obj.data)) return obj.data as OrderRow[];
+  }
+
+  return [];
+}
+
+function formatTHB(value: number) {
+  return new Intl.NumberFormat('th-TH', {
+    style: 'currency',
+    currency: 'THB',
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+export default function OrdersPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const emailParam = (searchParams.get('email') ?? '').trim();
+  const [emailInput, setEmailInput] = useState(emailParam);
+
+  useEffect(() => {
+    setEmailInput(emailParam);
+  }, [emailParam]);
+
+  const {
+    data: orders = [],
+    isLoading,
+    isFetching,
+    error,
+  } = useQuery({
+    queryKey: ['orders-by-email', emailParam],
+    enabled: emailParam.length > 0,
+    queryFn: async () => {
+      const payload = await api
+        .get(`order/by-email/${emailParam}`)
+        .json<unknown>();
+
+      return normalizeOrdersResponse(payload);
+    },
+  });
+
+  const columns = useMemo<ColumnDef<OrderRow>[]>(
+    () => [
+      {
+        accessorKey: 'id',
+        header: 'Order ID',
+        cell: ({ row }) => row.original.id,
+        enableSorting: false,
+      },
+      {
+        id: 'name',
+        header: 'Customer',
+        cell: ({ row }) => {
+          const first =
+            row.original.first_name_customer ??
+            row.original.frist_name_customer ??
+            '';
+          const last = row.original.last_name_customer ?? '';
+          return `${first} ${last}`.trim() || '-';
+        },
+        enableSorting: false,
+      },
+      {
+        accessorKey: 'email',
+        header: 'Email',
+        cell: ({ row }) => row.original.email,
+        enableSorting: false,
+      },
+      {
+        accessorKey: 'total_price',
+        header: 'Total',
+        cell: ({ row }) => formatTHB(Number(row.original.total_price ?? 0)),
+        enableSorting: false,
+      },
+      {
+        accessorKey: 'payment_status',
+        header: 'Payment',
+        cell: ({ row }) => (
+          <PaymentStatusCell
+            orderId={row.original.id}
+            status={row.original.payment_status}
+          />
+        ),
+        enableSorting: false,
+      },
+      {
+        accessorKey: 'created_at',
+        header: 'Created',
+        cell: ({ row }) => row.original.created_at ?? '-',
+        enableSorting: false,
+      },
+    ],
+    []
+  );
+
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 20,
+  });
+
+  useEffect(() => {
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+  }, [emailParam]);
+
+  const pageCount = Math.max(
+    1,
+    Math.ceil(orders.length / Math.max(1, pagination.pageSize))
+  );
+
+  const pagedOrders = useMemo(() => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return orders.slice(start, end);
+  }, [orders, pagination.pageIndex, pagination.pageSize]);
 
   return (
-    <>
-      {/* <div className="mx-auto mt-8 mb-5 max-w-5xl rounded-xl bg-white p-6 shadow-md dark:bg-slate-800">
-        <h2 className="mb-4 text-xl font-semibold text-black dark:text-white">
-          ติดตามคำสั่งซื้อ
-        </h2>
+    <PageCard title="Orders">
+      <form
+        className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const next = new URLSearchParams(searchParams.toString());
+          const nextEmail = emailInput.trim();
 
-        <form onSubmit={onSubmit}>
-          <FieldGroup>
-            <FieldDescription>
-              กรุณากรอกอีเมลที่ท่านทำการสั่งซื้อวอลเปเปอร์
-            </FieldDescription>
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input
-                id="email"
-                placeholder="กรอกอีเมล"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-2"
-              />
-            </Field>
-          </FieldGroup>
+          if (nextEmail) next.set('email', nextEmail);
+          else next.delete('email');
 
-          <button
-            type="submit"
-            className="mt-6 w-full rounded-lg bg-blue-950 py-2 font-medium text-white transition hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600"
-          >
-            {loading ? 'กำลังโหลด...' : 'ตรวจสอบการสั่งซื้อ'}
-          </button>
-        </form>
-
-        {error && <p className="mt-4 text-red-500">{error}</p>}
-
-        <TablePagination
-          data={orders?.data ?? []}
-          columns={columns}
-          totalItems={orders?.pagination.total ?? 0}
-          page={pageIndex}
-          limit={pageSize}
-          onPageChange={setPageIndex}
+          const query = next.toString();
+          if (query) router.push(`?${query}`);
+          else router.push(globalThis.location.pathname);
+        }}
+      >
+        <Input
+          type="email"
+          placeholder="Enter email"
+          value={emailInput}
+          onChange={(e) => setEmailInput(e.target.value)}
+          className="sm:max-w-sm"
         />
-      </div> */}
-    </>
+        <Button type="submit">Search</Button>
+      </form>
+
+      {!emailParam ? (
+        <div className="text-muted-foreground text-sm">
+          Enter an email and press Search to view orders.
+        </div>
+      ) : (
+        <>
+          {error && (
+            <div className="text-destructive mb-3 text-sm">
+              Failed to load orders.
+            </div>
+          )}
+          <DataTable
+            data={pagedOrders}
+            columns={columns}
+            isLoading={isLoading}
+            isRefreshing={isFetching && !isLoading}
+            pagination={pagination}
+            onPaginationChange={setPagination}
+            pageCount={pageCount}
+          />
+        </>
+      )}
+    </PageCard>
   );
 }

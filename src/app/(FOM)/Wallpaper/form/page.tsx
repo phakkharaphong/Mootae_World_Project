@@ -1,12 +1,24 @@
 'use client';
 
+import { useState } from 'react';
+
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { Paginated } from '@/models/common/paginated';
+import { useForm } from '@tanstack/react-form';
+import { useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
 import { Button } from '@/components/ui/button';
 import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from '@/components/ui/field';
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -15,234 +27,435 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { OrderType } from '@/interfaces/OrderType';
-// import { usePagination } from '@/utils/use-pagination';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Separator } from '@/components/ui/separator';
+
+import { api } from '@/lib/api';
+import { cn } from '@/lib/utils';
+
+type OrderType = {
+  id: string;
+  type_name: string;
+  price: number;
+};
 
 export default function FormCreateWallpaper() {
-  // const router = useRouter();
-  // const [totalItems, setTotalItems] = useState(1);
-  // const [selectedOrderType, setSelectedOrderType] = useState<string>("")
-  // const {
-  //   pageIndex,
-  //   setPageIndex,
-  //   pageSize,
-  //   setPageSize,
-  //   totalPages,
-  //   startItem,
-  //   endItem,
-  //   pageButtons,
-  // } = usePagination({
-  //   totalItems,
-  //   pageSize: 10,
-  //   initialPage: 1,
-  //   maxButtons: 5,
-  // });
-  // const [orderType, setOrderType] = useState<OrderType[] | null>()
+  const [isWallpaperDialogOpen, setIsWallpaperDialogOpen] = useState(false);
 
-  // useEffect(() => {
-  //   const fecthdata = async () => {
-  //     const res = await OrderTypeService.getall(pageIndex, 100)
-  //     setOrderType(res)
-  //   }
-  //   fecthdata();
-  // }, [pageIndex])
+  const { data: orderTypes } = useQuery({
+    queryKey: ['oreder-type-list'],
+    queryFn: async () =>
+      await api.get('order-type?page=1&limit=100').json<Paginated<OrderType>>(),
+  });
+
+  const { data: wallpapers } = useQuery({
+    queryKey: ['wallpaper-list'],
+    queryFn: async () =>
+      await api
+        .get('wallpaper?page=1&limit=100')
+        .json<Paginated<{ id: string; url: string }>>(),
+  });
+
+  const form = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      birthDate: {
+        day: '',
+        month: '',
+        year: '',
+      },
+      orderType: '',
+      wallperUrl: '',
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        const {
+          data: { id },
+        } = await api
+          .post('order', {
+            json: {
+              first_name_customer: value.firstName,
+              last_name_customer: value.lastName,
+              email: value.email,
+              phone: value.phone,
+              birth_date_customer_number: value.birthDate.day,
+              birth_month_customer_number: value.birthDate.month,
+              zodiac_customer_number: value.birthDate.year,
+              order_type_id: value.orderType,
+              wallpaper_url: value.wallperUrl,
+            },
+          })
+          .json<{ data: { id: string } }>();
+        toast.success('บันทึกข้อมูลสำเร็จ');
+        window.location.href = `/Orders/payment/${id}`;
+      } catch {
+        toast.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+      }
+    },
+  });
+
+  const formatTHB = (value: number) =>
+    new Intl.NumberFormat('th-TH', {
+      style: 'currency',
+      currency: 'THB',
+      maximumFractionDigits: 0,
+    }).format(value);
+
   return (
     <>
-      <div className="flex w-full items-center justify-center bg-blue-50 p-5">
-        <div className="mt-5 w-150">
-          {/* <Form></Form> */}
-          <form className="  w-full rounded-2xl bg-white/40 backdrop-blur-[2px] p-6 shadow-[0_20px_40px_rgba(0,0,0,0.25)] border border-white/30 dark:bg-slate-900/60 dark:border-slate-700">
+      <div className="flex w-full items-center justify-center p-5">
+        <div className="w-150">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+            className="w-full rounded-2xl border border-white/30 bg-white/40 p-6 shadow-[0_20px_40px_rgba(0,0,0,0.25)] backdrop-blur-[2px] dark:border-slate-700 dark:bg-slate-900/60"
+          >
             <div className="flex flex-col gap-4">
               <div>
-                <h1 className="text-2xl font-bold">คำสั่งซื้อ Wallpaper</h1>
-                <h2 className="p-1">คอลเลคชันวอลเปเปอร์ที่คุณลูกค้าสั่งซื้อ</h2>
+                <h1 className="text-center text-2xl font-bold">
+                  คำสั่งซื้อวอลเปเปอร์
+                </h1>
               </div>
+
+              <Separator />
+
               <FieldGroup>
-
-                <Field>
-                  <FieldLabel htmlFor="checkout-exp-month-ts6">
-                    เลือกคอลเลคชั่นวอเปเปอร์ที่ต้องการสั่งซื้อ
-                  </FieldLabel>
-                  {/* <Select defaultValue="" value={selectedOrderType} onValueChange={(value) => setSelectedOrderType(value)}>
-                    <SelectTrigger id="checkout-exp-month-ts6">
-                      <SelectValue placeholder="เลือกประเภทวอเปเปอร์" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {
-                        orderType?.map((item) => (
-                          <SelectItem key={item.id} value={item.id}>{item?.type_name || 'ไม่มีรายการ'} (ราคา {item?.price} บาท)</SelectItem>
-                        ))
-                      }
-
-                    </SelectContent>
-                  </Select> */}
-                </Field>
-
-
-                <Field>
-                  <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                    ชื่อจริงของท่าน
-                  </FieldLabel>
-                  <Input
-                    id="checkout-7j9-card-name-43j"
-                    placeholder="ชื่อจริง"
-                    required
-                  />
-                  <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                    นามสกุลของท่าน
-                  </FieldLabel>
-                  <Input
-                    id="checkout-7j9-card-name-43j"
-                    placeholder="นามสกุล"
-                    required
-                  />
-                  <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                    อีเมล
-                  </FieldLabel>
-                  <Input
-                    id="checkout-7j9-card-name-43j"
-                    placeholder="อีเมล"
-                    type="email"
-                    required
-                  />
-                  <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                    เบอร์โทรศัพท์
-                  </FieldLabel>
-                  <Input
-                    id="checkout-7j9-card-name-43j"
-                    placeholder="เบอร์โทร"
-                    type="tels"
-                    required
-                  />
-                  <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                    โรคประจำตัว
-                  </FieldLabel>
-                  <Textarea
-                    id="checkout-7j9-card-name-43j"
-                    placeholder="กรอกรายละเอียด..."
-                    required
-                  />
-                  <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                    หมายเหตุ
-                  </FieldLabel>
-                  <Textarea
-                    id="checkout-7j9-card-name-43j"
-                    placeholder="กรอกรายละเอียด..."
-                    required
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="checkout-exp-month-ts6">
-                    เพศของท่าน
-                  </FieldLabel>
-                  <Select defaultValue="">
-                    <SelectTrigger id="checkout-exp-month-ts6">
-                      <SelectValue placeholder="เลือกเพศ" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="male">ชาย</SelectItem>
-                      <SelectItem value="female">หญิง</SelectItem>
-                      <SelectItem value="LGBTQ">LGBTQ++</SelectItem>
-                      <SelectItem value="lesbian">เลสเบี้ยน</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </Field>
-
-
-                <FieldLabel htmlFor="checkout-7j9-card-name-43j">
-                  วัน/เดือน/ปี เกิด
-                </FieldLabel>
-                <div className="grid grid-cols-3 gap-4">
-                  <Field>
+                <form.Field name="firstName">
+                  {(field) => (
                     <Field>
-                      <FieldLabel htmlFor="checkout-7j9-cvv">วัน</FieldLabel>
-                      <Select defaultValue="">
-                        <SelectTrigger id="checkout-exp-month-ts6">
-                          <SelectValue placeholder="เลือกวันเกิด" />
+                      <FieldLabel htmlFor={field.name}>
+                        ชื่อจริงของท่าน
+                      </FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(e) => field.setValue(e.target.value)}
+                        placeholder="ชื่อจริง"
+                        required
+                      />
+                    </Field>
+                  )}
+                </form.Field>
+
+                <form.Field name="lastName">
+                  {(field) => (
+                    <Field>
+                      <FieldLabel htmlFor={field.name}>
+                        นามสกุลของท่าน
+                      </FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(e) => field.setValue(e.target.value)}
+                        placeholder="นามสกุล"
+                        required
+                      />
+                    </Field>
+                  )}
+                </form.Field>
+
+                <form.Field name="email">
+                  {(field) => (
+                    <Field>
+                      <FieldLabel htmlFor={field.name}>
+                        อีเมล (วอลเปเปอร์จะถูกส่งไปยังอีเมลนี้)
+                      </FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(e) => field.setValue(e.target.value)}
+                        placeholder="อีเมล"
+                        type="email"
+                        required
+                      />
+                    </Field>
+                  )}
+                </form.Field>
+
+                <form.Field name="phone">
+                  {(field) => (
+                    <Field>
+                      <FieldLabel htmlFor={field.name}>
+                        เบอร์โทรศัพท์ของท่าน
+                      </FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onChange={(e) => field.setValue(e.target.value)}
+                        placeholder="เบอร์โทรศัพท์"
+                        required
+                      />
+                    </Field>
+                  )}
+                </form.Field>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <form.Field name="birthDate.day">
+                    {(field) => (
+                      <Field>
+                        <FieldLabel htmlFor={field.name}>วันเกิด</FieldLabel>
+                        <Select
+                          value={field.state.value}
+                          onValueChange={(value) => field.setValue(value)}
+                        >
+                          <SelectTrigger id={field.name} name={field.name}>
+                            <SelectValue placeholder="เลือกวันเกิด" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="0">วันอาทิตย์</SelectItem>
+                            <SelectItem value="1">วันจันทร์</SelectItem>
+                            <SelectItem value="2">วันอังคาร</SelectItem>
+                            <SelectItem value="3">วันพุธ</SelectItem>
+                            <SelectItem value="4">วันพฤหัสบดี</SelectItem>
+                            <SelectItem value="5">วันศุกร์</SelectItem>
+                            <SelectItem value="6">วันเสาร์</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </Field>
+                    )}
+                  </form.Field>
+
+                  <form.Field name="birthDate.month">
+                    {(field) => (
+                      <Field>
+                        <FieldLabel htmlFor={field.name}>เดือนเกิด</FieldLabel>
+                        <Select
+                          value={field.state.value}
+                          onValueChange={(value) => field.setValue(value)}
+                        >
+                          <SelectTrigger id={field.name} name={field.name}>
+                            <SelectValue placeholder="เลือกเดือนเกิด" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="0">เดือนมกราคม</SelectItem>
+                            <SelectItem value="1">เดือนกุมภาพันธ์</SelectItem>
+                            <SelectItem value="2">เดือนมีนาคม</SelectItem>
+                            <SelectItem value="3">เดือนเมษายน</SelectItem>
+                            <SelectItem value="4">เดือนพฤษภาคม</SelectItem>
+                            <SelectItem value="5">เดือนมิถุนายน</SelectItem>
+                            <SelectItem value="6">เดือนกรกฏาคม</SelectItem>
+                            <SelectItem value="7">เดือนสิงหาคม</SelectItem>
+                            <SelectItem value="8">เดือนกันยายน</SelectItem>
+                            <SelectItem value="9">เดือนตุลาคม</SelectItem>
+                            <SelectItem value="10">เดือนพฤศจิกายน</SelectItem>
+                            <SelectItem value="11">เดือนธันวาคม</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </Field>
+                    )}
+                  </form.Field>
+
+                  <form.Field name="birthDate.year">
+                    {(field) => (
+                      <Field>
+                        <FieldLabel htmlFor={field.name}>ปีนักษัตร</FieldLabel>
+                        <Select
+                          value={field.state.value}
+                          onValueChange={(value) => field.setValue(value)}
+                        >
+                          <SelectTrigger id={field.name} name={field.name}>
+                            <SelectValue placeholder="เลือกปีนักษัตร" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="0">ปีชวด</SelectItem>
+                            <SelectItem value="1">ปีฉลู</SelectItem>
+                            <SelectItem value="2">ปีชาล</SelectItem>
+                            <SelectItem value="3">ปีเถาะ</SelectItem>
+                            <SelectItem value="4">ปีมะโรง</SelectItem>
+                            <SelectItem value="5">ปีมะเส็ง</SelectItem>
+                            <SelectItem value="6">ปีมะเมีย</SelectItem>
+                            <SelectItem value="7">ปีมะเเม</SelectItem>
+                            <SelectItem value="8">ปีวอก</SelectItem>
+                            <SelectItem value="9">ปีระกา</SelectItem>
+                            <SelectItem value="10">ปีจอ</SelectItem>
+                            <SelectItem value="11">ปีกุน</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </Field>
+                    )}
+                  </form.Field>
+                </div>
+
+                <form.Field name="orderType">
+                  {(field) => (
+                    <Field>
+                      <FieldLabel htmlFor={field.name}>
+                        ต้องการเสริมดวงในด้าน
+                      </FieldLabel>
+                      <Select
+                        value={field.state.value}
+                        onValueChange={(value) => field.setValue(value)}
+                      >
+                        <SelectTrigger id={field.name} name={field.name}>
+                          <SelectValue placeholder="เลือกประเภท" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Monday">จันทร์</SelectItem>
-                          <SelectItem value="Tuesday">อังคาร</SelectItem>
-                          <SelectItem value="Wednesday">พุธ</SelectItem>
-                          <SelectItem value="Thursday">พฤหัสบดี</SelectItem>
-                          <SelectItem value="Friday">ศุกร์</SelectItem>
-                          <SelectItem value="Saturday">เสาร์</SelectItem>
-                          <SelectItem value="Sunday">อาทิตย์</SelectItem>
-
+                          {orderTypes?.data.map((orderType) => (
+                            <SelectItem key={orderType.id} value={orderType.id}>
+                              {orderType.type_name}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
+                      {field.state.value ? (
+                        <p className="text-muted-foreground text-sm">
+                          ราคา:{' '}
+                          {(() => {
+                            const selected = orderTypes?.data.find(
+                              (orderType) => orderType.id === field.state.value
+                            );
+                            return selected ? formatTHB(selected.price) : '-';
+                          })()}
+                        </p>
+                      ) : null}
                     </Field>
+                  )}
+                </form.Field>
 
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="checkout-7j9-cvv">เดือน</FieldLabel>
-                    <Select defaultValue="">
-                      <SelectTrigger id="checkout-exp-month-ts6">
-                        <SelectValue placeholder="เลือกเดือนเกิด" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="January">มกราคม</SelectItem>
-                        <SelectItem value="February">กุมภาพันธ์</SelectItem>
-                        <SelectItem value="March">มีนาคม</SelectItem>
-                        <SelectItem value="April">เมษายน</SelectItem>
-                        <SelectItem value="May">พฤษภาคม</SelectItem>
-                        <SelectItem value="June">มิถุนายน</SelectItem>
-                        <SelectItem value="July">กรกฏาคม</SelectItem>
-                        <SelectItem value="August">สิงหาคม</SelectItem>
-                        <SelectItem value="September">กันยายน</SelectItem>
-                        <SelectItem value="October">ตุลาคม</SelectItem>
-                        <SelectItem value="November">พฤศจิกายน</SelectItem>
-                        <SelectItem value="December">ธันวาคม</SelectItem>
+                <form.Field name="wallperUrl">
+                  {(field) => (
+                    <Field>
+                      <FieldLabel htmlFor={field.name}>
+                        เลือกวอลเปเปอร์ที่ต้องการสั่งซื้อ
+                      </FieldLabel>
 
-                      </SelectContent>
-                    </Select>
+                      <input
+                        id={field.name}
+                        name={field.name}
+                        type="hidden"
+                        value={field.state.value}
+                        readOnly
+                      />
 
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="checkout-7j9-exp-year-f59">
-                      ปีนักษัตร
-                    </FieldLabel>
-                    <Select defaultValue="">
-                      <SelectTrigger id="checkout-7j9-exp-year-f59">
-                        <SelectValue placeholder="เลือกปีนักษัตร" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Rat">ชวด (Rat)</SelectItem>
-                        <SelectItem value="Ox">ฉลู (Ox)</SelectItem>
-                        <SelectItem value="TIger">ชาล (TIger)</SelectItem>
-                        <SelectItem value="Rabbit">เถาะ (Rabbit)</SelectItem>
-                        <SelectItem value="Dragon">มะโรง (Dragon)</SelectItem>
-                        <SelectItem value="Snake">มะเส็ง (Snake)</SelectItem>
-                        <SelectItem value="Horse">มะเมีย (Horse)</SelectItem>
-                        <SelectItem value="Goat">มะเเม (Goat)</SelectItem>
-                        <SelectItem value="Monkey">วอก (Monkey)</SelectItem>
-                        <SelectItem value="Rooster">ระกา (Rooster)</SelectItem>
-                        <SelectItem value="Dog">จอ (Dog)</SelectItem>
-                        <SelectItem value="Pig">กุน (Pig)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </Field>
-                </div>
+                      <div className="flex items-center gap-2">
+                        <Dialog
+                          open={isWallpaperDialogOpen}
+                          onOpenChange={setIsWallpaperDialogOpen}
+                        >
+                          <DialogTrigger asChild>
+                            <Button type="button" variant="outline">
+                              เลือกวอลเปเปอร์
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-3xl max-h-[calc(100dvh---spacing(4))] overflow-auto">
+                            <DialogHeader>
+                              <DialogTitle>เลือกวอลเปเปอร์</DialogTitle>
+                            </DialogHeader>
+
+                            {!wallpapers ? (
+                              <div className="text-muted-foreground text-sm">
+                                กำลังโหลดวอลเปเปอร์...
+                              </div>
+                            ) : wallpapers.data.length === 0 ? (
+                              <div className="text-muted-foreground text-sm">
+                                ไม่มีวอลเปเปอร์ให้เลือก
+                              </div>
+                            ) : (
+                              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                                {wallpapers.data.map((wallpaper) => {
+                                  const isSelected =
+                                    field.state.value === wallpaper.url;
+                                  return (
+                                    <button
+                                      key={wallpaper.id}
+                                      type="button"
+                                      onClick={() => {
+                                        field.setValue(wallpaper.url);
+                                        setIsWallpaperDialogOpen(false);
+                                      }}
+                                      className={cn(
+                                        'relative overflow-hidden rounded-xl border transition',
+                                        'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                                        isSelected
+                                          ? 'ring-primary ring-2 ring-offset-2'
+                                          : 'hover:ring-primary/40 hover:ring-2 hover:ring-offset-2'
+                                      )}
+                                    >
+                                      <Image
+                                        src={wallpaper.url}
+                                        alt="ตัวอย่าง Wallpaper"
+                                        className="aspect-2/3 w-full object-cover"
+                                        width={512}
+                                        height={768}
+                                        unoptimized
+                                      />
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </DialogContent>
+                        </Dialog>
+
+                        <Button
+                          type="button"
+                          variant="outline"
+                          disabled={!field.state.value}
+                          onClick={() => field.setValue('')}
+                        >
+                          ล้าง
+                        </Button>
+                      </div>
+
+                      <div className="mt-3">
+                        <div className="relative mx-auto aspect-2/3 w-40 overflow-hidden rounded-md border">
+                          {field.state.value ? (
+                            <Image
+                              src={field.state.value}
+                              alt="Wallpaper ที่เลือก"
+                              className="h-full w-full object-cover"
+                              width={320}
+                              height={480}
+                              unoptimized
+                            />
+                          ) : (
+                            <div className="text-muted-foreground flex h-full w-full items-center justify-center text-xs">
+                              ยังไม่ได้เลือกวอลเปเปอร์
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </Field>
+                  )}
+                </form.Field>
               </FieldGroup>
 
-              <div className="mt-5 flex gap-3 ">
-                <Button className='transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 cursor-pointer' type="submit">บันทึก</Button>{' '}
-                <Button
-                  className='transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 cursor-pointer'
-                  variant="outline"
-                  type="button"
-                  // onClick={() => router.push('/Home')}
-                >
-                  ยกเลิก{' '}
-                </Button>
-              </div>
+              <form.Subscribe
+                selector={(state) =>
+                  [state.canSubmit, state.isSubmitting] as const
+                }
+              >
+                {([canSubmit, isSubmitting]) => (
+                  <div className="mt-5 flex justify-end gap-3">
+                    <Button
+                      disabled={!canSubmit}
+                      className="cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                      type="submit"
+                    >
+                      บันทึก
+                    </Button>
+                    <Button
+                      disabled={isSubmitting}
+                      className="cursor-pointer transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                      variant="outline"
+                      type="button"
+                      asChild
+                    >
+                      <Link href="/Home">ยกเลิก</Link>
+                    </Button>
+                  </div>
+                )}
+              </form.Subscribe>
             </div>
           </form>
-          {/* <DynamicForm>
-          </DynamicForm> */}
         </div>
       </div>
     </>
