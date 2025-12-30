@@ -16,9 +16,6 @@ export default async function PaymentPage({
 }) {
   const { id } = await params;
 
-  console.log(id);
-  
-
   let paymentData: Payment;
 
   try {
@@ -29,8 +26,8 @@ export default async function PaymentPage({
       throw new Error('Payment not found');
     }
     paymentData = (await orderPayment.json()) as Payment;
-  } catch (err) {
-    return <>{JSON.stringify(err, null, 2)}</>
+  } catch {
+    notFound();
   }
 
   return (
