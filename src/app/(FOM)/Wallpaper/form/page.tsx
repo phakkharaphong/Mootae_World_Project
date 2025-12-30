@@ -32,6 +32,7 @@ import { Separator } from '@/components/ui/separator';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { withBasePath } from '@/lib/base-path-manager';
+import { useRouter } from 'next/navigation';
 
 type OrderType = {
   id: string;
@@ -40,6 +41,7 @@ type OrderType = {
 };
 
 export default function FormCreateWallpaper() {
+  const router = useRouter();
   const [isWallpaperDialogOpen, setIsWallpaperDialogOpen] = useState(false);
 
   const { data: orderTypes } = useQuery({
@@ -90,7 +92,7 @@ export default function FormCreateWallpaper() {
           })
           .json<{ data: { id: string } }>();
         toast.success('บันทึกข้อมูลสำเร็จ');
-        window.location.href = withBasePath(`/Orders/payment/${id}`);
+        router.push(`/Orders/payment/${id}`);
       } catch {
         toast.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
       }
