@@ -31,6 +31,7 @@ import { Separator } from '@/components/ui/separator';
 
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
+import { withBasePath } from '@/lib/base-path-manager';
 
 type OrderType = {
   id: string;
@@ -89,7 +90,7 @@ export default function FormCreateWallpaper() {
           })
           .json<{ data: { id: string } }>();
         toast.success('บันทึกข้อมูลสำเร็จ');
-        window.location.href = `/Orders/payment/${id}`;
+        window.location.href = withBasePath(`/Orders/payment/${id}`);
       } catch {
         toast.error('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
       }
