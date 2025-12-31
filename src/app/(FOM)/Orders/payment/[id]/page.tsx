@@ -1,4 +1,10 @@
-import { notFound } from 'next/navigation';
+'use client';
+
+import { notFound, useParams } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
+
+import { api } from '@/lib/api';
 
 import PaymentSlipForm from './PaymentSlipForm';
 
@@ -9,34 +15,23 @@ type Payment = {
   promptpay_payload: string;
 };
 
-export default async function PaymentPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = await params;
+export default function PaymentPage() {
+  const { id } = useParams<{ id: string }>();
 
-  let paymentData: Payment;
-
-  try {
-    const orderPayment = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/order/payment/${id}`
-    );
-    if (!orderPayment.ok) {
-      throw new Error('Payment not found');
-    }
-    paymentData = (await orderPayment.json()) as Payment;
-  } catch {
-    notFound();
-  }
+  const { data } = useQuery({
+    queryKey: ['order-payment', id],
+    queryFn: async () => await api.get(`order/payment/${id}`).json<Payment>(),
+  });
 
   return (
     <div className="mx-auto grid w-full max-w-xl gap-6 p-4">
-      <PaymentSlipForm
-        orderId={paymentData.order_id}
-        amount={paymentData.amount}
-        payload={paymentData.promptpay_payload}
-      />
+      {data && (
+        <PaymentSlipForm
+          orderId={data.order_id}
+          amount={data.amount}
+          payload={data.promptpay_payload}
+        />
+      )}
     </div>
   );
 }
