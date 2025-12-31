@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   basePath,
   // trailingSlash: true,
-  // assetPrefix: isProd && basePath ? basePath : undefined,
+  assetPrefix: isProd && basePath ? basePath : undefined,
   images: {
     remotePatterns: [...remoteImageUrls.map((url) => new URL(url))],
   },
