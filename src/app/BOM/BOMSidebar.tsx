@@ -47,6 +47,14 @@ const items: SidebarItem[] = [
     title: 'ผู้ใช้งาน',
     url: '/users',
   },
+  {
+    title: 'แบนเนอร์กิจกรรม',
+    url: '/activity-banners',
+  },
+  {
+    title: 'แบนเนอร์ข่าวสาร',
+    url: '/news-banners',
+  }
 ];
 
 export function BOMSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -59,7 +67,9 @@ export function BOMSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }
   return (
     <Sidebar {...props}>
-      <SidebarHeader>มูเตเวิร์ล</SidebarHeader>
+      <SidebarHeader>
+        <p className='text-center font-bold text-2xl'>มูเตเวิร์ส</p>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>

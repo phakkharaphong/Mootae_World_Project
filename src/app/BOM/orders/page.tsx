@@ -33,10 +33,6 @@ export default function OrderTracking() {
 
   const columns: ColumnDef<Order>[] = [
     {
-      accessorKey: 'id',
-      header: 'รหัสคำสั่งซื้อ',
-    },
-    {
       accessorKey: 'first_name_customer',
       header: 'ชื่อลูกค้า',
     },
@@ -57,7 +53,7 @@ export default function OrderTracking() {
       header: 'ราคารวม',
     },
     {
-      accessorKey: 'is_active',
+      accessorKey: 'payment_status',
       header: 'สถานะ',
     },
     {

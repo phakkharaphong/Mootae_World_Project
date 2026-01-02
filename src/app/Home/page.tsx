@@ -3,9 +3,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { items } from '@/constants/menu';
-import { MenuIcon } from 'lucide-react';
+import { ActivityBanner } from '@/models/activity-banner';
+import { Article } from '@/models/article.model';
+import { Paginated } from '@/models/common/paginated';
+import { NewsBanner } from '@/models/news-banner';
+import { useQuery } from '@tanstack/react-query';
+import Autoplay from 'embla-carousel-autoplay';
+import { EyeIcon, MenuIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,12 +31,31 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 
-import SliderSection from '@/components/SliderSection';
+import { api } from '@/lib/api';
+import { withBasePath } from '@/lib/base-path-manager';
+import { formatDateBE } from '@/lib/date-formatter';
 
 import FOMFooter from '../(FOM)/FOMFooter';
 import LandingImage from '../../../public/images/landing.png';
 
 export default function Home() {
+  const { data: activityBanners } = useQuery({
+    queryKey: ['activity-banners'],
+    queryFn: async () =>
+      await api.get('slide-activity').json<Paginated<ActivityBanner>>(),
+  });
+
+  const { data: newsBanners } = useQuery({
+    queryKey: ['news-banners'],
+    queryFn: async () =>
+      await api.get('slide-new').json<Paginated<NewsBanner>>(),
+  });
+
+  const { data: articles } = useQuery({
+    queryKey: ['articles-home'],
+    queryFn: async () =>
+      await api.get(`blog?page=1&limit=3`).json<Paginated<Article>>(),
+  });
   return (
     <>
       <div
@@ -84,128 +115,97 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="flex w-full items-center justify-center">
-        <SliderSection
-          bgColor="bg-white"
-          items={['/images/No_Image_Available.jpg', '/images/tarot-banner.jpg']}
-        ></SliderSection>
+
+      <div>
+        <Carousel
+          plugins={[
+            Autoplay({
+              delay: 5000,
+            }),
+          ]}
+        >
+          <CarouselContent>
+            {activityBanners?.data.map((item) => (
+              <CarouselItem key={item.id}>
+                <div className="p-2">
+                  <Image
+                    src={item.img_path || '/images/placeholder-image.png'}
+                    alt={item.title || 'ภาพแบนเนอร์กิจกรรม'}
+                    className="aspect-3/1 w-full rounded-xl object-cover"
+                    width={900}
+                    height={300}
+                    unoptimized
+                  />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
       </div>
 
-      <div className="flex justify-center p-8">
-        <div className="grid w-300 grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <div
-              className="rounded-lg bg-white p-4 shadow-md transition-transform duration-300 ease-out hover:scale-105 hover:shadow-xl"
-              key={index}
-            >
-              {/* รูปภาพ */}
-              <div className="relative mb-4 aspect-square w-full">
-                <Image
-                  src="/images/tarot-banner.jpg"
-                  alt="test"
-                  fill
-                  className="rounded-t-lg object-cover"
-                  sizes="(max-width: 768px) 100vw,
-                   (max-width: 1200px) 50vw,
-                   25vw"
-                />
+      <h2 className="my-8 text-center text-2xl font-bold">บทความ</h2>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 p-4 md:grid-cols-3">
+        {articles?.data.map((article) => (
+          <Link key={article.id} href={`/Articles/${article.id}`}>
+            <article className="rounded-xl border p-4">
+              <Image
+                src={
+                  article.cover_img ||
+                  withBasePath('/images/post-placeholder.webp')
+                }
+                className="mb-2 aspect-video w-full rounded-lg object-cover"
+                alt={article.title}
+                width={320}
+                height={180}
+                unoptimized
+              />
+              <h3 className="mb-2 text-xl font-semibold">{article.title}</h3>
+              <div className="text-end text-xs">
+                {article.created_at
+                  ? formatDateBE(new Date(article.created_at))
+                  : ''}
               </div>
-
-              <h5 className="text-primary text-xl font-bold">Title</h5>
-              <h6 className="text-lg">Subtitle</h6>
-              <p className="line-clamp-3">
-                Description : Lorem ipsum dolor, sit amet consectetur
-                adipisicing elit. Doloremque incidunt inventore repudiandae
-                fugiat repellat, dolore culpa, quas, tenetur maiores molestias
-                facilis perspiciatis error sit omnis! Ex sunt id culpa officiis.
-              </p>
-            </div>
-          ))}
-        </div>
+              <div className="flex items-center justify-end gap-1 text-end text-xs">
+                <EyeIcon className="size-4" /> {article.view}
+              </div>
+            </article>
+          </Link>
+        ))}
+      </div>
+      <div className="my-4 flex items-center justify-center">
+        <Button asChild>
+          <Link href="/Articles">ดูเพิ่มเติม</Link>
+        </Button>
       </div>
 
-      {/* <div className="relative mb-4 aspect-square h-100 w-full">
-        <Image
-          src="/images/tarot-banner.jpg"
-          alt="test"
-          fill
-          className="rounded-t-lg object-cover"
-          sizes="(max-width: 768px) 100vw,
-                         (max-width: 1200px) 50vw,
-                         25vw"
-        />
-      </div> */}
-      <div className="flex h-96 w-full justify-center bg-[url(/images/tarot-banner.jpg)] bg-cover bg-center"></div>
-
-      {/* Left Image + Text Section */}
-      <section className="mx-auto max-w-6xl p-6 sm:p-10">
-        <div className="grid grid-cols-1 items-center gap-6 rounded-xl bg-white shadow-md sm:grid-cols-2">
-          <div className="relative aspect-square w-full">
-            <Image
-              src="/images/tarot-banner.jpg"
-              alt="test"
-              fill
-              className="rounded-l-xl object-cover"
-            />
-          </div>
-
-          <div className="flex flex-col p-6 sm:p-10">
-            <h5 className="text-primary mb-2 text-xl font-bold">Title</h5>
-            <h6 className="mb-6 text-lg text-gray-600">Subtitle</h6>
-            <p className="text-gray-700">
-              Description: Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Doloremque incidunt inventore repudiandae fugiat repellat.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Right Image + Text Section */}
-      <section className="mx-auto max-w-6xl p-6 sm:p-10">
-        <div className="grid grid-cols-1 items-center gap-6 rounded-xl bg-white shadow-md sm:grid-cols-2">
-          <div className="flex flex-col p-6 sm:p-10">
-            <h5 className="text-primary mb-2 text-xl font-bold">Title</h5>
-            <h6 className="mb-6 text-lg text-gray-600">Subtitle</h6>
-            <p className="text-gray-700">
-              Description: Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Doloremque incidunt inventore repudiandae fugiat repellat.
-            </p>
-          </div>
-
-          <div className="relative aspect-square w-full">
-            <Image
-              src="/images/tarot-banner.jpg"
-              alt="test"
-              fill
-              className="rounded-r-xl object-cover"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="mx-auto max-w-5xl p-6 sm:p-10">
-        <div className="flex flex-col items-center justify-between gap-6 rounded-xl bg-white p-10 shadow-md sm:flex-row">
-          <div>
-            <h5 className="text-primary mb-1 text-xl font-bold">
-              สำหรับลูกค้าองค์กร
-            </h5>
-            <h6 className="mb-3 text-lg text-gray-600">Subtitle</h6>
-            <p className="text-gray-700">
-              Media Content Service • Moo-Tour Wallpaper • Event Service
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <h5 className="text-primary mb-4 text-xl font-bold">
-              สนใจติดต่องาน
-            </h5>
-            <Button className="bg-blue-950 px-6 py-2 hover:bg-blue-600">
-              อ่านรายละเอียดเพิ่มเติม
-            </Button>
-          </div>
-        </div>
-      </section>
+      <div>
+        <Carousel
+          plugins={[
+            Autoplay({
+              delay: 5000,
+            }),
+          ]}
+        >
+          <CarouselContent>
+            {newsBanners?.data.map((item) => (
+              <CarouselItem key={item.id}>
+                <div className="p-2">
+                  <Link href={item.link_ref || '#'}>
+                    <Image
+                      src={item.img_path || '/images/placeholder-image.png'}
+                      alt={item.title || 'ภาพแบนเนอร์กิจกรรม'}
+                      className="aspect-3/1 w-full rounded-xl object-cover"
+                      width={900}
+                      height={300}
+                      unoptimized
+                    />
+                  </Link>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
       <FOMFooter />
     </>
   );
