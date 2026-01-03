@@ -1,18 +1,33 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Order } from '@/interfaces/Order';
-import { ColumnDef, PaginationState } from '@tanstack/react-table';
-import { useQuery } from '@tanstack/react-query';
 import { Paginated } from '@/models/common/paginated';
-import { api } from '@/lib/api';
+import { useQuery } from '@tanstack/react-query';
+import { ColumnDef, PaginationState } from '@tanstack/react-table';
+import { EditIcon, Trash2Icon } from 'lucide-react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
 import PageCard from '@/components/PageCard';
 import { DataTable } from '@/components/data-table/DataTable';
+
+import { api } from '@/lib/api';
 import { formatDateBEWithTime } from '@/lib/date-formatter';
 
+import VerifyOrderForm from './VerifyOrderForm';
+
 export default function OrderTracking() {
-  const [isDialogCreateOpen, setIsDialogCreateOpen] = useState(false);
-  const [isDialogDeleteOpen, setIsDialogDeleteOpen] = useState(false);
+  const [isDialogVerifyOpen, setIsDialogVerifyOpen] = useState(false);
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
@@ -30,6 +45,18 @@ export default function OrderTracking() {
         >(`order?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}`)
         .json(),
   });
+
+  const handleClickVerify = (order: Order) => {
+    setSelectedOrder(order);
+    setIsDialogVerifyOpen(true);
+  };
+
+  const handleSuccessVerify = () => {
+    setIsDialogVerifyOpen(false);
+    setSelectedOrder(null);
+    setPagination({ ...pagination, pageIndex: 0 });
+    refetch();
+  };
 
   const columns: ColumnDef<Order>[] = [
     {
@@ -55,6 +82,7 @@ export default function OrderTracking() {
     {
       accessorKey: 'payment_status',
       header: 'สถานะ',
+      cell: ({ row }) => <Badge>{row.original.payment_status}</Badge>,
     },
     {
       accessorKey: 'created_at',
@@ -88,6 +116,34 @@ export default function OrderTracking() {
       accessorKey: 'updated_by',
       header: 'แก้ไขล่าสุดโดย',
     },
+    {
+      accessorKey: 'actions',
+      header: 'จัดการ',
+      cell: ({ row }) => (
+        <ButtonGroup className="*:shadow-none">
+          {row.original.payment_status.toLowerCase() === 'verifying' && (
+            <>
+              <Button
+                onClick={() => handleClickVerify(row.original)}
+                variant="outline"
+                className="text-yellow-500 hover:bg-yellow-50 hover:text-yellow-600"
+              >
+                <EditIcon />
+                ยืนยันการตรวจสอบ
+              </Button>
+              <Button
+                onClick={() => handleClickVerify(row.original)}
+                variant="outline"
+                className="text-red-500 hover:bg-red-50 hover:text-red-600"
+              >
+                <EditIcon />
+                ปฏิเสธการสั่งซื้อ
+              </Button>
+            </>
+          )}
+        </ButtonGroup>
+      ),
+    },
   ];
 
   return (
@@ -103,6 +159,30 @@ export default function OrderTracking() {
           (data?.pagination.total || 0) / pagination.pageSize
         )}
       />
+
+      <Dialog
+        open={isDialogVerifyOpen}
+        onOpenChange={(open) => {
+          if (!open) setSelectedOrder(null);
+          setIsDialogVerifyOpen(open);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-center">ยืนยันการตรวจสอบ</DialogTitle>
+          </DialogHeader>
+          {selectedOrder && (
+            <VerifyOrderForm
+              orderId={selectedOrder.id}
+              onSuccess={handleSuccessVerify}
+              onCancel={() => {
+                setIsDialogVerifyOpen(false);
+                setSelectedOrder(null);
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </PageCard>
   );
 }

@@ -2,27 +2,31 @@
 
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { ColumnDef, PaginationState } from '@tanstack/react-table';
-import { useQuery } from '@tanstack/react-query';
-import { Paginated } from '@/models/common/paginated';
 import { Category } from '@/models/category.model';
-import { api } from '@/lib/api';
-import PageCard from '@/components/PageCard';
-import { DataTable } from '@/components/data-table/DataTable';
+import { Paginated } from '@/models/common/paginated';
+import { useQuery } from '@tanstack/react-query';
+import { ColumnDef, PaginationState } from '@tanstack/react-table';
+import { EditIcon, Trash2Icon } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import CreateCategoryForm from './FormCreate';
-import { formatDateBEWithTime } from '@/lib/date-formatter';
-import { ButtonGroup } from '@/components/ui/button-group';
-import { EditIcon, Trash2Icon } from 'lucide-react';
+
+import PageCard from '@/components/PageCard';
 import StatusBadge from '@/components/StatusBadge';
-import UpdateCategoryForm from './FormUpdate';
+import { DataTable } from '@/components/data-table/DataTable';
+
+import { api } from '@/lib/api';
+import { formatDateBEWithTime } from '@/lib/date-formatter';
+
+import CreateCategoryForm from './FormCreate';
 import DeleteCategoryForm from './FormDelete';
+import UpdateCategoryForm from './FormUpdate';
 
 export default function CategoriesPage() {
   const [isDialogCreateOpen, setIsDialogCreateOpen] = useState(false);
