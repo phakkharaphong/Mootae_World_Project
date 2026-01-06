@@ -120,6 +120,7 @@ export default function PaymentSlipForm({
               json: {
                 order_id: orderId,
                 slip_url: uploadedUrl,
+                amount: amount,
               },
             });
             toast.success('ส่งสลิปสำเร็จ รอแอดมินตรวจสอบ');

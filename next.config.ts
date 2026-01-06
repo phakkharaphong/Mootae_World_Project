@@ -12,7 +12,17 @@ const nextConfig: NextConfig = {
   // trailingSlash: true,
   // assetPrefix: isProd && basePath ? basePath : undefined,
   images: {
-    remotePatterns: [...remoteImageUrls.map((url) => new URL(url))],
+    remotePatterns: [...remoteImageUrls.map((url) => new URL(url)),
+    // {
+    //     protocol: 'http',
+    //     hostname: 'localhost',
+    //     port: '8000',
+    //     pathname: '/muteverse/uploads/**',
+    //   },
+
+    ],
+    // domains: ['127.0.0.1'],
+
   },
 };
 
