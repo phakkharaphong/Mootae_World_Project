@@ -25,11 +25,20 @@ import { api } from '@/lib/api';
 import { formatDateBEWithTime } from '@/lib/date-formatter';
 
 import VerifyOrderForm from './VerifyOrderForm';
+import DetailOrder from './detail/[id]/page';
 
 export default function OrderTracking() {
+
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+
   const [isDialogVerifyOpen, setIsDialogVerifyOpen] = useState(false);
 
+  const [isDialogPreviweOpen, setIsDialogPreviweOpen] = useState(false);
+
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
+  const [Param, setParam] = useState('')
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -37,12 +46,12 @@ export default function OrderTracking() {
   });
 
   const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: ['orders'],
+    queryKey: ['orders', search, pagination.pageIndex, pagination.pageSize],
     queryFn: async () =>
       await api
         .get<
           Paginated<Order>
-        >(`order?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}`)
+        >(`order?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}&search=${search}`)
         .json(),
   });
 
@@ -56,6 +65,11 @@ export default function OrderTracking() {
     setSelectedOrder(null);
     setPagination({ ...pagination, pageIndex: 0 });
     refetch();
+  };
+
+  const handleClicPreview = (order: Order) => {
+    setSelectedOrder(order);
+    setIsDialogPreviweOpen(true);
   };
 
   const columns: ColumnDef<Order>[] = [
@@ -121,10 +135,22 @@ export default function OrderTracking() {
       header: 'จัดการ',
       cell: ({ row }) => (
         <ButtonGroup className="*:shadow-none">
+          <Button
+            onClick={() => handleClicPreview(row.original)}
+            variant="outline"
+            className="text-gray-900 hover:bg-gray-400 hover:text-gray-500"
+          >
+            <EditIcon />
+            ตรวจสอบคำสั่งซื้อ
+          </Button>
+
           {row.original.payment_status.toLowerCase() === 'verifying' && (
             <>
               <Button
-                onClick={() => handleClickVerify(row.original)}
+                onClick={() => {
+                  handleClickVerify(row.original);
+                  setParam('ยืนยัน');
+                }}
                 variant="outline"
                 className="text-yellow-500 hover:bg-yellow-50 hover:text-yellow-600"
               >
@@ -132,7 +158,10 @@ export default function OrderTracking() {
                 ยืนยันการตรวจสอบ
               </Button>
               <Button
-                onClick={() => handleClickVerify(row.original)}
+                onClick={() => {
+                  handleClickVerify(row.original);
+                  setParam('ยกเลิก');
+                }}
                 variant="outline"
                 className="text-red-500 hover:bg-red-50 hover:text-red-600"
               >
@@ -141,48 +170,114 @@ export default function OrderTracking() {
               </Button>
             </>
           )}
+
         </ButtonGroup>
       ),
     },
   ];
 
   return (
-    <PageCard title="รายการสั่งซื้อ">
-      <DataTable
-        columns={columns}
-        data={data?.data || []}
-        isLoading={isLoading}
-        isRefreshing={isFetching}
-        pagination={pagination}
-        onPaginationChange={setPagination}
-        pageCount={Math.ceil(
-          (data?.pagination.total || 0) / pagination.pageSize
-        )}
-      />
-
-      <Dialog
-        open={isDialogVerifyOpen}
-        onOpenChange={(open) => {
-          if (!open) setSelectedOrder(null);
-          setIsDialogVerifyOpen(open);
-        }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="text-center">ยืนยันการตรวจสอบ</DialogTitle>
-          </DialogHeader>
-          {selectedOrder && (
-            <VerifyOrderForm
-              orderId={selectedOrder.id}
-              onSuccess={handleSuccessVerify}
-              onCancel={() => {
-                setIsDialogVerifyOpen(false);
-                setSelectedOrder(null);
+    <>
+      <PageCard title="รายการสั่งซื้อ">
+        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex w-full gap-2 sm:max-w-md">
+            <input
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setPagination({ ...pagination, pageIndex: 0 });
+                  setSearch(searchInput);
+                }
               }}
+              placeholder="ค้นหาชื่อลูกค้า / เบอร์ / อีเมล"
+              className="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-1"
             />
+
+            <Button
+              onClick={() => {
+                setPagination({ ...pagination, pageIndex: 0 });
+                setSearch(searchInput);
+              }}
+            >
+              ค้นหา
+            </Button>
+          </div>
+
+          {search && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setSearch('');
+                setSearchInput('');
+                setPagination({ ...pagination, pageIndex: 0 });
+              }}
+            >
+              ล้างการค้นหา
+            </Button>
           )}
-        </DialogContent>
-      </Dialog>
-    </PageCard>
+        </div>
+        <DataTable
+          columns={columns}
+          data={data?.data || []}
+          isLoading={isLoading}
+          isRefreshing={isFetching}
+          pagination={pagination}
+          onPaginationChange={setPagination}
+          pageCount={Math.ceil(
+            (data?.pagination.total || 0) / pagination.pageSize
+          )}
+        />
+
+        <Dialog
+          open={isDialogPreviweOpen}
+          onOpenChange={(open) => {
+            if (!open) setSelectedOrder(null);
+            setIsDialogPreviweOpen(open);
+          }}
+        >
+          <DialogContent
+            className="max-h-screen overflow-y-auto sm:max-w-2xl"
+          >
+            <DialogHeader>
+              <DialogTitle className="text-center">
+                ยืนยันการตรวจสอบ
+              </DialogTitle>
+            </DialogHeader>
+
+            {selectedOrder?.id && (
+              <DetailOrder orderId={selectedOrder.id} />
+            )}
+          </DialogContent>
+        </Dialog>
+
+
+        <Dialog
+          open={isDialogVerifyOpen}
+          onOpenChange={(open) => {
+            if (!open) setSelectedOrder(null);
+            setIsDialogVerifyOpen(open);
+          }}
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="text-center">ยืนยันการตรวจสอบ</DialogTitle>
+            </DialogHeader>
+            {selectedOrder && (
+              <VerifyOrderForm
+                orderId={selectedOrder.id}
+                onSuccess={handleSuccessVerify}
+                param={Param}
+                onCancel={() => {
+                  setIsDialogVerifyOpen(false);
+                  setSelectedOrder(null);
+                }}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+      </PageCard>
+    </>
   );
 }

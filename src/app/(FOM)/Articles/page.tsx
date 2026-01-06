@@ -9,7 +9,7 @@ import { Article } from '@/models/article.model';
 import { Paginated } from '@/models/common/paginated';
 import { useQuery } from '@tanstack/react-query';
 import { PaginationState } from '@tanstack/react-table';
-import { EyeIcon } from 'lucide-react';
+import { CalendarIcon, EyeIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
@@ -19,21 +19,35 @@ import PageCard from '@/components/PageCard';
 import { api } from '@/lib/api';
 import { withBasePath } from '@/lib/base-path-manager';
 import { formatDateBE } from '@/lib/date-formatter';
+import { Category } from '@/models/category.model';
 
 export default function ArticlesPage() {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 9,
+    pageSize: 100,
   });
+  const [categoryId, setCategoryId] = useState<string | undefined>(undefined)
+
 
   const { data, isLoading } = useQuery({
-    queryKey: ['articles', pagination],
+    queryKey: ['articles', pagination, categoryId],
     queryFn: async () =>
       await api
         .get(
-          `blog?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}`
+          `blog?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}${categoryId ? `&category_id=${categoryId}` : ''
+          }`
         )
         .json<Paginated<Article>>(),
+  })
+
+  const { data: categoryData, isLoading: isLoad } = useQuery({
+    queryKey: ['category', pagination, categoryId],
+    queryFn: async () =>
+      await api
+        .get(
+          `category/?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}&category_id=${categoryId}`
+        )
+        .json<Paginated<Category>>(),
   });
 
   const total = data?.pagination?.total ?? 0;
@@ -56,39 +70,97 @@ export default function ArticlesPage() {
 
   return (
     <PageCard>
-      <div className="mb-4 border-y py-4">
-        <h1 className="text-center text-2xl font-bold">บทความ</h1>
+      <div className="mx-auto mb-8 flex max-w-6xl flex-wrap justify-center gap-2 px-4">
+        <button
+          onClick={() => {
+            setCategoryId(undefined)
+            setPagination((p) => ({ ...p, pageIndex: 0 }))
+          }}
+          className={`rounded-full border px-3 py-1 text-xs font-medium transition ${!categoryId
+            ? 'border-primary bg-primary text-white'
+            : 'border-gray-300 text-gray-600 hover:border-primary hover:text-primary'
+            }`}
+        >
+          ทั้งหมด
+        </button>
+
+        {categoryData?.data.map((cat) => {
+          const active = cat.id === categoryId
+          return (
+            <button
+              key={cat.id}
+              onClick={() => {
+                setCategoryId(cat.id)
+                setPagination((p) => ({ ...p, pageIndex: 0 }))
+              }}
+              className={`rounded-full border px-3 py-1 text-xs font-medium transition ${active
+                ? 'border-primary bg-primary text-white'
+                : 'border-gray-300 text-gray-600 hover:border-primary hover:text-primary'
+                }`}
+            >
+              {cat.name}
+            </button>
+          )
+        })}
       </div>
-      <div className="mx-auto grid max-w-6xl grid-cols-3 gap-4">
+
+
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 sm:grid-cols-2 lg:grid-cols-3">
         {data?.data.map((article) => (
           <Link key={article.id} href={`/Articles/${article.id}`}>
-            <article className="rounded-xl border p-4">
-              <Image
-                src={
-                  article.cover_img ||
-                  withBasePath('/images/post-placeholder.webp')
-                }
-                className="mb-2 aspect-video w-full rounded-lg object-cover"
-                alt={article.title}
-                width={320}
-                height={180}
-                unoptimized
-              />
-              <h3 className="mb-2 text-xl font-semibold">{article.title}</h3>
-              <div className="text-end text-xs">
-                {article.created_at
-                  ? formatDateBE(new Date(article.created_at))
-                  : ''}
+            <article className="group h-full overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+
+              <div className="relative overflow-hidden">
+                <Image
+                  src={
+                    article.cover_img ||
+                    withBasePath('/images/post-placeholder.webp')
+                  }
+                  alt={article.title}
+                  width={400}
+                  height={225}
+                  unoptimized
+                  className="aspect-video w-full object-cover transition duration-300 group-hover:scale-105"
+                />
               </div>
-              <div className="flex items-center justify-end gap-1 text-end text-xs">
-                <EyeIcon className="size-4" /> {article.view}
+
+              <div className="flex h-full flex-col p-5">
+                <h3 className="mb-3 line-clamp-2 text-lg font-bold text-gray-800 group-hover:text-primary">
+                  {article.title}
+
+                </h3>
+                <div className="mb-3 flex items-center gap-4 text-xs text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <CalendarIcon className="size-4" />
+                    {article.created_at
+                      ? formatDateBE(new Date(article.created_at))
+                      : ''}
+                  </span>
+
+                  <span className="flex items-center gap-1">
+                    <EyeIcon className="size-4" />
+                    {article.view}
+                  </span>
+                </div>
+                {/* <div className="mt-auto flex items-center justify-between text-xs text-gray-500">
+                  <span>
+                    {article.created_at
+                      ? formatDateBE(new Date(article.created_at))
+                      : ''}
+                  </span>
+
+                  <span className="flex items-center gap-1">
+                    <EyeIcon className="size-4" />
+                    {article.view}
+                  </span>
+                </div> */}
               </div>
             </article>
           </Link>
         ))}
       </div>
 
-      <div className="mt-6 flex justify-center">
+      <div className="mt-10 flex justify-center">
         <ButtonGroup>
           <Button
             type="button"
@@ -106,7 +178,7 @@ export default function ArticlesPage() {
           </Button>
 
           {pages.map((page) => {
-            const isActive = page === currentPage;
+            const isActive = page === currentPage
             return (
               <Button
                 key={page}
@@ -123,7 +195,7 @@ export default function ArticlesPage() {
               >
                 {page}
               </Button>
-            );
+            )
           })}
 
           <Button
@@ -143,5 +215,6 @@ export default function ArticlesPage() {
         </ButtonGroup>
       </div>
     </PageCard>
+
   );
 }

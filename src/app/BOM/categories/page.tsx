@@ -29,6 +29,8 @@ import DeleteCategoryForm from './FormDelete';
 import UpdateCategoryForm from './FormUpdate';
 
 export default function CategoriesPage() {
+  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [isDialogCreateOpen, setIsDialogCreateOpen] = useState(false);
   const [isDialogUpdateOpen, setIsDialogUpdateOpen] = useState(false);
   const [isDialogDeleteOpen, setIsDialogDeleteOpen] = useState(false);
@@ -45,12 +47,12 @@ export default function CategoriesPage() {
   const { data, isLoading, isFetching, refetch } = useQuery<
     Paginated<Category>
   >({
-    queryKey: ['categories'],
+    queryKey: ['categories', pagination.pageIndex, pagination.pageSize, search],
     queryFn: async () =>
       await api
         .get<
           Paginated<Category>
-        >(`category?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}`)
+        >(`category?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}&search=${search}`)
         .json(),
   });
 
@@ -155,6 +157,48 @@ export default function CategoriesPage() {
 
   return (
     <PageCard title="หมวดหมู่">
+
+      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex w-full gap-2 sm:max-w-md">
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                setPagination({ ...pagination, pageIndex: 0 });
+                setSearch(searchInput);
+              }
+            }}
+            placeholder="ค้นหาหมวดหมู่"
+            className="w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-1"
+          />
+
+          <Button
+            onClick={() => {
+              setPagination({ ...pagination, pageIndex: 0 });
+              setSearch(searchInput);
+            }}
+          >
+            ค้นหา
+          </Button>
+        </div>
+
+        {search && (
+          <Button
+            variant="outline"
+            onClick={() => {
+              setSearch('');
+              setSearchInput('');
+              setPagination({ ...pagination, pageIndex: 0 });
+            }}
+          >
+            ล้างการค้นหา
+          </Button>
+        )}
+      </div>
+
+
       <div className="mb-2 flex justify-end">
         <Button onClick={() => setIsDialogCreateOpen(true)}>
           เพิ่มหมวดหมู่

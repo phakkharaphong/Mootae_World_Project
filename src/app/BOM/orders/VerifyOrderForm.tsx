@@ -9,24 +9,42 @@ interface VerifyOrderFormProps {
   orderId: string;
   onSuccess?: () => void;
   onCancel?: () => void;
+  param: string
 }
 
 export default function VerifyOrderForm({
   orderId,
   onSuccess,
   onCancel,
+  param,
 }: VerifyOrderFormProps) {
   const form = useForm({
     onSubmit: async ({ value }) => {
-      try {
-        await api.patch(`order/${orderId}/complete`, {
-          json: value,
-        });
-        toast.success('ยืนยันการตรวจสอบสำเร็จ');
-        form.reset();
-        onSuccess?.();
-      } catch {
-        toast.error('ไม่สามารถยืนยันการตรวจสอบได้ กรุณาลองใหม่อีกครั้ง');
+      if (param == 'ยืนยัน') {
+
+        try {
+          await api.patch(`order/${orderId}/complete`, {
+            json: value,
+          });
+          toast.success('ยืนยันการตรวจสอบสำเร็จ');
+          form.reset();
+          onSuccess?.();
+        } catch {
+          toast.error('ไม่สามารถยืนยันการตรวจสอบได้ กรุณาลองใหม่อีกครั้ง');
+        }
+      }
+      if (param == 'ยกเลิก') {
+
+        try {
+          await api.patch(`order/${orderId}/reject`, {
+            json: value,
+          });
+          toast.success('ยืนยันการตรวจสอบสำเร็จ');
+          form.reset();
+          onSuccess?.();
+        } catch {
+          toast.error('ไม่สามารถยืนยันการตรวจสอบได้ กรุณาลองใหม่อีกครั้ง');
+        }
       }
     },
   });

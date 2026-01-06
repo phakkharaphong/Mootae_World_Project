@@ -92,30 +92,6 @@ export default function OrdersPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const emailParam = (searchParams.get('email') ?? '').trim();
-  const [emailInput, setEmailInput] = useState(emailParam);
-
-  useEffect(() => {
-    setEmailInput(emailParam);
-  }, [emailParam]);
-
-  const {
-    data: orders = [],
-    isLoading,
-    isFetching,
-    error,
-  } = useQuery({
-    queryKey: ['orders-by-email', emailParam],
-    enabled: emailParam.length > 0,
-    queryFn: async () => {
-      const payload = await api
-        .get(`order/by-email/${emailParam}`)
-        .json<unknown>();
-
-      return normalizeOrdersResponse(payload);
-    },
-  });
-
   const columns = useMemo<ColumnDef<OrderRow>[]>(
     () => [
       {
@@ -174,6 +150,30 @@ export default function OrdersPage() {
     pageIndex: 0,
     pageSize: 20,
   });
+  const emailParam = (searchParams.get('email') ?? '').trim();
+  const [emailInput, setEmailInput] = useState(emailParam);
+
+  useEffect(() => {
+    setEmailInput(emailParam);
+  }, [emailParam]);
+
+  const {
+    data: orders = [],
+    isLoading,
+    isFetching,
+    error,
+  } = useQuery({
+    queryKey: ['orders-by-email', emailParam, pagination.pageIndex, pagination.pageSize],
+    enabled: emailParam.length > 0,
+    queryFn: async () => {
+      const payload = await api
+        .get(`order/by-email/${emailParam}?page=${pagination.pageIndex + 1}&limit=${pagination.pageSize}`)
+        .json<unknown>();
+
+      return normalizeOrdersResponse(payload);
+    },
+  });
+
 
   useEffect(() => {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
@@ -190,44 +190,55 @@ export default function OrdersPage() {
     return orders.slice(start, end);
   }, [orders, pagination.pageIndex, pagination.pageSize]);
 
+  
+
   return (
     <PageCard title="Orders">
-      <form
-        className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const next = new URLSearchParams(searchParams.toString());
-          const nextEmail = emailInput.trim();
+      <div className="mb-6 rounded-xl border bg-muted/30 p-4 sm:p-6">
+        <h2 className="mb-1 text-lg font-semibold">ค้นหาคำสั่งซื้อ</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          กรุณากรอกอีเมลที่ใช้สั่งซื้อ เพื่อดูรายการคำสั่งซื้อของคุณ
+        </p>
 
-          if (nextEmail) next.set('email', nextEmail);
-          else next.delete('email');
+        <form
+          className="flex flex-col gap-3 sm:flex-row sm:items-center"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const next = new URLSearchParams(searchParams.toString());
+            const nextEmail = emailInput.trim();
 
-          const query = next.toString();
-          if (query) router.push(`?${query}`);
-          else router.push(globalThis.location.pathname);
-        }}
-      >
-        <Input
-          type="email"
-          placeholder="Enter email"
-          value={emailInput}
-          onChange={(e) => setEmailInput(e.target.value)}
-          className="sm:max-w-sm"
-        />
-        <Button type="submit">Search</Button>
-      </form>
+            if (nextEmail) next.set('email', nextEmail);
+            else next.delete('email');
+
+            const query = next.toString();
+            router.push(query ? `?${query}` : globalThis.location.pathname);
+          }}
+        >
+          <Input
+            type="email"
+            placeholder="example@email.com"
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            className="sm:max-w-sm"
+          />
+          <Button type="submit" className="sm:w-auto">
+            ค้นหา
+          </Button>
+        </form>
+      </div>
 
       {!emailParam ? (
-        <div className="text-muted-foreground text-sm">
-          Enter an email and press Search to view orders.
+        <div className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
+          กรุณากรอกอีเมลแล้วกดค้นหา เพื่อดูคำสั่งซื้อของคุณ
         </div>
       ) : (
         <>
           {error && (
-            <div className="text-destructive mb-3 text-sm">
-              Failed to load orders.
+            <div className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+              ไม่สามารถโหลดข้อมูลคำสั่งซื้อได้
             </div>
           )}
+
           <DataTable
             data={pagedOrders}
             columns={columns}
@@ -237,6 +248,12 @@ export default function OrdersPage() {
             onPaginationChange={setPagination}
             pageCount={pageCount}
           />
+
+          {!isLoading && pagedOrders.length === 0 && (
+            <div className="mt-6 text-center text-sm text-muted-foreground">
+              ไม่พบคำสั่งซื้อสำหรับอีเมลนี้
+            </div>
+          )}
         </>
       )}
     </PageCard>
