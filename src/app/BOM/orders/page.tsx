@@ -34,8 +34,6 @@ export default function OrderTracking() {
 
   const [isDialogVerifyOpen, setIsDialogVerifyOpen] = useState(false);
 
-  const [isDialogSendOpen, setIsDialogSendOpen] = useState(false);
-
   const [isDialogPreviweOpen, setIsDialogPreviweOpen] = useState(false);
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -98,7 +96,37 @@ export default function OrderTracking() {
     {
       accessorKey: 'payment_status',
       header: 'สถานะ',
-      cell: ({ row }) => <Badge>{row.original.payment_status}</Badge>,
+      // cell: ({ row }) => <Badge>{row.original.payment_status}</Badge>,
+
+      cell: ({ row }) => {
+        const status = row.original.payment_status;
+
+        let color = '';
+        let text = '';
+        if (status === 'Verifying') {
+          color = 'bg-blue-100 text-blue-700';
+          text = 'รอแอดมินตรวจสอบ';
+        } else if (status === 'Completed') {
+          color = 'bg-green-100 text-green-700';
+          text = 'เสร็จสิ้น';
+        } else if (status === 'Rejected') {
+          color = 'bg-red-100 text-red-700';
+          text = 'ยกเลิก';
+        } else if (status === 'Pending') {
+          color = 'bg-yellow-100 text-yellow-700';
+          text = 'รอชำระเงิน';
+        } else {
+          color = 'bg-gray-100 text-gray-700';
+        }
+
+        return (
+          <span
+            className={`rounded-md px-2 py-1 text-sm font-medium ${color}`}
+          >
+            {text}
+          </span>
+        );
+      },
     },
     {
       accessorKey: 'created_at',

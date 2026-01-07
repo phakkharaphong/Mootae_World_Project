@@ -11,6 +11,14 @@ import { Button } from "@/components/ui/button";
 import { EditIcon } from "lucide-react";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { useState } from "react";
+
 
 interface OrderFormProps {
   orderId: string;
@@ -21,6 +29,13 @@ interface MutationResponse {
 }
 
 export default function DetailOrder({ orderId }: OrderFormProps) {
+
+  const [isDialogPreviweImgOpen, setIsDialogPreviweImgOpen] = useState(false);
+
+  const handleClickPreview = () => {
+    // setSelectedOrder(order);
+    setIsDialogPreviweImgOpen(true);
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ["order-payment", orderId],
@@ -149,11 +164,12 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
           {data?.slip_url ? (
             <div className="mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-md overflow-hidden rounded-lg border bg-muted">
               <Image
+                onClick={() => handleClickPreview()}
                 src={data.slip_url}
                 alt="Payment Slip"
                 width={600}
                 height={600}
-                className="h-auto w-full object-contain"
+                className="h-auto w-full object-contain cursor-pointer"
                 unoptimized
               />
             </div>
@@ -168,7 +184,7 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
           <Button
             onClick={() => handleClickSend(order?.wallpaper_url || '', order?.full_mootext || '')}
             variant="outline"
-            className="text-yellow-500 hover:bg-yellow-50 hover:text-yellow-600"
+            className="text-yellow-500 hover:bg-yellow-50 hover:text-yellow-600 cursor-pointer"
           >
             {mutation.isPending ? "กำลังส่ง..." : <><EditIcon /> ส่งวอลเปเปอร์</>}
           </Button>
@@ -178,6 +194,49 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
         {mutation.isError && <div className="text-red-500 text-sm mt-2">ส่งวอลเปเปอร์ไม่สำเร็จ</div>}
         {mutation.isSuccess && <div className="text-green-500 text-sm mt-2">ส่งวอลเปเปอร์เรียบร้อยแล้ว</div>}
       </section>
+
+      <Dialog
+        open={isDialogPreviweImgOpen}
+        onOpenChange={(open) => {
+          setIsDialogPreviweImgOpen(open);
+        }}
+      >
+        <DialogContent
+          className="max-h-screen overflow-y-auto sm:max-w-2xl"
+        >
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              ตรวจสอบหลักฐานการโอนเงิน
+            </DialogTitle>
+          </DialogHeader>
+          {data?.slip_url ? (
+            <div className="mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-md overflow-hidden rounded-lg border bg-muted">
+              <Image
+                onClick={() => handleClickPreview()}
+                src={data.slip_url}
+                alt="Payment Slip"
+                width={600}
+                height={600}
+                className="h-auto w-full object-contain"
+                unoptimized
+              />
+            </div>
+          ) : (
+            <div className="mx-auto flex aspect-square w-full max-w-xs items-center justify-center rounded-lg border bg-muted text-xs text-muted-foreground">
+              ยังไม่มีสลิปการชำระเงิน
+            </div>
+          )}
+
+          {/* {selectedOrder?.id && (
+            <DetailOrder orderId={selectedOrder.id} />
+          )} */}
+        </DialogContent>
+      </Dialog>
+
+
     </div>
+
+
+
   );
 }
