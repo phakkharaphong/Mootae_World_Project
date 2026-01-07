@@ -156,7 +156,7 @@ export default function Home() {
       </div>
 
 
-      <div>
+      {/* <div>
         <Carousel
           plugins={[
             Autoplay({
@@ -183,8 +183,36 @@ export default function Home() {
             ))}
           </CarouselContent>
         </Carousel>
-      </div>
+      </div> */}
 
+        <div>
+        <Carousel
+          plugins={[
+            Autoplay({
+              delay: 5000,
+            }),
+          ]}
+        >
+          <CarouselContent>
+            {newsBanners?.data.map((item) => (
+              <CarouselItem key={item.id}>
+                <div className="p-2">
+                  <Link href={item.link_ref || '#'}>
+                    <Image
+                      src={item.img_path || '/images/placeholder-image.png'}
+                      alt={item.title || 'ภาพแบนเนอร์กิจกรรม'}
+                      className="aspect-3/1 w-full rounded-xl object-cover"
+                      width={900}
+                      height={300}
+                      unoptimized
+                    />
+                  </Link>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </div>
 
 
 
@@ -237,35 +265,6 @@ export default function Home() {
         </Button>
       </div>
 
-      <div>
-        <Carousel
-          plugins={[
-            Autoplay({
-              delay: 5000,
-            }),
-          ]}
-        >
-          <CarouselContent>
-            {newsBanners?.data.map((item) => (
-              <CarouselItem key={item.id}>
-                <div className="p-2">
-                  <Link href={item.link_ref || '#'}>
-                    <Image
-                      src={item.img_path || '/images/placeholder-image.png'}
-                      alt={item.title || 'ภาพแบนเนอร์กิจกรรม'}
-                      className="aspect-3/1 w-full rounded-xl object-cover"
-                      width={900}
-                      height={300}
-                      unoptimized
-                    />
-                  </Link>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      </div>
-
       <div className="flex justify-center px-4 pb-20 sm:px-10">
         <div className="w-full max-w-5xl overflow-hidden rounded-2xl bg-white shadow-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2">
@@ -299,7 +298,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-gray-50 p-8 sm:p-12">
+            <div className="bg-gray-100 p-8 sm:p-12">
               <h5 className="mb-6 text-xl font-bold text-primary text-center">
                 ติดต่อเรา
               </h5>

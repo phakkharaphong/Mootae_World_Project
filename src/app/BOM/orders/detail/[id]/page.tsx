@@ -2,22 +2,39 @@
 
 import { OrderPayment } from "@/interfaces/OrderPayment";
 import { api } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { OrderJoin } from "@/models/order.model";
+import { Order, OrderJoin } from "@/models/order.model";
+import { Button } from "@/components/ui/button";
+import { EditIcon } from "lucide-react";
+import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
 
 interface OrderFormProps {
   orderId: string;
 }
+interface MutationResponse {
+  message: string;
+  file_url: string;
+}
 
 export default function DetailOrder({ orderId }: OrderFormProps) {
+
   const { data, isLoading } = useQuery({
     queryKey: ["order-payment", orderId],
     queryFn: async () =>
       await api.get<OrderPayment>(`order-payment/OrderId/${orderId}`).json(),
     enabled: !!orderId,
+  });
+
+  const mutation = useMutation<MutationResponse, unknown, { wallpaper_url: string; text: string }>({
+    mutationFn: async ({ wallpaper_url, text }) => {
+      return api
+        .post(`attachment/image/text?text=${text}&image_url=${wallpaper_url}`)
+        .json<MutationResponse>();
+    },
   });
 
   const { data: order, isLoading: isOrderLoading } = useQuery({
@@ -26,6 +43,37 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
       await api.get<OrderJoin>(`order/${orderId}`).json(),
     enabled: !!orderId,
   });
+
+  const handleClickSend = async (wallpaper_url: string, text: string) => {
+    if (!orderId) return;
+
+    try {
+      const mutationResponse = await mutation.mutateAsync({ wallpaper_url, text });
+      if (!mutationResponse?.file_url) {
+        toast.error("ไม่สามารถสร้างวอลเปเปอร์ได้");
+        return;
+      }
+      await api.post(`email/send-email`, {
+        json: {
+          subject: "นำส่งรายการวอลเปเปอร์ที่ท่านทำการสั่งซื้อ",
+          email: order?.email,
+          title: `สวัสดีคุณ ${order?.first_name_customer}`,
+          name: "ทางบริษัท มูเตเวิส ขอขอบคุณลูกค้าที่ไว้ใจในการสั่งซื้อวอลเปเปอร์กับทางบริษัทเป็นอย่างสูง",
+          img_Url: mutationResponse.file_url,
+          detail: "ท่านสามารถดาวนโหลดภาพวอลเปอร์เสริมดวงได้จากไฟล์ด้านล่างนี้ครับ"
+        }
+      })
+
+      toast.success("ส่งวอลเปเปอร์เรียบร้อยแล้ว");
+    } catch (err) {
+      console.error(err);
+      toast.error("เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง");
+    }
+
+
+  };
+
+
 
   if (isLoading || isOrderLoading) {
     return (
@@ -115,6 +163,20 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
             </div>
           )}
         </div>
+
+        {order?.payment_status === 'Completed' && (
+          <Button
+            onClick={() => handleClickSend(order?.wallpaper_url || '', order?.full_mootext || '')}
+            variant="outline"
+            className="text-yellow-500 hover:bg-yellow-50 hover:text-yellow-600"
+          >
+            {mutation.isPending ? "กำลังส่ง..." : <><EditIcon /> ส่งวอลเปเปอร์</>}
+          </Button>
+
+        )}
+
+        {mutation.isError && <div className="text-red-500 text-sm mt-2">ส่งวอลเปเปอร์ไม่สำเร็จ</div>}
+        {mutation.isSuccess && <div className="text-green-500 text-sm mt-2">ส่งวอลเปเปอร์เรียบร้อยแล้ว</div>}
       </section>
     </div>
   );

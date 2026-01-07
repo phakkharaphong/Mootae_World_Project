@@ -34,6 +34,8 @@ export default function OrderTracking() {
 
   const [isDialogVerifyOpen, setIsDialogVerifyOpen] = useState(false);
 
+  const [isDialogSendOpen, setIsDialogSendOpen] = useState(false);
+
   const [isDialogPreviweOpen, setIsDialogPreviweOpen] = useState(false);
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -277,6 +279,8 @@ export default function OrderTracking() {
             )}
           </DialogContent>
         </Dialog>
+
+
       </PageCard>
     </>
   );

@@ -42,6 +42,8 @@ export interface OrderJoin {
   birth_date_customer_number: number;
   birth_month_customer_number: number;
   zodiac_customer_number: number;
+  wallpaper_url: string;
+  full_mootext: string;
   total_price: number;
   created_at?: string;
   created_by?: string;
