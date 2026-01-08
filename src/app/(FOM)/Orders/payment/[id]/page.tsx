@@ -10,6 +10,7 @@ import PaymentSlipForm from './PaymentSlipForm';
 
 type Payment = {
   order_id: string;
+  order_no: string;
   amount: number;
   promptpay_id: string;
   promptpay_payload: string;
@@ -28,6 +29,7 @@ export default function PaymentPage() {
       {data && (
         <PaymentSlipForm
           orderId={data.order_id}
+          order_no={data.order_no}
           amount={data.amount}
           payload={data.promptpay_payload}
         />

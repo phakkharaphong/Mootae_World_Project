@@ -73,6 +73,10 @@ export default function OrderTracking() {
   };
 
   const columns: ColumnDef<Order>[] = [
+     {
+      accessorKey: 'order_no',
+      header: 'หมายเลขคำสั่งซื้อ',
+    },
     {
       accessorKey: 'first_name_customer',
       header: 'ชื่อลูกค้า',
@@ -105,7 +109,7 @@ export default function OrderTracking() {
         let text = '';
         if (status === 'Verifying') {
           color = 'bg-blue-100 text-blue-700';
-          text = 'รอแอดมินตรวจสอบ';
+          text = 'รอตรวจสอบ';
         } else if (status === 'Completed') {
           color = 'bg-green-100 text-green-700';
           text = 'เสร็จสิ้น';

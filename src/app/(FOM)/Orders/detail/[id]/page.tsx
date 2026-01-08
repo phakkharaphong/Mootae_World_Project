@@ -4,12 +4,7 @@ import { OrderPayment } from "@/interfaces/OrderPayment";
 import { api } from "@/lib/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Order, OrderJoin } from "@/models/order.model";
-import { Button } from "@/components/ui/button";
-import { EditIcon } from "lucide-react";
-import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -18,6 +13,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useState } from "react";
+import { OrderJoin } from "@/models/order.model";
 
 
 interface OrderFormProps {
@@ -35,7 +31,7 @@ function StatusBadge({ status }: { status: string }) {
 
     if (status === 'Verifying') {
       color = 'bg-blue-100 text-blue-700';
-      text = 'รอตรวจสอบ';
+      text = 'รอแอดมินตรวจสอบ';
     } else if (status === 'Completed') {
       color = 'bg-green-100 text-green-700';
       text = 'เสร็จสิ้น';
@@ -60,8 +56,6 @@ function StatusBadge({ status }: { status: string }) {
     </span>
   );
 }
-
-
 
 export default function DetailOrder({ orderId }: OrderFormProps) {
 
@@ -134,7 +128,7 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
   }
 
   return (
-    <div className="space-y-6 rounded-xl border bg-background p-4 sm:p-6 shadow-sm">
+    <div className="space-y-7 rounded-xl border bg-background p-4 sm:p-6 shadow-sm">
       <section className="space-y-2">
         <h3 className="text-sm font-semibold">ขั้นตอนการชำระเงิน</h3>
         <ol className="list-decimal space-y-1 pl-5 text-xs text-muted-foreground">
@@ -147,7 +141,7 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
 
       <Separator />
 
-      <section className="grid gap-6 lg:grid-cols-2">
+      <section className="grid gap-6 lg:grid-cols-1">
         <div className="space-y-4">
           <h3 className="text-sm font-semibold">รายละเอียดผู้สั่งซื้อ</h3>
 
@@ -172,10 +166,9 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
             <div>
               <span className="text-muted-foreground">สถานะการชำระเงิน</span>
               <div className="mt-3">
-                <StatusBadge
-                  status={order?.payment_status ?? ''}
-                />
-                
+                  <StatusBadge
+                    status={order?.payment_status ?? ''}
+                  />
               </div>
             </div>
           </div>
@@ -188,7 +181,7 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           <h3 className="text-sm font-semibold">สลิปการชำระเงิน</h3>
 
           {data?.slip_url ? (
@@ -210,19 +203,27 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
           )}
         </div>
 
-        {order?.payment_status === 'Completed' && (
-          <Button
-            onClick={() => handleClickSend(order?.wallpaper_url || '', order?.full_mootext || '')}
-            variant="outline"
-            className="text-yellow-500 hover:bg-yellow-50 hover:text-yellow-600 cursor-pointer"
-          >
-            {mutation.isPending ? "กำลังส่ง..." : <><EditIcon /> ส่งวอลเปเปอร์</>}
-          </Button>
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold">วอลเปเปอร์ที่ทำการสั่งซื้อ</h3>
 
-        )}
-
-        {mutation.isError && <div className="text-red-500 text-sm mt-2">ส่งวอลเปเปอร์ไม่สำเร็จ</div>}
-        {mutation.isSuccess && <div className="text-green-500 text-sm mt-2">ส่งวอลเปเปอร์เรียบร้อยแล้ว</div>}
+          {order?.wallpaper_url ? (
+            <div className="mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-md overflow-hidden rounded-lg border bg-muted">
+              <Image
+                // onClick={() => handleClickPreview()}
+                src={order?.wallpaper_url || ''}
+                alt="Payment Slip"
+                width={600}
+                height={600}
+                className="h-auto w-full object-contain cursor-pointer"
+                unoptimized
+              />
+            </div>
+          ) : (
+            <div className="mx-auto flex aspect-square w-full max-w-xs items-center justify-center rounded-lg border bg-muted text-xs text-muted-foreground">
+              ยังไม่เลือกวอลเปเปอร์
+            </div>
+          )}
+        </div>
       </section>
 
       <Dialog
@@ -262,6 +263,8 @@ export default function DetailOrder({ orderId }: OrderFormProps) {
           )} */}
         </DialogContent>
       </Dialog>
+
+
 
 
     </div>

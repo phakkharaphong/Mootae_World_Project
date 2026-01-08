@@ -16,10 +16,12 @@ import PromptPayQRCode from './PromptPayQRCode';
 
 export default function PaymentSlipForm({
   orderId,
+  order_no,
   amount,
   payload,
 }: {
   orderId: string;
+  order_no: string;
   amount: number;
   payload: string;
 }) {
@@ -43,6 +45,7 @@ export default function PaymentSlipForm({
 
   return (
     <div className="grid gap-3 rounded-lg border p-4">
+      <div className="text-sm font-medium">หมายเลขคำสั่งซื้อ: {order_no}</div>
       <div className="grid gap-1">
         <div className="text-sm font-medium">ขั้นตอน</div>
         <ol className="text-muted-foreground list-decimal space-y-1 pl-5 text-xs">
