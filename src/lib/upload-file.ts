@@ -26,5 +26,6 @@ export function uploadWallpaper(file: File) {
     .json<{
       filename: string;
       url: string;
+      original: string;
     }>();
 }

@@ -55,7 +55,7 @@ export default function FormCreateWallpaper() {
     queryFn: async () =>
       await api
         .get('wallpaper?page=1&limit=100')
-        .json<Paginated<{ id: string; url: string }>>(),
+        .json<Paginated<{ id: string; url: string; original: string;}>>(),
   });
 
   const form = useForm({
@@ -365,13 +365,13 @@ export default function FormCreateWallpaper() {
                               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                                 {wallpapers.data.map((wallpaper) => {
                                   const isSelected =
-                                    field.state.value === wallpaper.url;
+                                    field.state.value === wallpaper.original;
                                   return (
                                     <button
                                       key={wallpaper.id}
                                       type="button"
                                       onClick={() => {
-                                        field.setValue(wallpaper.url);
+                                        field.setValue(wallpaper.original);
                                         setIsWallpaperDialogOpen(false);
                                       }}
                                       className={cn(

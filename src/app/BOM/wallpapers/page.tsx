@@ -45,6 +45,7 @@ export default function WallpapersPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedUrl, setUploadedUrl] = useState<string>('');
+  const [uploadeOriginal, setUploadedOriginal ] = useState<string>('');
   const [isCreating, setIsCreating] = useState(false);
 
   const resetCreateState = () => {
@@ -132,6 +133,7 @@ export default function WallpapersPage() {
                   const res = await uploadWallpaper(file);
                   if (!res?.url) throw new Error('Invalid upload response');
                   setUploadedUrl(res.url);
+                  setUploadedOriginal(res.original);
                   toast.success('อัปโหลดรูปภาพสำเร็จ');
                 } catch {
                   toast.error('อัปโหลดรูปภาพไม่สำเร็จ กรุณาลองใหม่');
@@ -148,7 +150,7 @@ export default function WallpapersPage() {
                 if (!uploadedUrl) return;
                 try {
                   setIsCreating(true);
-                  await api.post('wallpaper', { json: { url: uploadedUrl } });
+                  await api.post('wallpaper', { json: { url: uploadedUrl, original:  uploadeOriginal} });
                   toast.success('สร้างวอลเปเปอร์สำเร็จ');
                   resetCreateState();
                   setIsDialogCreateOpen(false);
