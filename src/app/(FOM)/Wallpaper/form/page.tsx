@@ -371,7 +371,7 @@ export default function FormCreateWallpaper() {
                                       key={wallpaper.id}
                                       type="button"
                                       onClick={() => {
-                                        field.setValue(wallpaper.original);
+                                        field.setValue(wallpaper.url);
                                         setIsWallpaperDialogOpen(false);
                                       }}
                                       className={cn(
